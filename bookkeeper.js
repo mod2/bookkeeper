@@ -19,10 +19,10 @@ var Bookkeeper = function () {
 		previousPage = 0;
 		currentEntry = 0;
 		tempday = new Date();
-		today = new Date(tempday.getFullYear() + '-' + this.makeTwoDigits((tempday.getMonth() + 1)) + '-' + this.makeTwoDigits(tempday.getDate()));
+		today = new Date(tempday.getFullYear() + '-' + (tempday.getMonth() + 1) + '-' + tempday.getDate());
 		for (loopTime = new Date(goal.startDate); loopTime <= today; loopTime.setTime(loopTime.valueOf() + 86400000)) {
 			if (goal.readingDays[loopTime.getDay()] == 1) {
-				date = loopTime.getFullYear() + '-' + this.makeTwoDigits((loopTime.getMonth() + 1)) + '-' + this.makeTwoDigits(loopTime.getDate());
+				date = loopTime.getFullYear() + '-' + (loopTime.getMonth() + 1) + '-' + loopTime.getDate();
 				for (currentEntry; currentEntry < entries.length; currentEntry++) {
 					compared = this.compareDates(new Date(entries[currentEntry].date), new Date(date));
 					if (compared == 0) {
@@ -318,7 +318,14 @@ function loadPage() {
 			entry.id = Number(oldEntry.id);
 		}
 		bi.saveEntry(entry);
-		bookkeeper.updatePage(bi.getGoal(entry.goalId));
+		goal = bi.getGoal(entry.goalId);
+		bookkeeper.updatePage(goal);
+
+		goal.pagesleft = goal.totalPages - entry.page;
+		goal.percent = Math.round((entry.page / goal.totalPages) * 100);
+
+		$("#booklist li a[name=goal" + goal.id + "] .percent").css('width', goal.percent + 'px');
+		$("#booklist li a[name=goal" + goal.id + "] .percentage span").html('<b>' + goal.percent + '%</b> (' + goal.pagesleft + ' pages left)');
 	});
 }
 
