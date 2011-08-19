@@ -93,6 +93,14 @@ ul#entries li .date				{ color: #aaa; }
 #edit ul#readingdays li			{ display: inline; margin-right: 15px; float: left; text-align: center; }
 
 
+/* Dangerous */
+/* -------------------------------------------------- */
+
+ul#dangerous					{ margin-top: 3em; border-top: dotted 1px #bbb; padding-top: 5px; font-size: 10px; font-family: "Lucida Grande", Helvetica, Arial, sans-serif; text-align: right; }
+ul#dangerous li					{ margin-left: 15px; display: inline; }
+ul#dangerous li a				{ color: #666; text-decoration: none; border-bottom: dotted 1px #999; }
+
+
 /* Buttons */
 /* -------------------------------------------------- */
 
@@ -100,3 +108,10 @@ ul#entries li .date				{ color: #aaa; }
 .button							{ background: #82913d; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #aaba61), color-stop(50%, #9cab59), color-stop(50%, #90a143), color-stop(100%, #82913d)); background: -moz-linear-gradient(#aaba61, #9cab59 50%, #90a143 50%, #82913d); background: -webkit-linear-gradient(#aaba61, #9cab59 50%, #90a143 50%, #82913d); filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#aaba61', EndColorStr='#82913d'); border-color: #6e7844 #6e7844 #535e23 #6e7844; box-shadow: inset 0 0 0 1px #aebf63, 0 1px 0 #b3b3b3; -webkit-box-shadow: inset 0 0 0 1px #aebf63, 0 1px 0 #b3b3b3;	-moz-box-shadow: inset 0 0 0 1px #aebf63, 0 1px 0 #b3b3b3; text-shadow: 0 -1px 1px #535e23; color: #fff; font-family: Helvetica, Arial, sans-serif; font-weight: bold; font-size: 12px; padding: 5px 10px !important; text-decoration: none; display: inline-block; border-width: 1px; border-style: solid; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px; margin: 0; font-size: 12px; }
 .button:hover					{ background: #90a143; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #b8c969), color-stop(50%, #aaba61), color-stop(50%, #9db04a), color-stop(100%, #90a143)); background: -moz-linear-gradient(#b8c969, #aaba61 50%, #9db04a 50%, #90a143); background: -webkit-linear-gradient(#b8c969, #aaba61 50%, #9db04a 50%, #90a143); filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#b8c969', EndColorStr='#90a143'); border-color: #7c874d #6f7a3a #616e29 #6f7a3a; box-shadow: inset 0 0 0 1px #b8c969, 0 1px 0 #b3b3b3; -webkit-box-shadow: inset 0 0 0 1px #b8c969, 0 1px 0 #b3b3b3; -moz-box-shadow: inset 0 0 0 1px #b8c969, 0 1px 0 #b3b3b3; text-shadow: 0 -1px 1px #616e29; color: #fff; cursor: pointer; }
 .button:active					{ box-shadow: inset 0 0 0 1px #b8c969, 0 1px 0 #b3b3b3; position: relative; top: 1px; outline: none; }
+
+
+/* Footer */
+/* -------------------------------------------------- */
+
+footer							{ border-top: dotted 1px #bbb; padding-top: 5px; font-size: 10px; font-family: "Lucida Grande", Helvetica, Arial, sans-serif; text-align: right; }
+footer a						{ text-decoration: none; border-bottom: dotted 1px #999; color: #666; }

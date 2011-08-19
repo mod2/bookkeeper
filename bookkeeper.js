@@ -105,8 +105,11 @@ var Bookkeeper = function () {
 		$("#pagestoday").text(pagestoday);
 		$("#pagesperday").text(pagesperday);
 		$("#totalpages").text(goal.totalPages);
-		$("#goaldate").text(goal.endDate);
 		$("#topage").text(this.calcToPage(pagestoday, currentEntryPage));
+
+		goalDate = new Date(goal.endDate);
+		goalDateStr = goalDate.getDate() + ' ' + this.months[goalDate.getMonth()];
+		$("#goaldate").text(goalDateStr);
 	};
 };
 
@@ -177,7 +180,9 @@ function loadPage() {
 	});
 
 	$("#addBook").click(function () {
+		$("#edit h1").text("Add Book");
 		$("input:checkbox").prop('checked', true);
+		$("#dangerous").hide();
 		$("#view").hide();
 		$("#edit").show();
 		return false;
@@ -190,13 +195,10 @@ function loadPage() {
 		today = new Date();
 		entry.date = today.getFullYear() + '-' + bookkeeper.makeTwoDigits(today.getMonth() + 1) + '-' + bookkeeper.makeTwoDigits(today.getDate());
 		oldEntry = bi.getEntryByDate(entry.goalId, entry.date);
-		console.log(oldEntry);
 		if (oldEntry.id != 0) {
 			entry.id = Number(oldEntry.id);
 		}
 		bi.saveEntry(entry);
-		console.log(entry.goalId);
-		console.log(bi.getGoal(entry.goalId));
 		bookkeeper.updatePage(bi.getGoal(entry.goalId));
 	});
 }

@@ -38,7 +38,6 @@ function Chart() {
 		}
 		x = this.minX - 8;
 		var pages_step = (this.numPages + (100 - this.numPages % 100)) / this.displayHeight * 5;
-		console.log(this.displayHeight, pages_step);
 		for (dy = this.minY; dy <= this.maxY; dy += pages_step) {
 			c.moveTo(x, dy);
 			c.lineTo(x - 7, dy);
