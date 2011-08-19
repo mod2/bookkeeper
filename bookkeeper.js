@@ -1,4 +1,6 @@
 var goalData = undefined;
+var canvas;
+var context;
 
 var Bookkeeper = function () {
 	this.months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Juy', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -170,6 +172,8 @@ var Bookkeeper = function () {
 		goalDate = new Date(goal.endDate);
 		goalDateStr = goalDate.getDate() + ' ' + this.months[goalDate.getMonth()];
 		$("#goaldate").text(goalDateStr);
+
+		var chart = new Chart(goal.totalPages, 30, [5, 32, 32, 32, 32, 68, 71, 90, 111, 147, 162, 180, 195, 250, 300, 490], canvas, context);
 	};
 };
 
@@ -291,6 +295,14 @@ $.extend(DateInput.DEFAULT_OPTS, {
 });
 
 $(document).ready(function () {
+	canvas = document.getElementById("reading_chart");
+	canvas.width = $("#reading_chart").width();
+	canvas.height = $("#reading_chart").height();
+
+	if (canvas.getContext) {
+		context = canvas.getContext('2d');
+	}
+
 	loadPage();
 
 	$(".date_input").date_input();

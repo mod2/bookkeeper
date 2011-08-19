@@ -3,16 +3,12 @@
 /* From http://vetruvet.blogspot.com/2010/10/drawing-dashed-lines-on-html5-canvas.html */
 CanvasRenderingContext2D.prototype.dashedLine=function(d,e,g,h,a){if(a==undefined)a=2;this.beginPath();this.moveTo(d,e);var b=g-d,c=h-e;a=Math.floor(Math.sqrt(b*b+c*c)/a);b=b/a;c=c/a;for(var f=0;f++<a;){d+=b;e+=c;this[f%2==0?"moveTo":"lineTo"](d,e)}this[f%2==0?"moveTo":"lineTo"](g,h);this.stroke();this.closePath()};
 
-function Chart() {
-	this.canvas;
-	this.context;
-
-	this.startDate = '16 Jun 2011';
-	this.endDate = '25 Jun 2011';
-
-	this.numPages = 855;
-	this.entries = [5, 32, 68, 71, 90, 111, 147, 162, 180, 195, 250, 300, 490];
-	this.numDays = 25;
+function Chart(numPages, numDays, entries, canvas, context) {
+	this.canvas = canvas;
+	this.context = context;
+	this.numPages = numPages;
+	this.numDays = numDays;
+	this.entries = entries;
 
 	this.draw = function() {
 		var BORDERSTYLE = "#999";
@@ -86,11 +82,11 @@ function Chart() {
 		c.textBaseline = "top";
 		c.textAlign = "center";
 		x = this.minX;
-		for (i in this.entries) {
-			x += step_size;
+		for (i=0; i<this.numDays; i++) {
 			y = this.maxY + LABELMARGIN;
 			c.fillText(i, x, y);
 			c.closePath();
+			x += step_size;
 		}
 
 		// first draw the goal
@@ -128,25 +124,12 @@ function Chart() {
 		for (i in this.entries) {
 			y = this.maxY - (this.entries[i] * y_size);
 			c.beginPath();
-			c.arc(x, y, 3, 0, Math.PI * 2, false);
+			c.arc(x, y, 2, 0, Math.PI * 2, false);
 			c.fill();
 			c.closePath();
 			x += step_size;
 		}
-	}
+	};
+
+	this.draw();
 }
-
-$(document).ready(function() {
-	var canvas = document.getElementById("reading_chart");
-	canvas.width = $("#reading_chart").width();
-	canvas.height = $("#reading_chart").height();
-
-	if (canvas.getContext) {
-		var context = canvas.getContext('2d');
-	}
-
-	var chart = new Chart();
-	chart.canvas = canvas;
-	chart.context = context;
-	chart.draw();
-});
