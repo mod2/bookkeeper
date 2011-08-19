@@ -154,7 +154,6 @@ function loadPage() {
 			first = true;
 		}
 
-		/* TODO: make this live */
 		entries = bi.getEntries(goal.id);
 		currentEntryPage = 0;
 		if (entries.length > 0) {

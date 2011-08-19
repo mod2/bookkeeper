@@ -10,6 +10,10 @@ function Chart() {
 	this.numDays = 25;
 
 	this.draw = function() {
+		var BORDERSTYLE = "#999";
+		var HATCHSTYLE = "#bbb";
+		var HATCHLENGTH = 6;
+
 		cv = this.canvas;
 		c = this.context;
 
@@ -25,22 +29,31 @@ function Chart() {
 		c.fillStyle = "#fff";
 		c.fillRect(0, 0, cv.width, cv.height);
 
+		// draw the lines
+		c.strokeStyle = BORDERSTYLE;
+		c.beginPath();
+		c.moveTo(this.minX, this.minY);
+		c.lineTo(this.minX, this.maxY);
+		c.lineTo(this.maxX, this.maxY);
+		c.stroke();
+		c.closePath();
+
 		// draw the hatches
 		var x = this.minX;
 		var step_size = this.displayWidth / this.numDays;
 		var y_size = this.displayHeight / this.numPages;
 
-		c.strokeStyle = "#ccc";
+		c.strokeStyle = HATCHSTYLE;
 		c.beginPath();
 		for (x=step_size+this.minX; x<=this.maxX; x+=step_size) {
-			c.moveTo(x, this.maxY + 8);
-			c.lineTo(x, this.maxY + 15);
+			c.moveTo(x, this.maxY);
+			c.lineTo(x, this.maxY - HATCHLENGTH);
 		}
-		x = this.minX - 8;
+		x = this.minX;
 		var pages_step = (this.numPages + (100 - this.numPages % 100)) / this.displayHeight * 5;
 		for (dy = this.minY; dy <= this.maxY; dy += pages_step) {
 			c.moveTo(x, dy);
-			c.lineTo(x - 7, dy);
+			c.lineTo(x + HATCHLENGTH, dy);
 		}
 		c.stroke();
 		c.closePath();
