@@ -1,0 +1,64 @@
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+	<title>Bookkeeper</title>
+
+	<link href='http://fonts.googleapis.com/css?family=Crimson+Text:400,400italic,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="style.css" type="text/css" media="all" charset="utf-8">
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="config.sample.js" type="text/javascript" charset="utf-8"></script>
+	<script src="bookkeeper.js" type="text/javascript" charset="utf-8"></script>
+</head>
+
+<body>
+	<div id="content">
+		<section id="sidebar">
+			<h3>Current Books</h3>
+			<ul id="booklist">
+			</ul>
+
+			<h3><a href="#">Past Books</a></h3>
+
+			<h3><a id="addBook" href="#">+ Add Book</a></h3>
+		</section>
+		<section id="goaldetail">
+			<h1></h1>
+
+			<div id="goalinfo">
+				<div id="currentEntryDiv" name="">I'm on page <input type="text" id="currentEntry" value="" /></div>
+				<div id="detail">
+					<p>You have <span id="daysleft"></span> days left to read <span id="pagesleft"></span> pages.<br> 
+					You need to read <span id="pagesperday"></span> pages per day. <br>
+					You need to read <span class="important"><span id="pagestoday"></span> pages</span> today or to page <span id="topage"></span>.
+					</p>
+				</div>
+				<div id="entries">
+					<ul id="entrylist">
+					</ul>
+				</div>
+			</div>
+			<div id="goaledit">
+				<div id="detail">
+					<form action="javascript:saveGoal();" method="get" accept-charset="utf-8">
+					<label for="editgoalname">Name</label><input type="text" name="editgoalname" value="" id="editgoalname"><br>
+					<label for="editgoaltotalpages">Total Pages</label><input type="text" name="editgoaltotalpages" value="" id="editgoaltotalpages"><br>
+					<label for="editgoalstartdate">Start date</label><input type="text" name="editgoalstartdate" value="" id="editgoalstartdate"><br>
+					<label for="editgoalenddate">End date</label><input type="text" name="editgoalenddate" value="" id="editgoalenddate"><br>
+					<label >Reading days</label><br>
+					<label for="readingdaysunday">S</label><input type="checkbox" name="sunday" id="readingdaysunday" value="0">
+					<label for="readingdaymonday">M</label><input type="checkbox" name="monday" id="readingdaymonday" value="1">
+					<label for="readingdaytuesday">T</label><input type="checkbox" name="tuesday" id="readingdaytuesday" value="2">
+					<label for="readingdaywednesday">W</label><input type="checkbox" name="wednesday" id="readingdaywednesday" value="3">
+					<label for="readingdaythursday">T</label><input type="checkbox" name="thursday" id="readingdaythursday" value="4">
+					<label for="readingdayfriday">F</label><input type="checkbox" name="friday" id="readingdayfriday" value="5">
+					<label for="readingdaysaturday">S</label><input type="checkbox" name="saturday" id="readingdaysaturday" value="6">
+					<p><input type="submit" value="Save"></p>
+					</form>
+				</div>
+			</div>
+		</section>
+	</div>
+</body>
+</html>

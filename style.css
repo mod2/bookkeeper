@@ -1,0 +1,22 @@
+body { margin: 0; padding: 0; font-family: "Crimson Text", Georgia, serif; }
+#content { overflow: hidden; clear: both; }
+
+#sidebar { width: 35%; top: 0; bottom: 0; height: 100%; background: #e5e3da; float: left; padding-top: 50px; }
+#sidebar ul { margin: 0; width: 60%; max-width: 300px; float: right; list-style: none; clear: both; }
+#sidebar ul li { background: #dcd9c7; line-height: 1.3em; margin-bottom: 5px; padding-left: 8px; -moz-border-radius: 5px 0 0 5px; -webkit-border-radius: 5px 0 0 5px; border-radius: 5px 0 0 5px; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3); }
+#sidebar ul li a { padding: 7px 0; display: inline-block; color: #000; text-decoration: none; font-style: italic; font-size: 1.2em; text-shadow: #fff -1px 1px 1px; width: 100%; }
+
+#sidebar h3	{ width: 60%; max-width: 300px; float: right; text-transform: uppercase; color: #6f1515; margin: 1em 0 .3em 0; padding-left: 8px; font-size: .9em; font-weight: normal; letter-spacing: 0.05em; text-shadow: #fff -1px 1px 1px; clear: both; }
+#sidebar h3 a { color: #6f1515; text-decoration: none; border-bottom: dotted 1px #9f5353; }
+
+#goaldetail { width: 65%; max-width: 700px; top: 0; bottom: 0; height: 100%; float: left; padding-top: 50px; }
+#goaldetail h1 { font-size: 36px; font-weight: normal; padding-left: 35px; letter-spacing: -0.05em; font-style: italic; margin: 0; color: #6f1515; }
+
+#currentEntryDiv { float: right; color: #999; }
+#currentEntryDiv input { font-size: 1.3em; font-weight: bold; border: dotted 1px #bbb; padding: 0 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; font-family: "Crimson Text"; width: 50px; }
+
+.important { font-weight: bold; }
+
+#detail { padding-left: 35px; }
+
+#goaledit { display: none; }
