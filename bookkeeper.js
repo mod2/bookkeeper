@@ -173,7 +173,7 @@ var Bookkeeper = function () {
 		goalDateStr = goalDate.getDate() + ' ' + this.months[goalDate.getMonth()];
 		$("#goaldate").text(goalDateStr);
 
-		var chart = new Chart(goal.totalPages, 30, [5, 32, 32, 32, 32, 68, 71, 90, 111, 147, 162, 180, 195, 250, 300, 490], canvas, context);
+		var chart = new Chart(goal.totalPages, 30, [5, 32, 32, 32, 32, 68, 71, 90, 90, 90, 90, 90, 90, 111, 147, 162, 180, 180, 185, 190, 200], canvas, context);
 	};
 };
 
