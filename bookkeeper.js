@@ -76,6 +76,21 @@ var Bookkeeper = function () {
 		return currentpage + pagestoday;
 	};
 
+	this.todayReadingDay = function (readingDays) {
+		today = new Date();
+		rtnBool = true;
+		if (readingDays[today.getDay()] == 0) {
+			rtnBool = false;
+		}
+		return rtnBool;
+	};
+
+	this.switchTodayDisplay = function (idToShow) {
+		$("#today div").hide();
+		$("#goals").show();
+		$("#" + idToShow).show();
+	};
+
 	this.updatePage = function (goal) {
 		entries = bi.getEntries(goal.id);
 		daysLeft = this.calcDaysLeft(goal);
@@ -86,9 +101,6 @@ var Bookkeeper = function () {
 		pagesLeft = goal.totalPages - currentEntryPage;
 		pagesperday = this.calcPagesPerDay(entries, daysLeft, goal, false);
 		pagestoday = this.calcPagesToday(entries, pagesperday);
-		if (pagestoday < 0) {
-			pagestoday = -1 * pagestoday;
-		}
 
 		$("#entries").html('');
 		for (var i in entries) {
@@ -101,10 +113,22 @@ var Bookkeeper = function () {
 		$("#currentEntry").val(currentEntryPage);
 		$("#daysleft").text(daysLeft);
 		$("#pagesleft").text(pagesLeft);
-		$("#pagestoday").text(pagestoday);
 		$("#pagesperday").text(pagesperday);
 		$("#totalpages").text(goal.totalPages);
-		$("#topage").text(this.calcToPage(pagestoday, currentEntryPage));
+
+		if (pagestoday < 0) {
+			pagestoday = -1 * pagestoday;
+			$("#pagesover").text(pagestoday);
+			this.switchTodayDisplay("over");
+		} else if (pagestoday == 0) {
+			this.switchTodayDisplay("reached");
+		} else if (!this.todayReadingDay(goal.readingDays)) {
+			this.switchTodayDisplay("notreadingday");
+		} else {
+			$("#pagestoday").text(pagestoday);
+			$("#topage").text(this.calcToPage(pagestoday, currentEntryPage));
+			this.switchTodayDisplay("action");
+		}
 
 		goalDate = new Date(goal.endDate);
 		goalDateStr = goalDate.getDate() + ' ' + this.months[goalDate.getMonth()];
