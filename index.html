@@ -53,12 +53,13 @@
 				<ul id="entries"></ul>
 
 				<footer>
-					<a href="#">Edit Book</a>
+					<a id="editbooklink" name="" href="#">Edit Book</a>
 				</footer>
 			</div>
 			<div id="edit">
 				<h1>Add Book</h1>
 				<form action="javascript:saveGoal();" method="get" accept-charset="utf-8">
+					<input type="hidden" name="editgoalid" value="" id="editgoalid">
 					<label for="editgoalname">Title</label><input type="text" name="editgoalname" value="" id="editgoalname">
 					<label for="editgoaltotalpages">Total Pages</label><input type="text" name="editgoaltotalpages" value="" id="editgoaltotalpages" maxlength="5">
 					<label for="editgoalstartdate">Start Date</label><input type="text" name="editgoalstartdate" value="" id="editgoalstartdate" class="date_input">
@@ -78,8 +79,8 @@
 					<p><input type="submit" value="Save Book" class="button"></p>
 
 					<ul id="dangerous">
-						<li><a href="#">Hide this book</a></li>
-						<li><a href="#">Delete this book</a></li>
+						<li><a id="hidebooklink" href="#">Hide this book</a></li>
+						<li><a id="deletebooklink" href="#">Delete this book</a></li>
 					</ul>
 				</form>
 			</div>
