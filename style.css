@@ -1,22 +1,83 @@
-body { margin: 0; padding: 0; font-family: "Crimson Text", Georgia, serif; }
-#content { overflow: hidden; clear: both; }
+/* General */
+/* -------------------------------------------------- */
 
-#sidebar { width: 35%; top: 0; bottom: 0; height: 100%; background: #e5e3da; float: left; padding-top: 50px; }
-#sidebar ul { margin: 0; width: 60%; max-width: 300px; float: right; list-style: none; clear: both; }
-#sidebar ul li { background: #dcd9c7; line-height: 1.3em; margin-bottom: 5px; padding-left: 8px; -moz-border-radius: 5px 0 0 5px; -webkit-border-radius: 5px 0 0 5px; border-radius: 5px 0 0 5px; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3); }
-#sidebar ul li a { padding: 7px 0; display: inline-block; color: #000; text-decoration: none; font-style: italic; font-size: 1.2em; text-shadow: #fff -1px 1px 1px; width: 100%; }
+body							{ margin: 0; padding: 0; font-family: "Crimson Text", Georgia, serif; }
+#content						{ overflow: hidden; clear: both; }
 
-#sidebar h3	{ width: 60%; max-width: 300px; float: right; text-transform: uppercase; color: #6f1515; margin: 1em 0 .3em 0; padding-left: 8px; font-size: .9em; font-weight: normal; letter-spacing: 0.05em; text-shadow: #fff -1px 1px 1px; clear: both; }
-#sidebar h3 a { color: #6f1515; text-decoration: none; border-bottom: dotted 1px #9f5353; }
 
-#goaldetail { width: 65%; max-width: 700px; top: 0; bottom: 0; height: 100%; float: left; padding-top: 50px; }
-#goaldetail h1 { font-size: 36px; font-weight: normal; padding-left: 35px; letter-spacing: -0.05em; font-style: italic; margin: 0; color: #6f1515; }
+/* Sidebar */
+/* -------------------------------------------------- */
 
-#currentEntryDiv { float: right; color: #999; }
-#currentEntryDiv input { font-size: 1.3em; font-weight: bold; border: dotted 1px #bbb; padding: 0 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; font-family: "Crimson Text"; width: 50px; }
+#sidebar						{ width: 35%; top: 0; bottom: 0; height: 100%; background: #e5e3da; float: left; }
+#sidebar ul						{ margin: 0; width: 60%; max-width: 300px; float: right; list-style: none; clear: both; }
+#sidebar ul li					{ line-height: 1.3em; margin-bottom: 7px; padding-left: 8px; -moz-border-radius: .5em 0 0 .5em; -webkit-border-radius: .5em 0 0 .5em; border-radius: .5em 0 0 .5em; box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3); border-style: solid none none solid; border-width: 1px; border-color: rgba(255, 255, 255, 0.6); background: #dcd9c7; background: -webkit-gradient(linear, left top, left bottom, from(#dcd9c7), to(#ccc9b7)); background: -moz-linear-gradient(top, #dcd9c7, #ccc9b7); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dcd9c7', endColorstr='#ccc9b7'); }
+#sidebar ul li a				{ padding: 7px 0 3px; display: inline-block; color: #000; text-decoration: none; font-style: italic; font-size: 1.2em; text-shadow: #fff -1px 1px 1px; width: 100%; }
+#sidebar ul li a .percentage	{ font-style: normal; text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6); }
 
-.important { font-weight: bold; }
+#sidebar ul li.selected			{ background: #fff; background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#eee)); background: -moz-linear-gradient(top, #fff, #eee); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff', endColorstr='#eee'); }
+#sidebar ul li.selected .percentage		{ color: #777; }
+#sidebar ul li.selected .percentage_container	{ border-color: #bbb; }
+#sidebar ul li.selected .percent		{ background: #ccc; }
 
-#detail { padding-left: 35px; }
+#sidebar h3						{ width: 60%; max-width: 300px; float: right; text-transform: uppercase; color: #6f1515; margin: 1em 0 .3em 0; padding-left: 8px; font-size: .9em; font-weight: normal; letter-spacing: 0.05em; text-shadow: #fff -1px 1px 1px; clear: both; }
+#sidebar h3 a					{ color: #6f1515; text-decoration: none; border-bottom: dotted 1px #9f5353; }
+#sidebar h3:first-child			{ margin-top: 50px; }
 
-#goaledit { display: none; }
+
+/* Book detail */
+/* -------------------------------------------------- */
+
+#detail							{ width: 65%; max-width: 700px; top: 0; bottom: 0; height: 100%; float: left; padding-left: 35px; box-shadow: -5px 0 10px rgba(0, 0, 0, 0.1); }
+#detail h1						{ font-size: 36px; font-weight: normal; letter-spacing: -0.05em; font-style: italic; margin: 0; color: #6f1515; }
+#detail h1:first-child			{ margin-top: 50px; }
+#detail h3						{ text-transform: uppercase; color: #999; margin: 2em 0 .3em 0; font-size: .9em; font-weight: normal; letter-spacing: 0.05em; }
+
+
+/* Goals area */
+/* -------------------------------------------------- */
+
+#today							{ margin: .5em 0 1.5em; padding-bottom: .5em; border-bottom: dotted 1px #bbb; }
+#today p						{ font-size: 1.4em; margin: 0; line-height: 1em; }
+#today p .pagenum				{ font-weight: bold; }
+#today p .pagecount				{ color: #999; font-style: italic; }
+
+#goals                          { float: right; color: #666; font-family: "Lucida Grande", Helvetica, Arial, sans-serif; font-size: 12px; text-shadow: 0 1px 1px #fff; padding: 0px 2px 0px 10px; }
+#goals input                    { font-size: 1.3em; font-weight: bold; border: none; padding: 1px 8px; width: 4.5em; margin-left: 2px; -moz-border-radius: 1em; -webkit-border-radius: 1em; border-radius: 1em; border-width: 1px; border-style: solid; border-color: #ddd; color: #6f1515; }
+#goals input:focus              { outline: none; background: #fffee6; }
+
+
+/* Stats */
+/* -------------------------------------------------- */
+
+ul#stats						{ padding: 0; list-style: none; clear: both; overflow: hidden; margin: 0; }
+ul#stats li						{ display: inline; margin-right: 35px; float: left; margin-bottom: .25em; }
+ul#stats li h3					{ margin: 0 0 3px 0; }
+ul#stats li span				{ font-weight: bold; font-size: 1.4em; line-height: 1em; }
+
+
+/* Percentages */
+/* -------------------------------------------------- */
+
+.percentage						{ font-size: 10px; color: #7c7967; clear: both; font-family: "Lucida Grande", Helvetica, Arial, sans-serif; margin-top: 4px; }
+.percentage_container			{ width: 100px; border: solid 1px #bcb9a7; -moz-border-radius: 1em; -webkit-border-radius: 1em; border-radius: 1em; height: 10px; display: inline-block; box-shadow: 0 1px 1px rgba(255, 255, 255, 0.6), 0 1px 1px rgba(0, 0, 0, 0.1) inset; float: left; }
+.percentage span				{ margin-left: 5px; display: block; float: left; margin-top: -3px; }
+.percent						{ background: #aca997; height: 9px; float: left; z-index: 50; -moz-border-radius: 1em 0 0 1em; -webkit-border-radius: 1em 0 0 1em; border-radius: 1em 0 0 1em; border-top: solid 1px rgba(255, 255, 255, 0.5); box-shadow: 0 1px 5px rgba(255, 255, 255, 0.5) inset, 1px 1px 2px rgba(0, 0, 0, 0.5); }
+
+
+/* Chart */
+/* -------------------------------------------------- */
+
+canvas#reading_chart			{ width: 100%; max-width: 700px; height: 250px; background: #eee; }
+
+
+/* Entries */
+/* -------------------------------------------------- */
+
+ul#entries						{ margin: 0 0 50px 0; list-style: none; font-size: 11px; padding: 0; font-family: "Lucida Grande", Helvetica, Arial, sans-serif; color: #666; line-height: 1.5em; column-count: 4; column-gap: 20px; -webkit-column-count: 4; -webkit-column-gap: 20px; -moz-column-count: 4; -moz-column-gap: 20px; }
+ul#entries li .date				{ color: #aaa; }
+
+
+/* Goal Edit */
+/* -------------------------------------------------- */
+
+#goaledit						{ display: none; }

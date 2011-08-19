@@ -150,7 +150,12 @@ function loadPage() {
 			$("#currentEntry").focus();
 			first = true;
 		}
-		$('#booklist').append('<li><a id="book' + index + '" name="goal' + goal.id + '" class="booklink" href="#">' + goal.name + '</a></li>');
+
+		/* TODO: make this live */
+		goal.percent = 77;
+		goal.pagesleft = 89;
+
+		$('#booklist').append('<li><a id="book' + index + '" name="goal' + goal.id + '" class="booklink" href="#">' + goal.name + '<div class="percentage"><div class="percentage_container"><div class="percent" style="width: ' + goal.percent + 'px;"></div></div><span><b>' + goal.percent + '%</b> (' + goal.pagesleft + ')</span></div></a></li>');
 	});
 
 	$(".booklink").click(function () {

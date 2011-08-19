@@ -1,49 +1,108 @@
-// implement the interface between Bookie and your backend or datastore
 var ConfigInterface = function() {
+	//this.host = 'http://example.com/ws/';
+	this.host = 'http://ch.local/bookkeeper/example-backend/';
+
 	this.getGoals = function () {
 		var goals = [];
-		// interact with the datastore/backend
+		$.ajax({
+			url: this.host + 'books.php',
+			async: false,
+			dataType: 'json',
+			success: function (data) {
+				$.each(data, function(index, goal) {
+					newGoal = new Goal();
+					newGoal.id = goal.id;
+					newGoal.name = goal.name;
+					newGoal.totalPages = goal.totalPages;
+					newGoal.startDate = goal.startDate;
+					newGoal.endDate = goal.endDate;
+					newGoal.readingDays = goal.readingDays;
+					goals.push(newGoal);
+				});
+			}
+		});
 		return goals;
 	};
 
 	this.getGoal = function (goalId) {
 		var goal = new Goal();
-		// interact with the datastore/backend
+		$.ajax({
+			url: this.host + 'goal.php',
+			data: {id: goalId},
+			async: false,
+			dataType: 'json',
+			success: function (data) {
+				goal.id = data.id;
+				goal.name = data.name;
+				goal.totalPages = data.totalPages;
+				goal.startDate = data.startDate;
+				goal.endDate = data.endDate;
+				goal.readingDays = data.readingDays;
+			}
+		});
 		return goal;
 	};
 	
 	this.getEntries = function (goalId) {
 		var entries = [];
-		// interact with the datastore/backend
+		$.ajax({
+			url: this.host + 'entries.php',
+			data: {id: goalId},
+			async: false,
+			dataType: 'json',
+			success: function (data) {
+				$.each(data, function(index, entry) {
+					newEntry = new Entry();
+					newEntry.id = entry.id;
+					newEntry.goalId = entry.goalId;
+					newEntry.page = entry.page;
+					newEntry.date = entry.date;
+					entries.push(newEntry);
+				});
+			}
+		});
 		return entries;
 	};
 
 	this.getEntry = function (entryId) {
-		var entry = new Entry();
-		// interact with the datastore/backend
-		return entry;
 	};
 
 	this.getEntryByDate = function (goalId, date) {
 		var newEntry = new Entry();
-		// interact with the datastore/backend
+		$.ajax({
+			url: this.host + 'entry.php',
+			data: {goalid: goalId, date: date},
+			async: false,
+			dataType: 'json',
+			success: function (data) {
+				newEntry.id = data.id;
+				newEntry.goalId = data.goalId;
+				newEntry.page = data.page;
+				newEntry.date = data.date;
+			}
+		});
 		return newEntry;
 	};
 
 	this.saveGoal = function (goal) {
-		// interact with the datastore/backend to save or insert a goal/book
+		$.ajax({
+			url: this.host + 'savegoal.php',
+			data: {id: goal.id, name: goal.name, totalpages: goal.totalPages, startdate: goal.startDate, enddate: goal.endDate, readingdays: String(goal.readingDays).replace(/,/g,'')},
+			async: false,
+			dataType: 'json'
+		});
 	};
 	
 	this.saveEntry = function (entry) {
-		// interact with the datastore/backend to save or insert an entry
+		$.ajax({
+			url: this.host + 'saveentry.php',
+			data: {id: entry.id, goalid: entry.goalId, page: entry.page, date: entry.date},
+			async: false,
+			dataType: 'json'
+		});
 	};
 };
 
-//****************************************************************************
-//                  DON'T EDIT PAST THIS LINE
-//****************************************************************************
-// classes to represent the correct representation of a Goal and an Entry
-// Don't edit these.
 var Goal = function() {
 	this.id = 0;
 	this.name = '';
