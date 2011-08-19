@@ -1,4 +1,4 @@
-// implement the interface between Bookie and your backend or datastore
+// implement the interface between Bookkeeper and your backend or datastore
 var ConfigInterface = function() {
 	this.getGoals = function () {
 		var goals = [];
