@@ -76,6 +76,7 @@ canvas#reading_chart			{ width: 100%; max-width: 700px; height: 250px; backgroun
 /* -------------------------------------------------- */
 
 ul#entries						{ margin: 0 0 50px 0; list-style: none; font-size: 11px; padding: 0; font-family: "Lucida Grande", Helvetica, Arial, sans-serif; color: #666; line-height: 1.5em; column-count: 4; column-gap: 20px; -webkit-column-count: 4; -webkit-column-gap: 20px; -moz-column-count: 4; -moz-column-gap: 20px; }
+ul#entries li					{ display: inline-block; }
 ul#entries li .date				{ color: #aaa; }
 
 
