@@ -1,8 +1,7 @@
 var goalData = undefined;
 
 var Bookkeeper = function () {
-	this.months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-	this.days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+	this.months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Juy', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 	this.makeTwoDigits = function (number) {
 		number = String(number);
@@ -92,19 +91,21 @@ var Bookkeeper = function () {
 			pagestoday = -1 * pagestoday;
 		}
 
-		$("#entrylist").html('');
+		$("#entries").html('');
 		for (var i in entries) {
 			date = new Date(entries[i].date);
-			dateStr = this.days[date.getDay()] + ' ' + this.months[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear();
-			$("#entrylist").append("<li>Page " + entries[i].page + " on " + dateStr + "</li>");
+			dateStr = date.getDate() + ' ' + this.months[date.getMonth()] + date.getFullYear();
+			$("#entries").append("<li>Page " + entries[i].page + " <span class='date'>(" + dateStr + ")</span></li>");
 		}
-		$("#goaldetail h1").text(goal.name);
-		$("#currentEntryDiv").attr('name', goal.id);
+		$("#view h1").text(goal.name);
+		$("#goals").attr('name', goal.id);
 		$("#currentEntry").val(currentEntryPage);
 		$("#daysleft").text(daysLeft);
 		$("#pagesleft").text(pagesLeft);
 		$("#pagestoday").text(pagestoday);
 		$("#pagesperday").text(pagesperday);
+		$("#totalpages").text(goal.totalPages);
+		$("#goaldate").text(goal.endDate);
 		$("#topage").text(this.calcToPage(pagestoday, currentEntryPage));
 		
 	};
