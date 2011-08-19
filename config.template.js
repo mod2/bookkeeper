@@ -50,7 +50,8 @@ var Goal = function() {
 	this.totalPages = 0;
 	this.startDate = '';
 	this.endDate = '';
-	this.readingDays = [1,1,1,1,1,1,1]
+	this.readingDays = [1,1,1,1,1,1,1];
+	this.hidden = 0;
 };
 
 var Entry = function() {
