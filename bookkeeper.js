@@ -27,12 +27,12 @@ var Bookkeeper = function () {
 	this.calcPagesPerDay = function (entries, daysLeft, goal, fromToday) {
 		var entry = 0;
 		var today = new Date();
-		if (entries.length == 1 && today != new Date(entries[0].date)) {
+		if (entries.length == 1 && !this.compareDateToToday(entries[0].date)) {
 			entry = entries[0].page;
 		} else if (entries.length > 1) {
-			if (fromToday && new Date(entries[entries.length - 1]) == today) {
+			if (fromToday && this.compareDateToToday(entries[entries.length - 1])) {
 				entry = entries[entries.length - 1].page;
-			} else if (new Date(entries[entries.length - 1].date) == today) {
+			} else if (this.compareDateToToday(entries[entries.length - 1].date)) {
 				entry = entries[entries.length - 2].page;
 			} else {
 				entry = entries[entries.length - 1].page;
@@ -57,7 +57,7 @@ var Bookkeeper = function () {
 		var today = new Date();
 		previousentry = 0;
 		currententry = 0;
-		if (entries.length == 1 && today == new Date(entries[0].date)) {
+		if (entries.length == 1 && this.compareDateToToday(entries[0].date)) {
 			currententry = entries[0].page;
 		} else if (entries.length > 1) {
 			if (this.compareDateToToday(entries[entries.length - 1].date)) {
@@ -87,7 +87,6 @@ var Bookkeeper = function () {
 		pagesperday = this.calcPagesPerDay(entries, daysLeft, goal, false);
 		pagestoday = this.calcPagesToday(entries, pagesperday);
 		if (pagestoday < 0) {
-			pagesperday = this.calcPagesPerDay(entries, daysLeft, goal, true);
 			pagestoday = -1 * pagestoday;
 		}
 
