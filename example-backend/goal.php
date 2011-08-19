@@ -1,5 +1,10 @@
 <?php
-$goals = file('goals.dat');
+$theFile = 'data/goals.dat';
+if (!file_exists($theFile)) {
+	$f = fopen($theFile, 'w');
+	fclose($f);
+}
+$goals = file($theFile);
 $goalId = (array_key_exists('id', $_GET) && trim($_GET['id']) != '') ? intval($_GET['id']) : 0;
 if ($goalId == 0) {
 	echo json_encode(array('error'=>'invalid request'));

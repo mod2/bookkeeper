@@ -1,5 +1,10 @@
 <?php
-$entries = file('entries.dat');
+$theFile = 'data/entries.dat';
+if (!file_exists($theFile)) {
+	$f = fopen($theFile, 'w');
+	fclose($f);
+}
+$entries = file($theFile);
 $id = (array_key_exists('id', $_GET) && trim($_GET['id']) != '') ? intval($_GET['id']) : 0;
 $goalId = (array_key_exists('goalid', $_GET) && trim($_GET['goalid']) != '') ? intval($_GET['goalid']) : 0;
 $page = (array_key_exists('page', $_GET) && trim($_GET['page']) != '') ? intval($_GET['page']) : 0;
@@ -8,7 +13,7 @@ $date = (array_key_exists('date', $_GET) && trim($_GET['date']) != '') ? trim($_
 if ($id == 0) {
 	$last = explode(',', $entries[count($entries) - 1]);
 	$newId = intval($last[0]) + 1;
-	$fin = fopen('entries.dat', 'a');
+	$fin = fopen($theFile, 'a');
 	fwrite($fin, strval($newId) . ',' . strval($goalId) . ',' . strval($page) . ',' . $date . "\n");
 } else {
 	$rtnEntry = array();
@@ -22,7 +27,7 @@ if ($id == 0) {
 		}
 	}
 
-	$fi = fopen('entries.dat', 'w');
+	$fi = fopen($theFile, 'w');
 	fwrite($fi, $content);
 }
 ?>

@@ -1,5 +1,10 @@
 <?php
-$goals = file('goals.dat');
+$theFile = 'data/goals.dat';
+if (!file_exists($theFile)) {
+	$f = fopen($theFile, 'w');
+	fclose($f);
+}
+$goals = file($theFile);
 $rtnGoals = array();
 foreach ($goals as $goal) {
 	$parts = explode(',', $goal);

@@ -1,5 +1,10 @@
 <?php
-$goals = file('goals.dat');
+$theFile = 'data/goals.dat';
+if (!file_exists($theFile)) {
+	$f = fopen($theFile, 'w');
+	fclose($f);
+}
+$goals = file($theFile);
 $id = (array_key_exists('id', $_GET) && trim($_GET['id']) != '') ? intval($_GET['id']) : 0;
 $name = (array_key_exists('name', $_GET) && trim($_GET['name']) != '') ? trim($_GET['name']) : 0;
 $totalPages = (array_key_exists('totalpages', $_GET) && trim($_GET['totalpages']) != '') ? intval($_GET['totalpages']) : 0;
@@ -14,7 +19,7 @@ if ($name == '' || $totalPages == 0 || $startDate == '' || $endDate == '' || $re
 if ($id == 0) {
 	$last = explode(',', $goals[count($goals) - 1]);
 	$newId = intval($last[0]) + 1;
-	$fin = fopen('goals.dat', 'a');
+	$fin = fopen($theFile, 'a');
 	fwrite($fin, strval($newId) . ',' . $name . ',' . strval($totalPages) . ',' . $startDate . ',' . $endDate . ',' . $readingDays . "\n");
 } else {
 	$content = '';
@@ -27,7 +32,7 @@ if ($id == 0) {
 		}
 	}
 
-	$fi = fopen('goals.dat', 'w');
+	$fi = fopen($theFile, 'w');
 	fwrite($fi, $content);
 }
 ?>
