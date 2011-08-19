@@ -1,6 +1,5 @@
 var ConfigInterface = function() {
-	//this.host = 'http://example.com/ws/';
-	this.host = 'http://ch.local/bookkeeper/example-backend/';
+	this.host = 'http://example.com/ws/';
 
 	this.getGoals = function () {
 		var goals = [];
