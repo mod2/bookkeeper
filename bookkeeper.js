@@ -20,10 +20,8 @@ var Bookkeeper = function () {
 		currentEntry = 0;
 		tempday = new Date();
 		today = new Date(tempday.getFullYear() + '-' + this.makeTwoDigits((tempday.getMonth() + 1)) + '-' + this.makeTwoDigits(tempday.getDate()));
-		console.log(entries.length);
 		for (loopTime = new Date(goal.startDate); loopTime <= today; loopTime.setTime(loopTime.valueOf() + 86400000)) {
 			if (goal.readingDays[loopTime.getDay()] == 1) {
-				console.log(loopTime, currentEntry);
 				date = loopTime.getFullYear() + '-' + this.makeTwoDigits((loopTime.getMonth() + 1)) + '-' + this.makeTwoDigits(loopTime.getDate());
 				for (currentEntry; currentEntry < entries.length; currentEntry++) {
 					compared = this.compareDates(new Date(entries[currentEntry].date), new Date(date));
