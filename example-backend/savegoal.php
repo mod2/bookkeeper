@@ -11,7 +11,7 @@ $totalPages = (array_key_exists('totalpages', $_GET) && trim($_GET['totalpages']
 $startDate = (array_key_exists('startdate', $_GET) && trim($_GET['startdate']) != '') ? trim($_GET['startdate']) : '';
 $endDate = (array_key_exists('enddate', $_GET) && trim($_GET['enddate']) != '') ? trim($_GET['enddate']) : '';
 $readingDays = (array_key_exists('readingdays', $_GET) && trim($_GET['readingdays'] != '')) ? trim($_GET['readingdays']) : '0000000';
-$hidden = (array_key_exists('hidden', $_GET) && trim($_GET['hidden'] != '')) ? intval($_GET['hidden']) : 0
+$hidden = (array_key_exists('hidden', $_GET) && trim($_GET['hidden'] != '')) ? intval($_GET['hidden']) : 0;
 
 if ($name == '' || $totalPages == 0 || $startDate == '' || $endDate == '' || $readingDays == '0000000') {
 	die();
@@ -27,7 +27,7 @@ if ($id == 0) {
 	foreach ($goals as $goal) {
 		$parts = explode(',', $goal);
 		if (intval($parts[0]) == $id) {
-			$content .= $parts[0] . ',' . $name . ',' . strval($totalPages) . ',' . $startDate . ',' . $endDate . ',' . $readingDays . ',' . strval($hidden) . "\n");
+			$content .= $parts[0] . ',' . $name . ',' . strval($totalPages) . ',' . $startDate . ',' . $endDate . ',' . $readingDays . ',' . strval($hidden) . "\n";
 		} else {
 			$content .= $goal;
 		}
