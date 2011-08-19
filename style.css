@@ -86,8 +86,8 @@ ul#entries li .date				{ color: #aaa; }
 #edit input[type="text"]		{ padding: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; border: solid 1px #bbb; font-weight: bold; font-size: 1em; }
 #edit #editgoalname				{ width: 400px; }
 #edit #editgoaltotalpages		{ width: 62px; }
-#edit #editgoalstartdate		{ width: 100px; }
-#edit #editgoalenddate			{ width: 100px; }
+#edit #editgoalstartdate		{ width: 150px; }
+#edit #editgoalenddate			{ width: 150px; }
 
 #edit ul#readingdays			{ margin: 0 0 1.5em 0; padding: 0; clear: both; overflow: hidden; }
 #edit ul#readingdays li			{ display: inline; margin-right: 15px; float: left; text-align: center; }
@@ -115,3 +115,13 @@ ul#dangerous li a				{ color: #666; text-decoration: none; border-bottom: dotted
 
 footer							{ border-top: dotted 1px #bbb; padding-top: 5px; font-size: 10px; font-family: "Lucida Grande", Helvetica, Arial, sans-serif; text-align: right; }
 footer a						{ text-decoration: none; border-bottom: dotted 1px #999; color: #666; }
+
+
+/* Datepicker */
+/* -------------------------------------------------- */
+
+.date_selector					{ -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; font-family: "Lucida Grande", Helvetica, Arial, sans-serif; }
+.date_selector .nav				{ clear: both; overflow: hidden; color: #999; }
+
+.date_selector .button			{ background: none; padding: 0 !important; box-shadow: none; border: none; position: normal; top: 0; }
+.date_selector .button:hover	{ background: none; box-shadow: none; border: none; }
