@@ -11,8 +11,9 @@ function Chart() {
 
 	this.draw = function() {
 		var BORDERSTYLE = "#999";
-		var HATCHSTYLE = "#bbb";
-		var HATCHLENGTH = 6;
+		var TICKSTYLE = "#bbb";
+		var TICKLENGTH = 6;
+		var LABELMARGIN = 5;
 
 		cv = this.canvas;
 		c = this.context;
@@ -38,24 +39,36 @@ function Chart() {
 		c.stroke();
 		c.closePath();
 
-		// draw the hatches
+		// draw the ticks
 		var x = this.minX;
 		var step_size = this.displayWidth / this.numDays;
 		var y_size = this.displayHeight / this.numPages;
 
-		c.strokeStyle = HATCHSTYLE;
+		c.strokeStyle = TICKSTYLE;
 		c.beginPath();
 		for (x=step_size+this.minX; x<=this.maxX; x+=step_size) {
 			c.moveTo(x, this.maxY);
-			c.lineTo(x, this.maxY - HATCHLENGTH);
+			c.lineTo(x, this.maxY - TICKLENGTH);
 		}
 		x = this.minX;
 		var pages_step = (this.numPages + (100 - this.numPages % 100)) / this.displayHeight * 5;
 		for (dy = this.minY; dy <= this.maxY; dy += pages_step) {
 			c.moveTo(x, dy);
-			c.lineTo(x + HATCHLENGTH, dy);
+			c.lineTo(x + TICKLENGTH, dy);
 		}
 		c.stroke();
+		c.closePath();
+
+		// draw labels
+		c.font = "9x helvetica";
+		c.textAlign = "right";
+		c.textBaseline = "middle";
+		c.fillStyle = BORDERSTYLE;
+		c.fillText("1", this.minX - LABELMARGIN, this.maxY - 5);
+		c.fillText("100", this.minX - LABELMARGIN, this.maxY - 5 - pages_step);
+		c.fillText("200", this.minX - LABELMARGIN, this.maxY - 5 - (pages_step * 2));
+		c.fillText("300", this.minX - LABELMARGIN, this.maxY - 5 - (pages_step * 3));
+		c.fillText("400", this.minX - LABELMARGIN, this.maxY - 5 - (pages_step * 4));
 		c.closePath();
 
 		// first draw the goal
