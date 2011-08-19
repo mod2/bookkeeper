@@ -1,13 +1,13 @@
 var ConfigInterface = function() {
 	this.host = 'http://bc.local/sandbox/bookkeeper/example-backend/';
 
-	this.getGoals = function () {
+	this.getGoals = function() {
 		var goals = [];
 		$.ajax({
 			url: this.host + 'books.php',
 			async: false,
 			dataType: 'json',
-			success: function (data) {
+			success: function(data) {
 				$.each(data, function(index, goal) {
 					newGoal = new Goal();
 					newGoal.id = goal.id;
@@ -23,14 +23,14 @@ var ConfigInterface = function() {
 		return goals;
 	};
 
-	this.getGoal = function (goalId) {
+	this.getGoal = function(goalId) {
 		var goal = new Goal();
 		$.ajax({
 			url: this.host + 'goal.php',
-			data: {id: goalId},
+			data: { id: goalId },
 			async: false,
 			dataType: 'json',
-			success: function (data) {
+			success: function(data) {
 				goal.id = data.id;
 				goal.name = data.name;
 				goal.totalPages = data.totalPages;
@@ -42,14 +42,14 @@ var ConfigInterface = function() {
 		return goal;
 	};
 	
-	this.getEntries = function (goalId) {
+	this.getEntries = function(goalId) {
 		var entries = [];
 		$.ajax({
 			url: this.host + 'entries.php',
-			data: {id: goalId},
+			data: { id: goalId },
 			async: false,
 			dataType: 'json',
-			success: function (data) {
+			success: function(data) {
 				$.each(data, function(index, entry) {
 					newEntry = new Entry();
 					newEntry.id = entry.id;
@@ -63,17 +63,17 @@ var ConfigInterface = function() {
 		return entries;
 	};
 
-	this.getEntry = function (entryId) {
+	this.getEntry = function(entryId) {
 	};
 
-	this.getEntryByDate = function (goalId, date) {
+	this.getEntryByDate = function(goalId, date) {
 		var newEntry = new Entry();
 		$.ajax({
 			url: this.host + 'entry.php',
-			data: {goalid: goalId, date: date},
+			data: { goalid: goalId, date: date },
 			async: false,
 			dataType: 'json',
-			success: function (data) {
+			success: function(data) {
 				newEntry.id = data.id;
 				newEntry.goalId = data.goalId;
 				newEntry.page = data.page;
@@ -83,19 +83,19 @@ var ConfigInterface = function() {
 		return newEntry;
 	};
 
-	this.saveGoal = function (goal) {
+	this.saveGoal = function(goal) {
 		$.ajax({
 			url: this.host + 'savegoal.php',
-			data: {id: goal.id, name: goal.name, totalpages: goal.totalPages, startdate: goal.startDate, enddate: goal.endDate, readingdays: String(goal.readingDays).replace(/,/g,'')},
+			data: { id: goal.id, name: goal.name, totalpages: goal.totalPages, startdate: goal.startDate, enddate: goal.endDate, readingdays: String(goal.readingDays).replace(/,/g,'') },
 			async: false,
 			dataType: 'json'
 		});
 	};
 	
-	this.saveEntry = function (entry) {
+	this.saveEntry = function(entry) {
 		$.ajax({
 			url: this.host + 'saveentry.php',
-			data: {id: entry.id, goalid: entry.goalId, page: entry.page, date: entry.date},
+			data: { id: entry.id, goalid: entry.goalId, page: entry.page, date: entry.date },
 			async: false,
 			dataType: 'json'
 		});
