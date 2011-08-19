@@ -207,6 +207,7 @@ function loadPage() {
 		$("#dangerous").hide();
 		$("#view").hide();
 		$("#edit").show();
+		$("#booklist li.selected").removeClass("selected");
 		return false;
 	});
 

@@ -1,40 +1,40 @@
 // implement the interface between Bookkeeper and your backend or datastore
 var ConfigInterface = function() {
-	this.getGoals = function () {
+	this.getGoals = function() {
 		var goals = [];
 		// interact with the datastore/backend
 		return goals;
 	};
 
-	this.getGoal = function (goalId) {
+	this.getGoal = function(goalId) {
 		var goal = new Goal();
 		// interact with the datastore/backend
 		return goal;
 	};
 	
-	this.getEntries = function (goalId) {
+	this.getEntries = function(goalId) {
 		var entries = [];
 		// interact with the datastore/backend
 		return entries;
 	};
 
-	this.getEntry = function (entryId) {
+	this.getEntry = function(entryId) {
 		var entry = new Entry();
 		// interact with the datastore/backend
 		return entry;
 	};
 
-	this.getEntryByDate = function (goalId, date) {
+	this.getEntryByDate = function(goalId, date) {
 		var newEntry = new Entry();
 		// interact with the datastore/backend
 		return newEntry;
 	};
 
-	this.saveGoal = function (goal) {
+	this.saveGoal = function(goal) {
 		// interact with the datastore/backend to save or insert a goal/book
 	};
 	
-	this.saveEntry = function (entry) {
+	this.saveEntry = function(entry) {
 		// interact with the datastore/backend to save or insert an entry
 	};
 };
