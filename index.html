@@ -8,7 +8,7 @@
 	<link rel="stylesheet" href="style.css" type="text/css" media="all" charset="utf-8">
 
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js" type="text/javascript" charset="utf-8"></script>
-	<script src="config.sample.js" type="text/javascript" charset="utf-8"></script>
+	<script src="config.js" type="text/javascript" charset="utf-8"></script>
 	<script src="bookkeeper.js" type="text/javascript" charset="utf-8"></script>
 	<script src="chart.js" type="text/javascript" charset="utf-8"></script>
 </head>
@@ -48,20 +48,25 @@
 				<ul id="entries"></ul>
 			</div>
 			<div id="edit">
+				<h1>Add Book</h1>
 				<form action="javascript:saveGoal();" method="get" accept-charset="utf-8">
-				<label for="editgoalname">Name</label><input type="text" name="editgoalname" value="" id="editgoalname"><br>
-				<label for="editgoaltotalpages">Total Pages</label><input type="text" name="editgoaltotalpages" value="" id="editgoaltotalpages"><br>
-				<label for="editgoalstartdate">Start date</label><input type="text" name="editgoalstartdate" value="" id="editgoalstartdate"><br>
-				<label for="editgoalenddate">End date</label><input type="text" name="editgoalenddate" value="" id="editgoalenddate"><br>
-				<label >Reading days</label><br>
-				<label for="readingdaysunday">S</label><input type="checkbox" name="sunday" id="readingdaysunday" value="0">
-				<label for="readingdaymonday">M</label><input type="checkbox" name="monday" id="readingdaymonday" value="1">
-				<label for="readingdaytuesday">T</label><input type="checkbox" name="tuesday" id="readingdaytuesday" value="2">
-				<label for="readingdaywednesday">W</label><input type="checkbox" name="wednesday" id="readingdaywednesday" value="3">
-				<label for="readingdaythursday">T</label><input type="checkbox" name="thursday" id="readingdaythursday" value="4">
-				<label for="readingdayfriday">F</label><input type="checkbox" name="friday" id="readingdayfriday" value="5">
-				<label for="readingdaysaturday">S</label><input type="checkbox" name="saturday" id="readingdaysaturday" value="6">
-				<p><input type="submit" value="Save"></p>
+					<label for="editgoalname">Title</label><input type="text" name="editgoalname" value="" id="editgoalname"><br>
+					<label for="editgoaltotalpages">Total Pages</label><input type="text" name="editgoaltotalpages" value="" id="editgoaltotalpages" maxlength="5"><br>
+					<label for="editgoalstartdate">Start Date</label><input type="text" name="editgoalstartdate" value="" id="editgoalstartdate"><br>
+					<label for="editgoalenddate">End Date</label><input type="text" name="editgoalenddate" value="" id="editgoalenddate"><br>
+
+					<h3>Reading Days</h3>
+					<ul id="readingdays">
+						<li><label for="readingdaysun">S</label><input type="checkbox" name="sunday" id="readingdaysun" value="0" checked=false></li>
+						<li><label for="readingdaymon">M</label><input type="checkbox" name="monday" id="readingdaymon" value="1"></li>
+						<li><label for="readingdaytue">T</label><input type="checkbox" name="tuesday" id="readingdaytue" value="2"></li>
+						<li><label for="readingdaywed">W</label><input type="checkbox" name="wednesday" id="readingdaywed" value="3"></li>
+						<li><label for="readingdaythu">T</label><input type="checkbox" name="thursday" id="readingdaythu" value="4"></li>
+						<li><label for="readingdayfri">F</label><input type="checkbox" name="friday" id="readingdayfri" value="5"></li>
+						<li><label for="readingdaysat">S</label><input type="checkbox" name="saturday" id="readingdaysat" value="6"></li>
+					</ul>
+
+					<p><input type="submit" value="Save Book" class="button"></p>
 				</form>
 			</div>
 		</section>
