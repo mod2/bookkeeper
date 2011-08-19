@@ -116,6 +116,43 @@ var Bookkeeper = function () {
 		$("#pagesperday").text(pagesperday);
 		$("#totalpages").text(goal.totalPages);
 
+		$("#editbooklink").unbind('click');
+		$("#editbooklink").click(function () {
+			$("#edit h1").text(goal.name);
+			$("#editgoalid").val(goal.id);
+			$("#editgoalname").val(goal.name);
+			$("#editgoaltotalpages").val(goal.totalPages);
+			$("#editgoalstartdate").val(goal.startDate);
+			$("#editgoalenddate").val(goal.endDate);
+
+			$("input:checkbox").prop('checked', false);
+			for (i in goal.readingDays) {
+				if (goal.readingDays[i] == 1) {
+					$("input:checkbox[value=" + i + "]").prop('checked', true);
+				}
+			}
+
+			$("#dangerous").show();
+			$("#view").hide();
+			$("#edit").show();
+			return false;
+		});
+
+		$("#deletebooklink").unbind('click');
+		$("#deletebooklink").click(function () {
+			if (confirm("Are you sure you want to delete this book? This can not be undone (all entries for this book will be deleted as well).")) {
+				bi.deleteGoal(goal.id);
+				loadPage();
+				$("#edit").hide();
+				$("#view").show();
+			}
+			return false;
+		});
+
+		$("#hidebooklink").unbind('click');
+		$("#hidebooklink").click(function () {
+		});
+
 		if (pagestoday < 0) {
 			pagestoday = -1 * pagestoday;
 			$("#pagesover").text(pagestoday);
@@ -138,6 +175,7 @@ var Bookkeeper = function () {
 
 function saveGoal() {
 	var newGoal = new Goal();
+	newGoal.id = $("#editgoalid").val();
 	newGoal.name = $("#editgoalname").val();
 	newGoal.totalPages = Number($("#editgoaltotalpages").val());
 	newGoal.startDate = $("#editgoalstartdate").val();
@@ -160,6 +198,9 @@ function saveGoal() {
 	$("#edit").hide();
 	$("#view").show();
 	loadPage();
+	$("#booklist li").removeClass('selected');
+	$("#booklist li:last-child").addClass('selected');
+	$("#booklist li:last-child a").click();
 	return false;
 }
 
@@ -203,6 +244,11 @@ function loadPage() {
 
 	$("#addBook").click(function () {
 		$("#edit h1").text("Add Book");
+		$("#editgoalid").val(0);
+		$("#editgoalname").val('');
+		$("#editgoaltotalpages").val('');
+		$("#editgoalstartdate").val('');
+		$("#editgoalenddate").val('');
 		$("input:checkbox").prop('checked', true);
 		$("#dangerous").hide();
 		$("#view").hide();
@@ -210,7 +256,7 @@ function loadPage() {
 		$("#booklist li.selected").removeClass("selected");
 		return false;
 	});
-
+	
 	$("#currentEntry").change(function () {
 		entry = new Entry();
 		entry.goalId = Number($(this).parent().attr('name'));
