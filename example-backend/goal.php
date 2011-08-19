@@ -20,6 +20,7 @@ foreach ($goals as $goal) {
 			$readingDays[$i] = intval($parts[5][$i]);
 		}
 		$rtnGoal['readingDays'] = $readingDays;
+		$rtnGoal['hidden'] = intval($parts[6]);
 		break;
 	}
 }
