@@ -14,16 +14,49 @@ var Bookkeeper = function () {
 		return newNumber;
 	};
 
-	this.calcDaysLeft = function (goal) {
-		today = new Date();
-		endDate = new Date(goal.endDate);
-		daysLeft = 0;
-		for (loopTime = today; loopTime < endDate; loopTime.setTime(loopTime.valueOf() + 86400000)) {
+	this.chartEntries = function (goal, entries) {
+		chartpoints = [];
+		previousPage = 0;
+		currentEntry = 0;
+		tempday = new Date();
+		today = new Date(tempday.getFullYear() + '-' + this.makeTwoDigits((tempday.getMonth() + 1)) + '-' + this.makeTwoDigits(tempday.getDate()));
+		console.log(entries.length);
+		for (loopTime = new Date(goal.startDate); loopTime <= today; loopTime.setTime(loopTime.valueOf() + 86400000)) {
 			if (goal.readingDays[loopTime.getDay()] == 1) {
+				console.log(loopTime, currentEntry);
+				date = loopTime.getFullYear() + '-' + this.makeTwoDigits((loopTime.getMonth() + 1)) + '-' + this.makeTwoDigits(loopTime.getDate());
+				for (currentEntry; currentEntry < entries.length; currentEntry++) {
+					compared = this.compareDates(new Date(entries[currentEntry].date), new Date(date));
+					if (compared == 0) {
+						previousPage = entries[currentEntry].page;
+						break;
+					} else if (compared == 1) {
+						break;
+					} else {
+						previousPage = entries[currentEntry].page;
+					}
+				}
+				chartpoints.push(previousPage);
+			}
+		}
+		return chartpoints;
+	};
+
+	this.calcDaysBetween = function (start, end, readingDays) {
+		date1 = new Date(start);
+		date2 = new Date(end);
+		daysLeft = 0;
+		for (loopTime = date1; loopTime < date2; loopTime.setTime(loopTime.valueOf() + 86400000)) {
+			if (readingDays[loopTime.getDay()] == 1) {
 				daysLeft++;
 			}
 		}
 		return daysLeft + 1;
+	};
+
+	this.calcDaysLeft = function (goal) {
+		today = new Date();
+		return this.calcDaysBetween(today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate(), goal.endDate, goal.readingDays);
 	};
 
 	this.calcPagesPerDay = function (entries, daysLeft, goal, fromToday) {
@@ -49,10 +82,20 @@ var Bookkeeper = function () {
 		today = new Date(today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate());
 		var theDate = new Date(date);
 		var rtnBool = false;
-		if (today.valueOf() == theDate.valueOf()) {
+		if (this.compareDates(theDate, today) == 0) {
 			rtnBool = true;
 		}
 		return rtnBool;
+	};
+
+	this.compareDates = function (date1, date2) {
+		var rtnInt = 0;
+		if (date1.valueOf() < date2.valueOf()) {
+			rtnInt = -1;
+		} else if (date1.valueOf() > date2.valueOf()) {
+			rtnInt = 1;
+		}
+		return rtnInt;
 	};
 
 	this.calcPagesToday = function (entries, pagesperday) {
@@ -173,7 +216,8 @@ var Bookkeeper = function () {
 		goalDateStr = goalDate.getDate() + ' ' + this.months[goalDate.getMonth()];
 		$("#goaldate").text(goalDateStr);
 
-		var chart = new Chart(goal.totalPages, 30, [5, 32, 32, 32, 32, 68, 71, 90, 111, 147, 162, 180, 195, 250, 300, 490], canvas, context);
+		console.log(this.chartEntries(goal, entries));
+		var chart = new Chart(goal.totalPages, this.calcDaysBetween(goal.startDate, goal.endDate, goal.readingDays), this.chartEntries(goal, entries), canvas, context);
 	};
 };
 
