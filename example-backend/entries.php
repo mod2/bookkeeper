@@ -1,5 +1,10 @@
 <?php
-$entries = file('entries.dat');
+$theFile = 'data/entries.dat';
+if (!file_exists($theFile)) {
+	$f = fopen($theFile, 'w');
+	fclose($f);
+}
+$entries = file($theFile);
 $goalId = $_GET['id'];
 $rtnEntries = array();
 foreach ($entries as $entry) {

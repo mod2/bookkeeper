@@ -1,5 +1,10 @@
 <?php
-$entries = file('entries.dat');
+$theFile = 'data/entries.dat';
+if (!file_exists($theFile)) {
+	$f = fopen($theFile, 'w');
+	fclose($f);
+}
+$entries = file($theFile);
 $id = (array_key_exists('id', $_GET) && trim($_GET['id']) != '') ? intval($_GET['id']) : 0;
 $goalId = (array_key_exists('goalid', $_GET) && trim($_GET['goalid']) != '') ? intval($_GET['goalid']) : 0;
 $date = (array_key_exists('date', $_GET) && trim($_GET['date']) != '') ? trim($_GET['date']) : '';
