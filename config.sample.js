@@ -16,6 +16,7 @@ var ConfigInterface = function() {
 					newGoal.startDate = goal.startDate;
 					newGoal.endDate = goal.endDate;
 					newGoal.readingDays = goal.readingDays;
+					newGoal.hidden = goal.hidden;
 					goals.push(newGoal);
 				});
 			}
@@ -37,6 +38,7 @@ var ConfigInterface = function() {
 				goal.startDate = data.startDate;
 				goal.endDate = data.endDate;
 				goal.readingDays = data.readingDays;
+				goal.hidden = data.hidden;
 			}
 		});
 		return goal;
@@ -86,7 +88,7 @@ var ConfigInterface = function() {
 	this.saveGoal = function (goal) {
 		$.ajax({
 			url: this.host + 'savegoal.php',
-			data: {id: goal.id, name: goal.name, totalpages: goal.totalPages, startdate: goal.startDate, enddate: goal.endDate, readingdays: String(goal.readingDays).replace(/,/g,'')},
+			data: {id: goal.id, name: goal.name, totalpages: goal.totalPages, startdate: goal.startDate, enddate: goal.endDate, readingdays: String(goal.readingDays).replace(/,/g,''), hidden: goal.hidden},
 			async: false,
 			dataType: 'json'
 		});
@@ -108,7 +110,8 @@ var Goal = function() {
 	this.totalPages = 0;
 	this.startDate = '';
 	this.endDate = '';
-	this.readingDays = [1,1,1,1,1,1,1]
+	this.readingDays = [1,1,1,1,1,1,1];
+	this.hidden = 0;
 };
 
 var Entry = function() {

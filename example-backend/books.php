@@ -14,6 +14,7 @@ foreach ($goals as $goal) {
 		$readingDays[$i] = intval($parts[5][$i]);
 	}
 	$theGoal['readingDays'] = $readingDays;
+	$theGoal['hidden'] = intval($parts[6]);
 	$rtnGoals[] = $theGoal;
 }
 echo json_encode($rtnGoals);
