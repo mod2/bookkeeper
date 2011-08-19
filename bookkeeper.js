@@ -199,8 +199,13 @@ function saveGoal() {
 	$("#view").show();
 	loadPage();
 	$("#booklist li").removeClass('selected');
-	$("#booklist li:last-child").addClass('selected');
-	$("#booklist li:last-child a").click();
+	if (newGoal.id != 0) {
+		$("#booklist li a[name=goal" + newGoal.id + "]").parent().addClass('selected');
+		$("#booklist li a[name=goal" + newGoal.id + "]").click();
+	} else {
+		$("#booklist li:last-child").addClass('selected');
+		$("#booklist li:last-child a").click();
+	}
 	return false;
 }
 
