@@ -37,6 +37,10 @@ var ConfigInterface = function() {
 	this.saveEntry = function(entry) {
 		// interact with the datastore/backend to save or insert an entry
 	};
+
+	this.deleteGoal = function(goalId) {
+		// interact with the datastore/backend to save or insert an entry
+	};
 };
 
 //****************************************************************************
