@@ -90,7 +90,6 @@ var ConfigInterface = function() {
 			url: this.host + 'savegoal.php',
 			data: { id: goal.id, name: goal.name, totalpages: goal.totalPages, startdate: goal.startDate, enddate: goal.endDate, readingdays: String(goal.readingDays).replace(/,/g,''), hidden: goal.hidden },
 			async: false,
-			dataType: 'json'
 		});
 	};
 	
@@ -99,7 +98,14 @@ var ConfigInterface = function() {
 			url: this.host + 'saveentry.php',
 			data: { id: entry.id, goalid: entry.goalId, page: entry.page, date: entry.date },
 			async: false,
-			dataType: 'json'
+		});
+	};
+
+	this.deleteGoal = function(goalId) {
+		$.ajax({
+			url: this.host + 'deletegoal.php',
+			data: {id: goalId},
+			async: false,
 		});
 	};
 };
