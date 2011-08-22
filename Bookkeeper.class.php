@@ -18,7 +18,7 @@ class Bookkeeper
 	 * @return void
 	 **/
 	public static function run404($args) {
-		
+		echo "404";
 	}
 
 	/**
@@ -52,6 +52,33 @@ class Bookkeeper
 		} else { // successfully logged in
 			Bookkeeper::userHome();
 		}
+	}
+
+	/**
+	 * userHome
+	 * displays the homepage
+	 *
+	 * @author ChadGH
+	 * @param 
+	 * @return void
+	 **/
+	public static function userHome($args) {
+		$template = self::getTemplate('index.tpl.html');
+		echo $template->render(array('test'=>'blah blah blah', 'test2'=>'chad'));
+	}
+
+	/**
+	 * getTemplate
+	 * undocumented function
+	 *
+	 * @author ChadGH
+	 * @param 
+	 * @return void
+	 **/
+	private static function getTemplate($templateName) {
+		$loader = new Twig_Loader_Filesystem(APP_PATH . '/templates');
+		$twig = new Twig_Environment($loader, array());
+		return $twig->loadTemplate($templateName);
 	}
 }
 ?>
