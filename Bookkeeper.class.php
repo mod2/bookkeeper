@@ -17,7 +17,7 @@ class Bookkeeper
 	 * @param 
 	 * @return void
 	 **/
-	public static function run404($args) {
+	public static function display404($args) {
 		echo "404";
 	}
 
@@ -30,27 +30,27 @@ class Bookkeeper
 	 * @return void
 	 **/
 	public static function login($args) {
-		$rtnBool = false;
+		$bool = false;
 		try {
 			$openid = new LightOpenID(APP_HOST);
 			if (!$openid->mode) {
-				if (isset($_GET['login'])) {
-					$openid->identity = 'https://www.google.com/accounts/o8/id';
-					$openid->required = array('contact/email');
-					header('Location: ' . $openid->authUrl());
-					exit(1);
-				}
+				$openid->identity = 'https://www.google.com/accounts/o8/id';
+				$openid->required = array('contact/email');
+				header('Location: ' . $openid->authUrl());
+				exit(1);
 			} elseif ($openid->validate()) {
-				$rtnBool = true;
+				$bool = true;
 			}
 		} catch(ErrorException $e) {
 			trigger_error($e->getMessage());
 		}
 		
-		if (!$rtnBool) { // didn't successfully login
+		if (!$bool) { // didn't successfully login
 			// display login page
+			echo "display login screen";
 		} else { // successfully logged in
-			Bookkeeper::userHome();
+			header('Location: /bookkeeper/chadgh');
+			exit(1);
 		}
 	}
 
@@ -63,8 +63,10 @@ class Bookkeeper
 	 * @return void
 	 **/
 	public static function userHome($args) {
-		$template = self::getTemplate('index.tpl.html');
-		echo $template->render(array('test'=>'blah blah blah', 'test2'=>'chad'));
+		$args = new stdClass();
+		$args->title = 'hello';
+		$args->note = 'blah blah blah';
+		self::displayTemplate('index.php', $args);
 	}
 
 	/**
@@ -75,10 +77,8 @@ class Bookkeeper
 	 * @param 
 	 * @return void
 	 **/
-	private static function getTemplate($templateName) {
-		$loader = new Twig_Loader_Filesystem(APP_PATH . '/templates');
-		$twig = new Twig_Environment($loader, array());
-		return $twig->loadTemplate($templateName);
+	private static function displayTemplate($templateName, $args) {
+		include APP_PATH . '/templates/' . $templateName;
 	}
 }
 ?>
