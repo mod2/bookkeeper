@@ -111,8 +111,8 @@ SQL;
 	 **/
 	public static function userHome($args) {
 		$args = new stdClass();
-		$args->title = 'hello';
-		$args->note = 'blah blah blah';
+		$args->title = 'Home';
+		$args->app_url = APP_URL;
 		self::displayTemplate('index.php', $args);
 	}
 

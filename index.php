@@ -12,18 +12,16 @@ require_once 'Router.class.php';
 require_once 'Bookkeeper.class.php';
 require_once 'openid.php';
 
-$temp = 'bookkeeper/';
-
 $routes = array(
-	"#^/$temp" . "login/?$#" => 'Bookkeeper::login',
-	"#^/$temp" . "setup/?$#" => 'Bookkeeper::setup',
-	"#^/$temp([^/]+)/?$#" => 'Bookkeeper::userHome',
-	"#^/$temp([^/]+)/action/savebook/?\?(.*)#" => 'Bookkeeper::saveBook',
-	"#^/$temp([^/]+)/action/saveentry/?\?(.*)#" => 'Bookkeeper::saveEntry',
-	"#^/$temp([^/]+)/action/saveuser/?\?(.*)#" => 'Bookkeeper::saveUser',
-	"#^/$temp([^/]+)/book/([^/]+)/?$#" => 'Bookkeeper::bookReport',
-	"#^/$temp([^/]+)/book/([^/]+)/edit/?$#" => 'Bookkeeper::editBook',
-	"#^/$temp([^/]+)/all/?$#" => 'Bookkeeper::allBooks'
+	"#^" . APP_URL . "/login/?$#" => 'Bookkeeper::login',
+	"#^" . APP_URL . "/setup/?$#" => 'Bookkeeper::setup',
+	"#^" . APP_URL . "/([^/]+)/?$#" => 'Bookkeeper::userHome',
+	"#^" . APP_URL . "/([^/]+)/action/savebook/?\?(.*)#" => 'Bookkeeper::saveBook',
+	"#^" . APP_URL . "/([^/]+)/action/saveentry/?\?(.*)#" => 'Bookkeeper::saveEntry',
+	"#^" . APP_URL . "/([^/]+)/action/saveuser/?\?(.*)#" => 'Bookkeeper::saveUser',
+	"#^" . APP_URL . "/([^/]+)/book/([^/]+)/?$#" => 'Bookkeeper::bookReport',
+	"#^" . APP_URL . "/([^/]+)/book/([^/]+)/edit/?$#" => 'Bookkeeper::editBook',
+	"#^" . APP_URL . "/([^/]+)/all/?$#" => 'Bookkeeper::allBooks'
 );
 
 Router::routeURI($routes, 'Bookkeeper::display404');
