@@ -18,8 +18,11 @@ $routes = array(
 	"#^/$temp" . "login/?$#" => 'Bookkeeper::login',
 	"#^/$temp" . "setup/?$#" => 'Bookkeeper::setup',
 	"#^/$temp([^/]+)/?$#" => 'Bookkeeper::userHome',
-	"#^/$temp([^/]+)/books/save/?\?(.*)#" => 'Bookkeeper::saveBook',
-	"#^/$temp([^/]+)/books/(.*)$#" => 'Bookkeeper::bookReport',
+	"#^/$temp([^/]+)/action/savebook/?\?(.*)#" => 'Bookkeeper::saveBook',
+	"#^/$temp([^/]+)/action/saveentry/?\?(.*)#" => 'Bookkeeper::saveEntry',
+	"#^/$temp([^/]+)/action/saveuser/?\?(.*)#" => 'Bookkeeper::saveUser',
+	"#^/$temp([^/]+)/book/([^/]+)/?$#" => 'Bookkeeper::bookReport',
+	"#^/$temp([^/]+)/book/([^/]+)/edit/?$#" => 'Bookkeeper::editBook',
 	"#^/$temp([^/]+)/all/?$#" => 'Bookkeeper::allBooks'
 );
 
