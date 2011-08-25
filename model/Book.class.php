@@ -15,28 +15,41 @@ class Book extends Model {
 	protected $saturday;
 	protected $hidden;
 	protected $private;
+	protected $slug;
+
+	public static function getBookFromSlug($slug) {
+		$sql = "SELECT bookId FROM Book WHERE slug='?' LIMIT 1";
+		$db = new Database();
+		$id = $db->query($sql, array($slug));
+		if (count($id) < 1) {
+			return null;
+		}
+		return new Book(intval($id['bookId']));
+	}
 
 	public function __construct($id = 0) {
 		if (intval($id) != 0) {
 			$sql = "SELECT * FROM Book WHERE bookId = ? LIMIT 1";
 			$params = array(intval($id));
-			$results = $this->query($this->prepareSql($sql, $params));
+			$db = new Database();
+			$results = $db->query($sql, $params);
 			// todo check to make sure something was returned
-			$this->setBookId($results[0]['bookId']);
-			$this->setUsername($results[0]['username']);
-			$this->setTitle($results[0]['title']);
-			$this->setTotalPages($results[0]['totalPages']);
-			$this->setStartDate(new DateTime($results[0]['startDate']));
-			$this->setEndDate(new DateTime($results[0]['endDate']));
-			$this->setSunday($results[0]['sunday']);
-			$this->setMonday($results[0]['monday']);
-			$this->setTuesday($results[0]['tuesday']);
-			$this->setWednesday($results[0]['wednesday']);
-			$this->setThursday($results[0]['thursday']);
-			$this->setFriday($results[0]['friday']);
-			$this->setSaturday($results[0]['saturday']);
-			$this->setHidden($results[0]['hidden']);
-			$this->setPrivate($results[0]['private']);
+			$this->setBookId($results['bookId']);
+			$this->setUsername($results['username']);
+			$this->setTitle($results['title']);
+			$this->setTotalPages($results['totalPages']);
+			$this->setStartDate(new DateTime($results['startDate']));
+			$this->setEndDate(new DateTime($results['endDate']));
+			$this->setSunday($results['sunday']);
+			$this->setMonday($results['monday']);
+			$this->setTuesday($results['tuesday']);
+			$this->setWednesday($results['wednesday']);
+			$this->setThursday($results['thursday']);
+			$this->setFriday($results['friday']);
+			$this->setSaturday($results['saturday']);
+			$this->setHidden($results['hidden']);
+			$this->setPrivate($results['private']);
+			$this->setSlug($results['slug']);
 		} else {
 			$this->setBookId(0);
 			$this->setUsername('');
@@ -53,18 +66,41 @@ class Book extends Model {
 			$this->setSaturday(1);
 			$this->setHidden(0);
 			$this->setPrivate(1);
+			$this->setSlug('');
 		}
 	}
 
 	public function save() {
 		if ($this->getBookId() > 0) { // update book
-			$sql = "UPDATE Book SET username='?', title='?', totalPages=?, startDate='?', endDate='?', sunday=?, monday=?, tuesday=?, wednesday=?, thursday=?, friday=?, saturday=?, hidden=?, private=? WHERE bookId=? LIMIT 1";
-			$params = array($this->getUsername(), $this->getTitle(), $this->getTotalPages(), $this->getMYSQLStartDate(), $this->getMYSQLEndDate(), $this->getSunday(), $this->getMonday(), $this->getTuesday(), $this->getWednesday(), $this->getThursday(), $this->getFriday(), $this->getSaturday(), $this->getHidden(), $this->getPrivate(), $this->getBookId());
-			$this->query($this->prepareSql($sql, $params));
+			//todo if title has changed change slug
+			$sql = "UPDATE Book SET username='?', title='?', totalPages=?, startDate='?', endDate='?', sunday=?, monday=?, tuesday=?, wednesday=?, thursday=?, friday=?, saturday=?, hidden=?, private=?, slug='?' WHERE bookId=? LIMIT 1";
+			$params = array($this->getUsername(), $this->getTitle(), $this->getTotalPages(), $this->getMYSQLStartDate(), $this->getMYSQLEndDate(), $this->getSunday(), $this->getMonday(), $this->getTuesday(), $this->getWednesday(), $this->getThursday(), $this->getFriday(), $this->getSaturday(), $this->getHidden(), $this->getPrivate(), $this->getSlug(), $this->getBookId());
+			$db = new Database();
+			$db->query($sql, $params);
 		} else { // new book
-			$sql = "INSERT INTO Book (username, title, totalPages, startDate, endDate, sunday, monday, tuesday, wednesday, thursday, friday, saturday, hidden, private) VALUES ('?', '?', ?, '?', '?', ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-			$params = array($this->getUsername(), $this->getTitle(), $this->getTotalPages(), $this->getMYSQLStartDate(), $this->getMYSQLEndDate(), $this->getSunday(), $this->getMonday(), $this->getTuesday(), $this->getWednesday(), $this->getThursday(), $this->getFriday(), $this->getSaturday(), $this->getHidden(), $this->getPrivate());
-			$id = $this->insert($this->prepareSql($sql, $params));
+			$db = new Database();
+			$slug = str_replace(' ', '-', strtolower($this->getTitle()));
+			$sql = "SELECT slug FROM Book WHERE slug LIKE '?%'";
+			$rs = $db->query($sql, array($slug));
+			$count = 1;
+			//todo this doesn't work quite right
+			if (count($rs) > 0) {
+				foreach ($rs as $slug) {
+					$currentCount = intval(substr($slug['slug'], -1));
+					if ($currentCount >= $count) {
+						$count = $currentCount + 1;
+					} else {
+						$count++;
+					}
+				}
+			}
+			if ($count > 1) {
+				$slug .= '-' . $count;
+			}
+			$this->setSlug($slug);
+			$sql = "INSERT INTO Book (username, title, totalPages, startDate, endDate, sunday, monday, tuesday, wednesday, thursday, friday, saturday, hidden, private, slug) VALUES ('?', '?', ?, '?', '?', ?, ?, ?, ?, ?, ?, ?, ?, ?, '?')";
+			$params = array($this->getUsername(), $this->getTitle(), $this->getTotalPages(), $this->getMYSQLStartDate(), $this->getMYSQLEndDate(), $this->getSunday(), $this->getMonday(), $this->getTuesday(), $this->getWednesday(), $this->getThursday(), $this->getFriday(), $this->getSaturday(), $this->getHidden(), $this->getPrivate(), $this->getSlug());
+			$id = $db->insert($sql, $params);
 			$this->setBookId($id);
 		}
 	}
@@ -72,7 +108,8 @@ class Book extends Model {
 	public function delete() {
 		$sql = "DELETE FROM Book WHERE bookId=? LIMIT 1";
 		$param = array($this->getBookId());
-		$this->query($this->prepareSql($sql, $param));
+		$db = new Database();
+		$db->query($sql, $param);
 	}
 
 
@@ -121,9 +158,8 @@ class Book extends Model {
 
 	public function setStartDate($value) {
 		if ($value != null && !is_a($value, 'DateTime')) {
-			$type = 'Type exception';
 			$msg = 'Invalid DateTime type passed into Book.getStartDate()';
-			$exception = new ClassTypeException($type, $msg);
+			$exception = new Exception($msg);
 			throw($exception);
 		}
 
@@ -140,9 +176,8 @@ class Book extends Model {
 
 	public function setEndDate($value) {
 		if($value != null && !is_a($value, 'DateTime')) {
-			$type = 'Type exception';
 			$msg = 'Invalid DateTime type passed into Book.getEndDate()';
-			$exception = new ClassTypeException($type, $msg);
+			$exception = new Exception($msg);
 			throw($exception);
 		}
 
@@ -150,7 +185,7 @@ class Book extends Model {
 	}
 
 	public function getSunday() {
-		return $this->sunday;
+		return ($this->sunday) ? 1 : 0;
 	}
 
 	public function setSunday($value) {
@@ -162,7 +197,7 @@ class Book extends Model {
 	}
 
 	public function getMonday() {
-		return $this->monday;
+		return ($this->monday) ? 1 : 0;
 	}
 
 	public function setMonday($value) {
@@ -174,7 +209,7 @@ class Book extends Model {
 	}
 
 	public function getTuesday() {
-		return $this->tuesday;
+		return ($this->tuesday) ? 1 : 0;
 	}
 
 	public function setTuesday($value) {
@@ -186,7 +221,7 @@ class Book extends Model {
 	}
 
 	public function getWednesday() {
-		return $this->wednesday;
+		return ($this->wednesday) ? 1 : 0;
 	}
 
 	public function setWednesday($value) {
@@ -198,7 +233,7 @@ class Book extends Model {
 	}
 
 	public function getThursday() {
-		return $this->thursday;
+		return ($this->thursday) ? 1 : 0;
 	}
 
 	public function setThursday($value) {
@@ -210,7 +245,7 @@ class Book extends Model {
 	}
 
 	public function getFriday() {
-		return $this->friday;
+		return ($this->friday) ? 1 : 0;
 	}
 
 	public function setFriday($value) {
@@ -222,7 +257,7 @@ class Book extends Model {
 	}
 
 	public function getSaturday() {
-		return $this->saturday;
+		return ($this->saturday) ? 1 : 0;
 	}
 
 	public function setSaturday($value) {
@@ -234,7 +269,7 @@ class Book extends Model {
 	}
 
 	public function getHidden() {
-		return $this->hidden;
+		return ($this->hidden) ? 1 : 0;
 	}
 
 	public function setHidden($value) {
@@ -246,7 +281,7 @@ class Book extends Model {
 	}
 
 	public function getPrivate() {
-		return $this->private;
+		return ($this->private) ? 1 : 0;
 	}
 
 	public function setPrivate($value) {
@@ -255,5 +290,13 @@ class Book extends Model {
 		} else {
 			$this->private = false;
 		}
+	}
+
+	public function getSlug() {
+		return $this->slug;
+	}
+
+	public function setSlug($value) {
+		$this->slug = $value;
 	}
 }

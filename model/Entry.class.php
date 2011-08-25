@@ -9,7 +9,8 @@ class Entry extends Model {
 		if (intval($id) != 0) {
 			$sql = "SELECT * FROM Entry WHERE entryId=?";
 			$params = array($id);
-			$results = $this->query($this->prepareSql($sql, $params));
+			$db = new Database();
+			$results = $db->query($sql, $params);
 			// todo check to make sure something was returned
 			$this->setEntryId($results[0]['entryId']);
 			$this->setBookId($results[0]['bookId']);
@@ -27,11 +28,13 @@ class Entry extends Model {
 		if ($this->getEntryId() > 0) { // update entry
 			$sql = "UPDATE Entry SET bookId=?, pageNumber=?, entryDate='?' WHERE entryId=? LIMIT 1";
 			$params = array($this->getBookId(), $this->getPageNumber(), $this->getMYSQLEntryDate(), $this->getEntryId());
-			$this->query($this->prepareSql($sql, $params));
+			$db = new Database();
+			$db->query($sql, $params);
 		} else { // new entry
 			$sql = "INSERT INTO Entry (bookId, pageNumber, entryDate) VALUES (?, ?, '?')";
 			$params = array($this->getBookId(), $this->getPageNumber(), $this->getMYSQLEntryDate());
-			$id = $this->insert($this->prepareSql($sql, $params));
+			$db = new Database();
+			$id = $db->insert($sql, $params);
 			$this->setEntryId($id);
 		}
 	}
@@ -39,7 +42,8 @@ class Entry extends Model {
 	public function delete() {
 		$sql = "DELETE FROM Entry WHERE entryId=? LIMIT 1";
 		$param = array($this->getEntryId());
-		$this->query($this->prepareSql($sql, $param));
+		$db = new Database();
+		$db->query($sql, $param);
 	}
 
 	#***************************************************************************
@@ -80,9 +84,8 @@ class Entry extends Model {
 
 	public function setEntryDate($value) {
 		if ($value != null && !is_a($value, 'DateTime')) {
-			$type = 'Type exception';
 			$msg = 'Invalid DateTime type passed into Entry.getEntryDate()';
-			$exception = new ClassTypeException($type, $msg);
+			$exception = new Exception($msg);
 			throw $exception;
 		}
 

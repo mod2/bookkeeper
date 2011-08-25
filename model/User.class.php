@@ -10,7 +10,8 @@ class User extends Model {
 		if (trim($googleIdentifier) != '') {
 			$sql = "SELECT * FROM User WHERE googleIdentifier='?' LIMIT 1";
 			$param = array(trim($googleIdentifier));
-			$results = $this->query($this->prepareSql($sql, $param));
+			$db = new Database();
+			$results = $db->query($sql, $param);
 			// todo check to make sure something was returned
 			$this->setUsername($results[0]['username']);
 			$this->setGoogleIdentifier($results[0]['googleIdentifier']);
@@ -30,11 +31,13 @@ class User extends Model {
 		if ($this->getExisting()) { // update user
 			$sql = "UPDATE User SET username='?', email=?, private=? WHERE googleIdentifier='?' LIMIT 1";
 			$params = array($this->getUsername(), $this->getEmail(), $this->getPrivate(), $this->getGoogleIdentifier());
-			$this->query($this->prepareSql($sql, $params));
+			$db = new Database();
+			$db->query($sql, $params);
 		} else { // new user
 			$sql = "INSERT INTO User (username, email, private, googleIdentifier) VALUES ('?', '?', ?, '?')";
 			$params = array($this->getUsername(), $this->getEmail(), $this->getPrivate(), $this->getGoogleIdentifier());
-			$this->query($this->prepareSql($sql, $params));
+			$db = new Database();
+			$db->query($sql, $params);
 			$this->setExisting(true);
 		}
 	}
@@ -42,7 +45,8 @@ class User extends Model {
 	public function delete() {
 		$sql = "DELETE FROM Book WHERE bookId=? LIMIT 1";
 		$param = array($this->getBookId());
-		$this->query($this->prepareSql($sql, $param));
+		$db = new Database();
+		$db->query($sql, $param);
 		$this->setExisting(false);
 	}
 
@@ -76,7 +80,7 @@ class User extends Model {
 	}
 
 	public function getPrivate() {
-		return $this->private;
+		return ($this->private) ? 1 : 0;
 	}
 
 	public function setPrivate($value) {

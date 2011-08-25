@@ -1,49 +1,6 @@
 <?php
 abstract class Model
 {
-	protected function dbConnect() {
-		$conn = mysql_connect(DB_HOST, DB_USER, DB_PASS) or throw new Exception(mysql_error());
-		mysql_select_db($conn, DB_DATABASE) or throw new Exception(mysql_error());
-		return $conn;
-	}
-
-	protected function dbClose($db) {
-		mysql_close($db);
-	}
-
-	protected function prepareSql($sql, $params) {
-		$db = $this->dbConnect();
-		$preparedSql = mysql_real_escape_string($sql, $db);
-		$preparedParams = array();
-		foreach ($params as $param) {
-			$preparedParams[] = mysql_real_escape_string($param, $db);
-		}
-		foreach($preparedParams as $param) {
-			$preparedSql = str_replace('?', $param, $preparedSql, 1);
-		}
-		$this->dbClose($db);
-		return $preparedSql;
-	}
-
-	protected function insert($sql) {
-		$db = $this->dbConnect();
-		$rs = mysql_query($sql, $db) or throw new Exception(mysql_error());
-		$id = mysql_insert_id($db);
-		$this->dbClose($db);
-		return $id;
-	}
-
-	protected function query($sql) {
-		$db = $this->dbConnect();
-		$rs = mysql_query($sql, $db) or throw new Exception(mysql_error());
-		$results = array();
-		while (($line = mysql_fetch_assoc($rs)) != null) {
-			$results = $line;
-		}
-		$this->dbClose($db);
-		return $results;
-	}
-
 	// Get the vaules of the object
 	public function toArray()
 	{
