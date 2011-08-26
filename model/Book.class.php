@@ -27,6 +27,18 @@ class Book extends Model {
 		return new Book(intval($id['bookId']));
 	}
 
+	public static function getAllBooks() {
+		$sql = "SELECT bookId FROM Book";
+		$db = new Database();
+		$rs = $db->query($sql, array());
+		$array = array();
+		foreach ($rs as $book) {
+			$b = new Book(intval($book['bookId']));
+			$array[] = $b;
+		}
+		return $array;
+	}
+
 	public function __construct($id = 0) {
 		if (intval($id) != 0) {
 			$sql = "SELECT * FROM Book WHERE bookId = ? LIMIT 1";
@@ -38,8 +50,8 @@ class Book extends Model {
 			$this->setUsername($results['username']);
 			$this->setTitle($results['title']);
 			$this->setTotalPages($results['totalPages']);
-			$this->setStartDate(new DateTime($results['startDate']));
-			$this->setEndDate(new DateTime($results['endDate']));
+			$this->setStartDate($results['startDate']);
+			$this->setEndDate($results['endDate']);
 			$this->setSunday($results['sunday']);
 			$this->setMonday($results['monday']);
 			$this->setTuesday($results['tuesday']);
@@ -55,8 +67,8 @@ class Book extends Model {
 			$this->setUsername('');
 			$this->setTitle('');
 			$this->setTotalPages(0);
-			$this->setStartDate(new DateTime());
-			$this->setEndDate(new DateTime());
+			$this->setStartDate(date('Y-m-d'));
+			$this->setEndDate(date('Y-m-d'));
 			$this->setSunday(1);
 			$this->setMonday(1);
 			$this->setTuesday(1);
@@ -116,6 +128,11 @@ class Book extends Model {
 	#***************************************************************************
 	# Getters and Setters
 	#***************************************************************************
+	public function getReadingDaysArray() {
+		$array = array($this->getSunday(), $this->getMonday(), $this->getTuesday(), $this->getWednesday(), $this->getThursday(), $this->getFriday(), $this->getSaturday());
+		return $array;
+	}
+
 	public function getBookId() {
 		return $this->bookId;
 	}
@@ -153,16 +170,10 @@ class Book extends Model {
 	}
 
 	public function getMYSQLStartDate() {
-		return $this->startDate->format('Y-m-d');
+		return date('Y-m-d', strtotime($this->getStartDate()));
 	}
 
 	public function setStartDate($value) {
-		if ($value != null && !is_a($value, 'DateTime')) {
-			$msg = 'Invalid DateTime type passed into Book.getStartDate()';
-			$exception = new Exception($msg);
-			throw($exception);
-		}
-
 		$this->startDate = $value;
 	}
 
@@ -171,16 +182,10 @@ class Book extends Model {
 	}
 
 	public function getMYSQLEndDate() {
-		return $this->endDate->format('Y-m-d');
+		return date('Y-m-d', strtotime($this->getEndDate()));
 	}
 
 	public function setEndDate($value) {
-		if($value != null && !is_a($value, 'DateTime')) {
-			$msg = 'Invalid DateTime type passed into Book.getEndDate()';
-			$exception = new Exception($msg);
-			throw($exception);
-		}
-
 		$this->endDate = $value;
 	}
 

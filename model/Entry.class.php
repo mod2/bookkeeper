@@ -5,22 +5,36 @@ class Entry extends Model {
 	protected $pageNumber;
 	protected $entryDate;
 
+	public static function getAllEntries($bookId) {
+		$sql = "SELECT entryId FROM Entry WHERE bookId=?";
+		$db = new Database();
+		$rs = $db->query($sql, array($bookId));
+		$array = array();
+		foreach ($rs as $entry) {
+			$array[] = new Entry(intval($entry['entryId']));
+		}
+		return $array;
+	}
+
+	public static function getEntryFromDate($bookId, $date) {
+	}
+
 	public function __construct($id = 0) {
 		if (intval($id) != 0) {
-			$sql = "SELECT * FROM Entry WHERE entryId=?";
+			$sql = "SELECT * FROM Entry WHERE entryId=? LIMIT 1";
 			$params = array($id);
 			$db = new Database();
 			$results = $db->query($sql, $params);
 			// todo check to make sure something was returned
-			$this->setEntryId($results[0]['entryId']);
-			$this->setBookId($results[0]['bookId']);
-			$this->setPageNumber($results[0]['pageNumber']);
-			$this->setEntryDate(new DateTime($results[0]['entryDate']));
+			$this->setEntryId($results['entryId']);
+			$this->setBookId($results['bookId']);
+			$this->setPageNumber($results['pageNumber']);
+			$this->setEntryDate($results['entryDate']);
 		} else {
 			$this->setEntryId(0);
 			$this->setBookId(0);
 			$this->setPageNumber(0);
-			$this->setEntryDate(new DateTime());
+			$this->setEntryDate(date('Y-m-d');
 		}
 	}
 
@@ -79,16 +93,10 @@ class Entry extends Model {
 	}
 
 	public function getMYSQLEntryDate() {
-		return $this->entryDate->format('Y-m-d');
+		return date('Y-m-d', strtotime($this->getEntryDate()));
 	}
 
 	public function setEntryDate($value) {
-		if ($value != null && !is_a($value, 'DateTime')) {
-			$msg = 'Invalid DateTime type passed into Entry.getEntryDate()';
-			$exception = new Exception($msg);
-			throw $exception;
-		}
-
 		$this->entryDate = $value;
 	}
 }

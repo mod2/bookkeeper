@@ -10,7 +10,7 @@
 class Bookkeeper
 {
 	/**
-	 * run404
+	 * display404
 	 * undocumented function
 	 *
 	 * @author ChadGH
@@ -18,7 +18,7 @@ class Bookkeeper
 	 * @return void
 	 **/
 	public static function display404($args) {
-		echo "404";
+		echo self::pagesPerDay(1);
 	}
 
 	/**
@@ -49,7 +49,7 @@ class Bookkeeper
 			// display login page
 			echo "display login screen";
 		} else { // successfully logged in
-			header('Location: /bookkeeper/chadgh');
+			header('Location: ' . APP_URL . 'chadgh');
 			exit(1);
 		}
 	}
@@ -90,7 +90,7 @@ SQL;
 	 * @param 
 	 * @return void
 	 **/
-	public static function bookReport($args)
+	public static function displayBook($args)
 	{
 		$slug = $args[1];
 		$b = Book::getBookFromSlug($slug);
@@ -109,7 +109,7 @@ SQL;
 	 * @param 
 	 * @return void
 	 **/
-	public static function userHome($args) {
+	public static function displayUserHome($args) {
 		$args = new stdClass();
 		$args->title = 'Home';
 		$args->app_url = APP_URL;
@@ -134,7 +134,7 @@ SQL;
 			$prop = strtolower(trim($components[0]));
 			$value = trim($components[1]);
 			if ($prop == 'id') {
-				$id = $value;
+				$id = intval($value);
 				break;
 			}
 		}
@@ -198,7 +198,7 @@ SQL;
 			}
 		}
 		$b->save();
-		header("Location: /bookkeeper/chadgh/books/{$b->getSlug()}");
+		header("Location: " . APP_URL . "/chadgh/book/{$b->getSlug()}");
 	}
 
 	/**
@@ -211,6 +211,126 @@ SQL;
 	 **/
 	private static function displayTemplate($templateName, $args) {
 		include APP_PATH . '/templates/' . $templateName;
+	}
+
+	########################################################################
+	######################  Business Logic  ################################
+	########################################################################
+	private static function pagesPerDay($bookId, $fromToday = false) {
+		$book = new Book($bookId);
+		$daysLeft = self::daysLeft($book);
+		$entries = Entry::getAllEntries($bookId);
+		$entryPage = 0;
+		if ($book != null && $book->getBookId() != 0 && count($entries) > 0) { // book with entries
+			if (count($entries) == 1 && !self::compareDateToToday($entries[0]->getDate()) {
+				$entryPage = $entries[0]->getPage();
+			} else if (count($entries) > 1) {
+				if ($fromToday && self::compareDateToToday($entries[count($entries) - 1]->getDate())) {
+					$entryPage = $entries[count($entries) - 1]->getPage();
+				} else if (self::compareDateToToday($entries[count($entries) - 1]->getDate())) {
+					$entryPage = $entries[count($entries) - 2]->getPage();
+				} else {
+					$entryPage = $entries[count($entries) - 1]->getPage();
+				}
+			}
+		} elseif ($book == null || $book->getBookId() == 0) {  // book with no entries
+			return 0;
+		}
+
+		$pagesLeft = $book->getTotalPages() - $entryPage;
+		return ceil($pagesLeft / $daysLeft);
+	}
+
+	private static function compareDateToToday($date) {
+		$today = date('Y-m-d');
+		$theDate = date('Y-m-d', strtotime($date));
+		return ($today === $theDate) ? true : false;
+	}
+
+	private static function daysBetween($date1, $date2, $readingDays) {
+		$days = 0;
+		for ($loopTime = $date1; $loopTime <= $date2; $loopTime += 86400) {
+			if ($readingDays[date('w', $loopTime)] || $readingDays[date('w', $loopTime)] == 1) {
+				$days++;
+			}
+		}
+		return $days;
+	}
+
+	private static function daysLeft($book) {
+		$today = strtotime(date("Y-m-d"));
+		return self::daysBetween($today, strtotime($book->getEndDate()), $book->getReadingDaysArray());
+	}
+	
+	/*this.chartEntries = function (goal, entries) {*/
+		/*chartpoints = [];*/
+		/*previousPage = 0;*/
+		/*currentEntry = 0;*/
+		/*tempday = new Date();*/
+		/*today = new Date(tempday.getFullYear() + '-' + (tempday.getMonth() + 1) + '-' + tempday.getDate());*/
+		/*for (loopTime = new Date(goal.startDate); loopTime <= today; loopTime.setTime(loopTime.valueOf() + 86400000)) {*/
+			/*if (goal.readingDays[loopTime.getDay()] == 1) {*/
+				/*date = loopTime.getFullYear() + '-' + (loopTime.getMonth() + 1) + '-' + loopTime.getDate();*/
+				/*for (currentEntry; currentEntry < entries.length; currentEntry++) {*/
+					/*compared = this.compareDates(new Date(entries[currentEntry].date), new Date(date));*/
+					/*if (compared == 0) {*/
+						/*previousPage = entries[currentEntry].page;*/
+						/*break;*/
+					/*} else if (compared == 1) {*/
+						/*break;*/
+					/*} else {*/
+						/*previousPage = entries[currentEntry].page;*/
+					/*}*/
+				/*}*/
+				/*chartpoints.push(previousPage);*/
+			/*}*/
+		/*}*/
+		/*return chartpoints;*/
+	/*};*/
+
+
+	private static function compareDate($date1, $date2) {
+		$rtnInt = 0;
+		$dateA = strtotime($date1);
+		$dateB = strtotime($date2);
+		if ($dateA < $date2) {
+			$rtnInt = -1;
+		} elseif ($dateA > $dateB) {
+			$rtnInt = 1;
+		}
+		return $rtnInt;
+	}
+
+	private static function pagesToday($entries, $pagesperday) {
+		/*var today = new Date();*/
+		/*previousentry = 0;*/
+		/*currententry = 0;*/
+		/*if (entries.length == 1 && this.compareDateToToday(entries[0].date)) {*/
+			/*currententry = entries[0].page;*/
+		/*} else if (entries.length > 1) {*/
+			/*if (this.compareDateToToday(entries[entries.length - 1].date)) {*/
+				/*previousentry = entries[entries.length - 2].page;*/
+				/*currententry = entries[entries.length - 1].page;*/
+			/*} else {*/
+				/*previousentry = entries[entries.length - 1].page;*/
+				/*currententry = previousentry;*/
+			/*}*/
+		/*}*/
+		/*pages = pagesperday - (currententry - previousentry);*/
+		/*return Math.ceil(pages);*/
+	}
+
+	private static function toPage($pagestoday, $currentpage) {
+		return $currentpage + $pagestoday;
+	}
+
+	private static function todayReadingDay($readingDays) {
+		$today = date('w');
+		$rtnBool = true;
+		if ($readingDays[$today] == 0) {
+			$rtnBool = false;
+		}
+		return $rtnBool;
 	}
 }
 ?>
