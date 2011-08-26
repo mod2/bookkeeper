@@ -34,7 +34,7 @@ class Entry extends Model {
 			$this->setEntryId(0);
 			$this->setBookId(0);
 			$this->setPageNumber(0);
-			$this->setEntryDate(date('Y-m-d');
+			$this->setEntryDate(date('Y-m-d'));
 		}
 	}
 

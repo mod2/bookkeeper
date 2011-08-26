@@ -222,7 +222,7 @@ SQL;
 		$entries = Entry::getAllEntries($bookId);
 		$entryPage = 0;
 		if ($book != null && $book->getBookId() != 0 && count($entries) > 0) { // book with entries
-			if (count($entries) == 1 && !self::compareDateToToday($entries[0]->getDate()) {
+			if (count($entries) == 1 && !self::compareDateToToday($entries[0]->getDate())) {
 				$entryPage = $entries[0]->getPage();
 			} else if (count($entries) > 1) {
 				if ($fromToday && self::compareDateToToday($entries[count($entries) - 1]->getDate())) {
