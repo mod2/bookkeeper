@@ -17,6 +17,15 @@ class Book extends Model {
 	protected $private;
 	protected $slug;
 
+	protected $percentage;
+	protected $pagesLeft;
+	protected $entries;
+
+	protected $pagesPerDay;
+	protected $pagesToday;
+	protected $toPage;
+	protected $daysLeft;
+
 	public static function getBookFromSlug($slug) {
 		$sql = "SELECT bookId FROM Book WHERE slug='?' LIMIT 1";
 		$db = new Database();
@@ -27,10 +36,10 @@ class Book extends Model {
 		return new Book(intval($id['bookId']));
 	}
 
-	public static function getAllBooks() {
-		$sql = "SELECT bookId FROM Book";
+	public static function getAllBooks($username) {
+		$sql = "SELECT bookId FROM Book WHERE username = '?'";
 		$db = new Database();
-		$rs = $db->query($sql, array());
+		$rs = $db->query($sql, array($username));
 		$array = array();
 		foreach ($rs as $book) {
 			$b = new Book(intval($book['bookId']));
@@ -62,6 +71,17 @@ class Book extends Model {
 			$this->setHidden($results['hidden']);
 			$this->setPrivate($results['private']);
 			$this->setSlug($results['slug']);
+
+			$this->setEntries(Entry::getAllEntries($this->getBookId()));
+			if (count($this->entries) > 0) {
+				$this->setPagesLeft($this->getTotalPages() - $this->entries[count($this->entries) - 1]->getPage());
+			} else {
+				$this->setPagesLeft($this->getTotalPages());
+			}
+			$this->setPercentageComplete((($this->getTotalPages() - $this->getPagesLeft()) / $this->getTotalPages()) * 100);
+
+			$this->getPagesPerDay();
+			$this->getToPage();
 		} else {
 			$this->setBookId(0);
 			$this->setUsername('');
@@ -79,6 +99,15 @@ class Book extends Model {
 			$this->setHidden(0);
 			$this->setPrivate(1);
 			$this->setSlug('');
+
+			$this->setEntries(array());
+			$this->setPagesLeft(0);
+			$this->setPercentageComplete(0);
+
+			$this->pagesPerDay = 0;
+			$this->pagesToday = 0;
+			$this->toPage = 0;
+			$this->daysLeft = 0;
 		}
 	}
 
@@ -122,6 +151,148 @@ class Book extends Model {
 		$param = array($this->getBookId());
 		$db = new Database();
 		$db->query($sql, $param);
+	}
+
+
+	#***************************************************************************
+	# Business Logic
+	#***************************************************************************
+	/*this.chartEntries = function (goal, entries) {*/
+		/*chartpoints = [];*/
+		/*previousPage = 0;*/
+		/*currentEntry = 0;*/
+		/*tempday = new Date();*/
+		/*today = new Date(tempday.getFullYear() + '-' + (tempday.getMonth() + 1) + '-' + tempday.getDate());*/
+		/*for (loopTime = new Date(goal.startDate); loopTime <= today; loopTime.setTime(loopTime.valueOf() + 86400000)) {*/
+			/*if (goal.readingDays[loopTime.getDay()] == 1) {*/
+				/*date = loopTime.getFullYear() + '-' + (loopTime.getMonth() + 1) + '-' + loopTime.getDate();*/
+				/*for (currentEntry; currentEntry < entries.length; currentEntry++) {*/
+					/*compared = this.compareDates(new Date(entries[currentEntry].date), new Date(date));*/
+					/*if (compared == 0) {*/
+						/*previousPage = entries[currentEntry].page;*/
+						/*break;*/
+					/*} else if (compared == 1) {*/
+						/*break;*/
+					/*} else {*/
+						/*previousPage = entries[currentEntry].page;*/
+					/*}*/
+				/*}*/
+				/*chartpoints.push(previousPage);*/
+			/*}*/
+		/*}*/
+		/*return chartpoints;*/
+	/*};*/
+
+	public function getCurrentPage() {
+		if (count($this->entries) > 0) {
+			return $this->entries[count($this->entries) - 1]->getPage();
+		}
+		return 0;
+	}
+
+	public function getToPage() {
+		if ($this->toPage == 0) {
+			$this->toPage = $this->getCurrentPage() + $this->getPagesToday();
+		}
+		return $this->toPage;
+	}
+
+	public function getPagesToday() {
+		if ($this->pagesToday == 0) {
+			$previousentry = 0;
+			$currententry = 0;
+			$entries = $this->getEntries();
+			if (count($entries) == 1 && $this->compareDateToToday($entries[0]->getDate())) {
+				$currententry = $this->getCurrentPage();
+			} elseif (count($entries) > 1) {
+				if ($this->compareDateToToday($entries[count($entries) - 1]->getDate())) {
+					$previousentry = $entries[count($entries) - 2].getPage();
+					$currententry = $entries[count($entries) - 1].getPage();
+				} else {
+					$previousentry = $entries[count($entries) - 1].getPage();
+					$currententry = $previousentry;
+				}
+			}
+			$pages = $this->getPagesPerDay() - ($currententry - $previousentry);
+			$this->pagesToday = ceil($pages);
+		}
+		return $this->pagesToday;
+	}
+
+	public function getDaysLeft() {
+		if ($this->daysLeft == 0) {
+			$today = strtotime(date("Y-m-d"));
+			$this->daysLeft = $this->daysBetween($today, strtotime($this->getEndDate()), $this->getReadingDaysArray());
+		}
+		return $this->daysLeft;
+	}
+
+	public function getPagesPerDay($fromToday = false) {
+		if ($this->pagesPerDay == 0) {
+			$daysLeft = $this->getDaysLeft();
+			$entries = $this->getEntries();
+			$entryPage = 0;
+			if ($this != null && $this->getBookId() != 0 && count($entries) > 0) { // book with entries
+				if (count($entries) == 1 && !$this->compareDateToToday($entries[0]->getDate())) {
+					$entryPage = $entries[0]->getPage();
+				} else if (count($entries) > 1) {
+					if ($fromToday && $this->compareDateToToday($entries[count($entries) - 1]->getDate())) {
+						$entryPage = $entries[count($entries) - 1]->getPage();
+					} else if ($this->compareDateToToday($entries[count($entries) - 1]->getDate())) {
+						$entryPage = $entries[count($entries) - 2]->getPage();
+					} else {
+						$entryPage = $entries[count($entries) - 1]->getPage();
+					}
+				}
+			} elseif ($this == null || $this->getBookId() == 0) {  // book with no entries
+				return 0;
+			}
+
+			$pagesLeft = $this->getTotalPages() - $entryPage;
+			$this->pagesPerDay = ceil($pagesLeft / $daysLeft);
+		}
+		return $this->pagesPerDay;
+	}
+
+	public function isTodayAReadingDay() {
+		$today = date('w');
+		$rtnBool = true;
+		$days = $this->getReadingDaysArray();
+		if ($days[$today] == 0) {
+			$rtnBool = false;
+		}
+		return $rtnBool;
+	}
+
+	#***************************************************************************
+	# Utility Functions
+	#***************************************************************************
+	private function compareDateToToday($date) {
+		$today = date('Y-m-d');
+		$theDate = date('Y-m-d', strtotime($date));
+		return ($today === $theDate) ? true : false;
+	}
+
+	private function daysBetween($date1, $date2, $readingDays) {
+		$days = 0;
+		for ($loopTime = $date1; $loopTime <= $date2; $loopTime += 86400) {
+			if ($readingDays[date('w', $loopTime)] || $readingDays[date('w', $loopTime)] == 1) {
+				$days++;
+			}
+		}
+		return $days;
+	}
+
+	private function compareDate($date1, $date2) {
+		$rtnInt = 0;
+		$dateA = strtotime($date1);
+		$dateB = strtotime($date2);
+		if ($dateA < $date2) {
+			$rtnInt = -1;
+		} elseif ($dateA > $dateB) {
+			$rtnInt = 1;
+		}
+		return $rtnInt;
 	}
 
 
@@ -303,5 +474,29 @@ class Book extends Model {
 
 	public function setSlug($value) {
 		$this->slug = $value;
+	}
+
+	public function setPagesLeft($pages) {
+		$this->pagesLeft = $pages;
+	}
+
+	public function getPagesLeft() {
+		return $this->pagesLeft;
+	}
+
+	public function getPercentageComplete() {
+		return $this->percentage;
+	}
+
+	public function setPercentageComplete($percentage) {
+		$this->percentage = $percentage;
+	}
+
+	public function getEntries() {
+		return $this->entries;
+	}
+
+	public function setEntries($entries) {
+		$this->entries = $entries;
 	}
 }

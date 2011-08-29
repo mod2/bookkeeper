@@ -86,7 +86,7 @@ ul#entries li .date				{ color: #aaa; }
 /* Goal Edit */
 /* -------------------------------------------------- */
 
-#edit							{ display: none; }
+/*#edit							{ display: none; }*/
 #edit form						{ margin-top: 1em; }
 #edit label						{ color: #345678; display: block; margin-top: .5em; }
 #edit input[type="text"]		{ padding: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; border: solid 1px #bbb; font-weight: bold; font-size: 1em; }

@@ -218,117 +218,6 @@ var Bookkeeper = function () {
 	};
 };
 
-function saveGoal() {
-	var newGoal = new Goal();
-	newGoal.id = $("#editgoalid").val();
-	newGoal.name = $("#editgoalname").val();
-	newGoal.totalPages = Number($("#editgoaltotalpages").val());
-	newGoal.startDate = $("#editgoalstartdate").val();
-	newGoal.endDate = $("#editgoalenddate").val();
-	
-	var sun = $("#readingdaysun").prop('checked');
-	var mon = $("#readingdaymon").prop('checked');
-	var tue = $("#readingdaytue").prop('checked');
-	var wed = $("#readingdaywed").prop('checked');
-	var thu = $("#readingdaythu").prop('checked');
-	var fri = $("#readingdayfri").prop('checked');
-	var sat = $("#readingdaysat").prop('checked');
-	newGoal.readingDays = [Number(sun), Number(mon), Number(tue), Number(wed), Number(thu), Number(fri), Number(sat)];
-
-	bi.saveGoal(newGoal);
-	$("#editgoalname").val('');
-	$("#editgoaltotalpages").val('');
-	$("#editgoalstartdate").val('');
-	$("#editgoalenddate").val('');
-	$("#edit").hide();
-	$("#view").show();
-	loadPage();
-	$("#booklist li").removeClass('selected');
-	if (newGoal.id != 0) {
-		$("#booklist li a[name=goal" + newGoal.id + "]").parent().addClass('selected');
-		$("#booklist li a[name=goal" + newGoal.id + "]").click();
-	} else {
-		$("#booklist li:last-child").addClass('selected');
-		$("#booklist li:last-child a").click();
-	}
-	return false;
-}
-
-function loadPage() {
-	$("#booklist").html('');
-	bi = new ConfigInterface();
-	goalData = bi.getGoals();
-	bookkeeper = new Bookkeeper();
-
-	first = false;
-	$.each(goalData, function(index, goal) {
-		if (!first) {
-			bookkeeper.updatePage(goal);
-			$("#currentEntry").focus();
-			first = true;
-		}
-
-		entries = bi.getEntries(goal.id);
-		currentEntryPage = 0;
-		if (entries.length > 0) {
-			currentEntryPage = entries[entries.length - 1].page;
-		}
-		goal.pagesleft = goal.totalPages - currentEntryPage;
-		goal.percent = Math.round((currentEntryPage / goal.totalPages) * 100);
-
-		$('#booklist').append('<li><a id="book' + index + '" name="goal' + goal.id + '" class="booklink" href="#">' + goal.name + '<div class="percentage"><div class="percentage_container"><div class="percent" style="width: ' + goal.percent + 'px;"></div></div><span><b>' + goal.percent + '%</b> (' + goal.pagesleft + ' pages left)</span></div></a></li>');
-	});
-	$("#booklist li:first-child").addClass("selected");
-
-	$(".booklink").click(function () {
-		$("#booklist li.selected").removeClass("selected");
-		$(this).parent().addClass("selected");
-
-		index = $(this)[0].id.substring(4);
-		bookkeeper.updatePage(goalData[index]);
-		$("#edit").hide();
-		$("#view").show();
-		$("#currentEntry").focus();
-		return false;
-	});
-
-	$("#addBook").click(function () {
-		$("#edit h1").text("Add Book");
-		$("#editgoalid").val(0);
-		$("#editgoalname").val('');
-		$("#editgoaltotalpages").val('');
-		$("#editgoalstartdate").val('');
-		$("#editgoalenddate").val('');
-		$("input:checkbox").prop('checked', true);
-		$("#dangerous").hide();
-		$("#view").hide();
-		$("#edit").show();
-		$("#booklist li.selected").removeClass("selected");
-		return false;
-	});
-	
-	$("#currentEntry").change(function () {
-		entry = new Entry();
-		entry.goalId = Number($(this).parent().attr('name'));
-		entry.page = Number($(this).val());
-		today = new Date();
-		entry.date = today.getFullYear() + '-' + bookkeeper.makeTwoDigits(today.getMonth() + 1) + '-' + bookkeeper.makeTwoDigits(today.getDate());
-		oldEntry = bi.getEntryByDate(entry.goalId, entry.date);
-		if (oldEntry.id != 0) {
-			entry.id = Number(oldEntry.id);
-		}
-		bi.saveEntry(entry);
-		goal = bi.getGoal(entry.goalId);
-		bookkeeper.updatePage(goal);
-
-		goal.pagesleft = goal.totalPages - entry.page;
-		goal.percent = Math.round((entry.page / goal.totalPages) * 100);
-
-		$("#booklist li a[name=goal" + goal.id + "] .percent").css('width', goal.percent + 'px');
-		$("#booklist li a[name=goal" + goal.id + "] .percentage span").html('<b>' + goal.percent + '%</b> (' + goal.pagesleft + ' pages left)');
-	});
-}
-
 $.extend(DateInput.DEFAULT_OPTS, {
 	stringToDate: function(string) {
 		var matches;
@@ -349,14 +238,42 @@ $.extend(DateInput.DEFAULT_OPTS, {
 
 $(document).ready(function () {
 	canvas = document.getElementById("reading_chart");
-	canvas.width = $("#reading_chart").width();
-	canvas.height = $("#reading_chart").height();
+	if (canvas != null) {
+		canvas.width = $("#reading_chart").width();
+		canvas.height = $("#reading_chart").height();
 
-	if (canvas.getContext) {
-		context = canvas.getContext('2d');
+		if (canvas.getContext) {
+			context = canvas.getContext('2d');
+		}
 	}
 
-	loadPage();
-
 	$(".date_input").date_input();
+
+	$("#currentEntry").change(function () {
+		//$.ajax({
+			//url: 'bookkeeper/chadgh/action/saveentry?',
+			//async: false,
+			//dataType: 'json',
+			//success: function (data) {
+			//}
+		//});
+		//entry = new Entry();
+		//entry.goalId = Number($(this).parent().attr('name'));
+		//entry.page = Number($(this).val());
+		//today = new Date();
+		//entry.date = today.getFullYear() + '-' + bookkeeper.makeTwoDigits(today.getMonth() + 1) + '-' + bookkeeper.makeTwoDigits(today.getDate());
+		//oldEntry = bi.getEntryByDate(entry.goalId, entry.date);
+		//if (oldEntry.id != 0) {
+			//entry.id = Number(oldEntry.id);
+		//}
+		//bi.saveEntry(entry);
+		//goal = bi.getGoal(entry.goalId);
+		//bookkeeper.updatePage(goal);
+
+		//goal.pagesleft = goal.totalPages - entry.page;
+		//goal.percent = Math.round((entry.page / goal.totalPages) * 100);
+
+		//$("#booklist li a[name=goal" + goal.id + "] .percent").css('width', goal.percent + 'px');
+		//$("#booklist li a[name=goal" + goal.id + "] .percentage span").html('<b>' + goal.percent + '%</b> (' + goal.pagesleft + ' pages left)');
+	});
 });
