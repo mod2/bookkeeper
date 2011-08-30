@@ -17,24 +17,33 @@ class Entry extends Model {
 	}
 
 	public static function getEntryFromDate($bookId, $date) {
+		$sql = "SELECT entryId FROM Entry WHERE bookId=? AND entryDate='?' LIMIT 1";
+		$params = array($bookId, $date);
+		$db = new Database();
+		$results = $db->query($sql, $params);
+		$entry = new Entry();
+		if (count($results) > 0) {
+			$entry = new Entry($results[0]['entryId']);
+		}
+		return $entry;
 	}
 
 	public function __construct($id = 0) {
+		$this->setEntryId(0);
+		$this->setBookId(0);
+		$this->setPageNumber(0);
+		$this->setEntryDate(date('Y-m-d'));
 		if (intval($id) != 0) {
 			$sql = "SELECT * FROM Entry WHERE entryId=? LIMIT 1";
 			$params = array($id);
 			$db = new Database();
 			$results = $db->query($sql, $params);
-			// todo check to make sure something was returned
-			$this->setEntryId($results['entryId']);
-			$this->setBookId($results['bookId']);
-			$this->setPageNumber($results['pageNumber']);
-			$this->setEntryDate($results['entryDate']);
-		} else {
-			$this->setEntryId(0);
-			$this->setBookId(0);
-			$this->setPageNumber(0);
-			$this->setEntryDate(date('Y-m-d'));
+			if (count($results) > 0) {
+				$this->setEntryId($results[0]['entryId']);
+				$this->setBookId($results[0]['bookId']);
+				$this->setPageNumber($results[0]['pageNumber']);
+				$this->setEntryDate($results[0]['entryDate']);
+			}
 		}
 	}
 
@@ -43,7 +52,7 @@ class Entry extends Model {
 			$sql = "UPDATE Entry SET bookId=?, pageNumber=?, entryDate='?' WHERE entryId=? LIMIT 1";
 			$params = array($this->getBookId(), $this->getPageNumber(), $this->getMYSQLEntryDate(), $this->getEntryId());
 			$db = new Database();
-			$db->query($sql, $params);
+			$db->insert($sql, $params);
 		} else { // new entry
 			$sql = "INSERT INTO Entry (bookId, pageNumber, entryDate) VALUES (?, ?, '?')";
 			$params = array($this->getBookId(), $this->getPageNumber(), $this->getMYSQLEntryDate());
@@ -57,7 +66,7 @@ class Entry extends Model {
 		$sql = "DELETE FROM Entry WHERE entryId=? LIMIT 1";
 		$param = array($this->getEntryId());
 		$db = new Database();
-		$db->query($sql, $param);
+		$db->run($sql, $param);
 	}
 
 	#***************************************************************************

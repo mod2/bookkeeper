@@ -33,7 +33,7 @@ class Book extends Model {
 		if (count($id) < 1) {
 			return null;
 		}
-		return new Book(intval($id['bookId']));
+		return new Book(intval($id[0]['bookId']));
 	}
 
 	public static function getAllBooks($username) {
@@ -55,30 +55,30 @@ class Book extends Model {
 			$db = new Database();
 			$results = $db->query($sql, $params);
 			// todo check to make sure something was returned
-			$this->setBookId($results['bookId']);
-			$this->setUsername($results['username']);
-			$this->setTitle($results['title']);
-			$this->setTotalPages($results['totalPages']);
-			$this->setStartDate($results['startDate']);
-			$this->setEndDate($results['endDate']);
-			$this->setSunday($results['sunday']);
-			$this->setMonday($results['monday']);
-			$this->setTuesday($results['tuesday']);
-			$this->setWednesday($results['wednesday']);
-			$this->setThursday($results['thursday']);
-			$this->setFriday($results['friday']);
-			$this->setSaturday($results['saturday']);
-			$this->setHidden($results['hidden']);
-			$this->setPrivate($results['private']);
-			$this->setSlug($results['slug']);
+			$this->setBookId($results[0]['bookId']);
+			$this->setUsername($results[0]['username']);
+			$this->setTitle($results[0]['title']);
+			$this->setTotalPages($results[0]['totalPages']);
+			$this->setStartDate($results[0]['startDate']);
+			$this->setEndDate($results[0]['endDate']);
+			$this->setSunday($results[0]['sunday']);
+			$this->setMonday($results[0]['monday']);
+			$this->setTuesday($results[0]['tuesday']);
+			$this->setWednesday($results[0]['wednesday']);
+			$this->setThursday($results[0]['thursday']);
+			$this->setFriday($results[0]['friday']);
+			$this->setSaturday($results[0]['saturday']);
+			$this->setHidden($results[0]['hidden']);
+			$this->setPrivate($results[0]['private']);
+			$this->setSlug($results[0]['slug']);
 
 			$this->setEntries(Entry::getAllEntries($this->getBookId()));
 			if (count($this->entries) > 0) {
-				$this->setPagesLeft($this->getTotalPages() - $this->entries[count($this->entries) - 1]->getPage());
+				$this->setPagesLeft($this->getTotalPages() - $this->entries[count($this->entries) - 1]->getPageNumber());
 			} else {
 				$this->setPagesLeft($this->getTotalPages());
 			}
-			$this->setPercentageComplete((($this->getTotalPages() - $this->getPagesLeft()) / $this->getTotalPages()) * 100);
+			$this->setPercentageComplete(round((($this->getTotalPages() - $this->getPagesLeft()) / $this->getTotalPages()) * 100));
 
 			$this->getPagesPerDay();
 			$this->getToPage();
@@ -117,7 +117,7 @@ class Book extends Model {
 			$sql = "UPDATE Book SET username='?', title='?', totalPages=?, startDate='?', endDate='?', sunday=?, monday=?, tuesday=?, wednesday=?, thursday=?, friday=?, saturday=?, hidden=?, private=?, slug='?' WHERE bookId=? LIMIT 1";
 			$params = array($this->getUsername(), $this->getTitle(), $this->getTotalPages(), $this->getMYSQLStartDate(), $this->getMYSQLEndDate(), $this->getSunday(), $this->getMonday(), $this->getTuesday(), $this->getWednesday(), $this->getThursday(), $this->getFriday(), $this->getSaturday(), $this->getHidden(), $this->getPrivate(), $this->getSlug(), $this->getBookId());
 			$db = new Database();
-			$db->query($sql, $params);
+			$db->insert($sql, $params);
 		} else { // new book
 			$db = new Database();
 			$slug = str_replace(' ', '-', strtolower($this->getTitle()));
@@ -185,7 +185,7 @@ class Book extends Model {
 
 	public function getCurrentPage() {
 		if (count($this->entries) > 0) {
-			return $this->entries[count($this->entries) - 1]->getPage();
+			return $this->entries[count($this->entries) - 1]->getPageNumber();
 		}
 		return 0;
 	}
@@ -202,14 +202,14 @@ class Book extends Model {
 			$previousentry = 0;
 			$currententry = 0;
 			$entries = $this->getEntries();
-			if (count($entries) == 1 && $this->compareDateToToday($entries[0]->getDate())) {
+			if (count($entries) == 1 && $this->compareDateToToday($entries[0]->getEntryDate())) {
 				$currententry = $this->getCurrentPage();
 			} elseif (count($entries) > 1) {
-				if ($this->compareDateToToday($entries[count($entries) - 1]->getDate())) {
-					$previousentry = $entries[count($entries) - 2].getPage();
-					$currententry = $entries[count($entries) - 1].getPage();
+				if ($this->compareDateToToday($entries[count($entries) - 1]->getEntryDate())) {
+					$previousentry = $entries[count($entries) - 2].getPageNumber();
+					$currententry = $entries[count($entries) - 1].getPageNumber();
 				} else {
-					$previousentry = $entries[count($entries) - 1].getPage();
+					$previousentry = $entries[count($entries) - 1].getPageNumber();
 					$currententry = $previousentry;
 				}
 			}
@@ -233,15 +233,15 @@ class Book extends Model {
 			$entries = $this->getEntries();
 			$entryPage = 0;
 			if ($this != null && $this->getBookId() != 0 && count($entries) > 0) { // book with entries
-				if (count($entries) == 1 && !$this->compareDateToToday($entries[0]->getDate())) {
-					$entryPage = $entries[0]->getPage();
+				if (count($entries) == 1 && !$this->compareDateToToday($entries[0]->getEntryDate())) {
+					$entryPage = $entries[0]->getPageNumber();
 				} else if (count($entries) > 1) {
-					if ($fromToday && $this->compareDateToToday($entries[count($entries) - 1]->getDate())) {
-						$entryPage = $entries[count($entries) - 1]->getPage();
-					} else if ($this->compareDateToToday($entries[count($entries) - 1]->getDate())) {
-						$entryPage = $entries[count($entries) - 2]->getPage();
+					if ($fromToday && $this->compareDateToToday($entries[count($entries) - 1]->getEntryDate())) {
+						$entryPage = $entries[count($entries) - 1]->getPageNumber();
+					} else if ($this->compareDateToToday($entries[count($entries) - 1]->getEntryDate())) {
+						$entryPage = $entries[count($entries) - 2]->getPageNumber();
 					} else {
-						$entryPage = $entries[count($entries) - 1]->getPage();
+						$entryPage = $entries[count($entries) - 1]->getPageNumber();
 					}
 				}
 			} elseif ($this == null || $this->getBookId() == 0) {  // book with no entries
@@ -249,6 +249,9 @@ class Book extends Model {
 			}
 
 			$pagesLeft = $this->getTotalPages() - $entryPage;
+			if ($daysLeft < 1) {
+				$daysLeft = 1;
+			}
 			$this->pagesPerDay = ceil($pagesLeft / $daysLeft);
 		}
 		return $this->pagesPerDay;

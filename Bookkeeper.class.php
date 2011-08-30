@@ -93,7 +93,7 @@ SQL;
 		$user = $args[0];
 		$slug = $args[1];
 		$b = Book::getBookFromSlug($slug);
-		$title = 'Edit ' . $b->getTitle() . ' | ' . $user . ' | Bookkeeper';
+		$title = 'Edit ' . $b->getTitle() . ' | ' . $user;
 		$params = array('current_book'=>$b);
 		self::mainPage($user, $params, true);
 	}
@@ -103,7 +103,7 @@ SQL;
 		$user = $args[0];
 		$slug = $args[1];
 		$b = Book::getBookFromSlug($slug);
-		$title = $b->getTitle() . ' | ' . $user . ' | Bookkeeper';
+		$title = $b->getTitle() . ' | ' . $user;
 		$actionHtml = '';
 		if (!$b->isTodayAReadingDay()) {
 			$actionHtml = "<div id='notreadingday' class='action'>You&rsquo;re off the hook today.</div>";
@@ -120,12 +120,13 @@ SQL;
 		self::mainPage($user, $params);
 	}
 
-	private static function mainPage($username, $params, $displayEdit = false) {
+	private static function mainPage($username, $params, $displayEdit = false, $displayHome = false) {
 		$args = new stdClass();
 		$args->username = $username;
 		$args->app_url = APP_URL;
 		$args->books = Book::getAllBooks($username);
 		$args->edit_mode = $displayEdit;
+		$args->home_mode = $displayHome;
 		foreach ($params as $key=>$value) {
 			$args->$key = $value;
 		}
@@ -134,7 +135,7 @@ SQL;
 	}
 
 	/**
-	 * userHome
+	 * displayUserHome
 	 * displays the homepage
 	 *
 	 * @author ChadGH
@@ -143,8 +144,51 @@ SQL;
 	 **/
 	public static function displayUserHome($args) {
 		$user = $args[0];
-		$params = array('title'=>$user . ' | Bookkeeper');
-		self::mainPage($user, $params);
+		$params = array('title'=>$user);
+		self::mainPage($user, $params, false, true);
+	}
+
+	public static function saveEntry($args) {
+		$username = trim($args[0]);
+		$parts = explode('&', trim($args[1]));
+		$bookid = 0;
+		$page = 0;
+		$entryid = 0;
+		foreach ($parts as $part) {
+			$components = explode('=', trim($part));
+			$key = $components[0];
+			$value = $components[1];
+			switch ($key)
+			{
+				case 'bookid':
+					$bookid = intval($value);
+					break;
+				case 'page':
+					$page = intval($value);
+					break;
+				case 'entryid':
+					$entryid = intval($value);
+					break;
+			}
+		}
+
+		if ($bookid == 0) {
+			echo json_encode(array('error'=>'could not save'));
+			exit();
+		}
+
+		$entry = new Entry($entryid);
+		if ($entry->getEntryId() == 0) {
+			$entry = Entry::getEntryFromDate($bookid, date('Y-m-d'));
+		}
+		if ($entry->getBookId() == 0) {
+			$entry->setBookId($bookid);
+			$entry->setEntryDate(date('Y-m-d'));
+		}
+		$entry->setPageNumber($page);
+		$entry->save();
+		$b = new Book($bookid);
+		echo $b->getJson();
 	}
 
 	/**
@@ -160,13 +204,14 @@ SQL;
 		$username = trim($args[0]);
 		$parts = explode('&', trim($args[1]));
 		$id = 0;
+		$variales = array();
 		foreach ($parts as $part) {
 			$components = explode('=', $part);
 			$prop = strtolower(trim($components[0]));
 			$value = trim($components[1]);
-			if ($prop == 'id') {
+			$variables[$prop] = $value;
+			if ($prop == 'editbookid') {
 				$id = intval($value);
-				break;
 			}
 		}
 
@@ -178,56 +223,61 @@ SQL;
 			$b->setUsername($username);
 		}
 
-		foreach ($parts as $part) {
-			$components = explode('=', $part);
-			$prop = strtolower(trim($components[0]));
-			$value = trim($components[1]);
+		$b->setSunday(false);
+		$b->setMonday(false);
+		$b->setTuesday(false);
+		$b->setWednesday(false);
+		$b->setThursday(false);
+		$b->setFriday(false);
+		$b->setSaturday(false);
+		foreach ($variables as $prop=>$value) {
 			switch ($prop)
 			{
-				case 'title':
+				case 'editbooktitle':
 					$b->setTitle(urldecode($value));
 					break;
-				case 'totalpages':
+				case 'editbooktotalpages':
 					$b->setTotalPages($value);
 					break;
-				case 'startdate':
-					$b->setStartDate(new DateTime($value));
+				case 'editbookstartdate':
+					$b->setStartDate($value);
 					break;
-				case 'enddate':
-					$b->setEndDate(new DateTime($value));
+				case 'editbookenddate':
+					$b->setEndDate($value);
 					break;
-				case 'hidden':
-					$b->setHidden($value);
+				/*case 'hidden':*/
+					/*$b->setHidden($value);*/
+					/*break;*/
+				/*case 'private':*/
+					/*$b->setPrivate($value);*/
+					/*break;*/
+				/*case 'editbookid':*/
+					/*$b->setBookId($value);*/
+					/*break;*/
+				case 'sunday':
+					$b->setSunday(true);
 					break;
-				case 'private':
-					$b->setPrivate($value);
+				case 'monday':
+					$b->setMonday(true);
 					break;
-				case 'id':
-					$b->setBookId($value);
+				case 'tuesday':
+					$b->setTuesday(true);
 					break;
-				case 'sun':
-					$b->setSunday($value);
+				case 'wednesday':
+					$b->setWednesday(true);
 					break;
-				case 'mon':
-					$b->setMonday($value);
+				case 'thursday':
+					$b->setThursday(true);
 					break;
-				case 'tue':
-					$b->setTuesday($value);
+				case 'friday':
+					$b->setFriday(true);
 					break;
-				case 'wed':
-					$b->setWednesday($value);
-					break;
-				case 'thu':
-					$b->setThursday($value);
-					break;
-				case 'fri':
-					$b->setFriday($value);
-					break;
-				case 'sat':
-					$b->setSaturday($value);
+				case 'saturday':
+					$b->setSaturday(true);
 					break;
 			}
 		}
+		$url = APP_URL . "/$username/book/{$b->getSlug()}";
 		$b->save();
 		header("Location: " . APP_URL . "/chadgh/book/{$b->getSlug()}");
 	}

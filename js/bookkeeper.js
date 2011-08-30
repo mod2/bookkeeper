@@ -248,15 +248,19 @@ $(document).ready(function () {
 	}
 
 	$(".date_input").date_input();
+	$("#currententry").focus();
 
-	$("#currentEntry").change(function () {
-		//$.ajax({
-			//url: 'bookkeeper/chadgh/action/saveentry?',
-			//async: false,
-			//dataType: 'json',
-			//success: function (data) {
-			//}
-		//});
+	$("#currententry").change(function () {
+		bookid = Number($("#currentbookid").val());
+		page = Number($(this).val());
+		$.getJSON(app_url + '/' + currentuser + '/action/saveentry?bookid=' + bookid + '&page=' + page, function (data) {
+			console.log(data);
+			percent = Math.round(data.percentage);
+			$("#booklist li a#book" + data.bookId + " .percent").css('width', percent + 'px');
+			$("#booklist li a#book" + data.bookId + " .percentage span").html('<b>' + percent + '%</b> (' + data.pagesLeft + ' pages left)');
+		});
+	});
+
 		//entry = new Entry();
 		//entry.goalId = Number($(this).parent().attr('name'));
 		//entry.page = Number($(this).val());
@@ -275,5 +279,4 @@ $(document).ready(function () {
 
 		//$("#booklist li a[name=goal" + goal.id + "] .percent").css('width', goal.percent + 'px');
 		//$("#booklist li a[name=goal" + goal.id + "] .percentage span").html('<b>' + goal.percent + '%</b> (' + goal.pagesleft + ' pages left)');
-	});
 });

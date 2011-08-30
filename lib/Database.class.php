@@ -38,7 +38,7 @@ class Database
 		$rs = mysql_query($preparedSql, $db) or $this->throwException(mysql_error()); 
 		$results = array();
 		while (($line = mysql_fetch_assoc($rs)) != null) {
-			$results = $line;
+			$results[] = $line;
 		}
 		$this->dbClose($db);
 		return $results;
