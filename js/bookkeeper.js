@@ -25,7 +25,7 @@ var Bookkeeper = function () {
 		return daysLeft + 1;
 	};
 
-	this.compareDates = function (date1, date2) {
+	this.compareDates = function(date1, date2) {
 		var rtnInt = 0;
 		if (date1.valueOf() < date2.valueOf()) {
 			rtnInt = -1;
@@ -35,15 +35,15 @@ var Bookkeeper = function () {
 		return rtnInt;
 	};
 
-	this.chartEntries = function (book) {
+	this.chartEntries = function(book) {
 		chartpoints = [];
 		previousPage = 0;
 		currentEntry = 0;
 		tempday = new Date();
-		today = new Date(tempday.getFullYear() + '-' + (tempday.getMonth() + 1) + '-' + tempday.getDate());
+		today = new Date(tempday.getUTCFullYear() + '-' + (tempday.getUTCMonth() + 1) + '-' + tempday.getUTCDate());
 		for (loopTime = new Date(book.startDate); loopTime <= today; loopTime.setTime(loopTime.valueOf() + 86400000)) {
 			if (book.readingDays[loopTime.getDay()] == 1) {
-				date = loopTime.getFullYear() + '-' + (loopTime.getMonth() + 1) + '-' + loopTime.getDate();
+				date = loopTime.getUTCFullYear() + '-' + (loopTime.getUTCMonth() + 1) + '-' + loopTime.getUTCDate();
 				for (currentEntry; currentEntry < book.entries.length; currentEntry++) {
 					compared = this.compareDates(new Date(book.entries[currentEntry].entryDate), new Date(date));
 					if (compared == 0) {

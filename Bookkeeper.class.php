@@ -296,7 +296,7 @@ SQL;
 		}
 		$url = APP_URL . "/$username/book/{$b->getSlug()}";
 		$b->save();
-		header("Location: " . APP_URL . "/chadgh/book/{$b->getSlug()}");
+		header("Location: " . APP_URL . "/$username/book/{$b->getSlug()}");
 	}
 
 	/**
