@@ -66,7 +66,7 @@ class Entry extends Model {
 		$sql = "DELETE FROM Entry WHERE entryId=? LIMIT 1";
 		$param = array($this->getEntryId());
 		$db = new Database();
-		$db->run($sql, $param);
+		$db->insert($sql, $param);
 	}
 
 	#***************************************************************************

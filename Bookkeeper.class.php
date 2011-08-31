@@ -85,7 +85,7 @@ SQL;
 
 	public static function displayAddBook($args) {
 		$user = $args[0];
-		$params = array('title'=>"New Book | $user", 'new_book'=>true);
+		$params = array('title'=>"New Book | $user", 'new_book'=>true, 'current_book'=>new Book());
 		self::mainPage($user, $params, true);
 	}
 
@@ -94,7 +94,7 @@ SQL;
 		$slug = $args[1];
 		$b = Book::getBookFromSlug($slug);
 		$title = 'Edit ' . $b->getTitle() . ' | ' . $user;
-		$params = array('title'=>"Edit {$b->getTitle()} | $user", 'current_book'=>$b);
+		$params = array('title'=>"Edit {$b->getTitle()} | $user", 'current_book'=>$b, 'new_book'=>false);
 		self::mainPage($user, $params, true);
 	}
 
@@ -195,6 +195,17 @@ SQL;
 		$b = new Book($bookid);
 		$b->setActionHtml(self::getActionHTML($b));
 		echo $b->getJson();
+	}
+
+
+	public static function deleteBook($args) {
+		$username = trim($args[0]);
+		$bookId = intval($args[1]);
+		$b = new Book($bookId);
+		if ($b->getUsername() == $username) {
+			$b->delete();
+		}
+		header('Location: ' . APP_URL . "/$username/");
 	}
 
 	/**

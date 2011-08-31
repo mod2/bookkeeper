@@ -14,6 +14,7 @@
 	<script type="text/javascript" charset="utf-8">
 		var currentuser = '<?php echo $args->username; ?>';
 		var app_url = '<?php echo $args->app_url; ?>';
+		var current_book = <?php echo json_encode($args->current_book); ?>;
 	</script>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="<?php echo $args->app_url; ?>/js/date_input.js" type="text/javascript" charset="utf-8"></script>

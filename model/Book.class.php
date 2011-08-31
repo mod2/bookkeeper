@@ -153,10 +153,13 @@ class Book extends Model {
 	}
 
 	public function delete() {
+		foreach ($this->getEntries() as $entry) {
+			$entry->delete();
+		}
 		$sql = "DELETE FROM Book WHERE bookId=? LIMIT 1";
 		$param = array($this->getBookId());
 		$db = new Database();
-		$db->query($sql, $param);
+		$db->insert($sql, $param);
 	}
 
 
@@ -168,9 +171,9 @@ class Book extends Model {
 		$previousPage = 0;
 		$currentEntry = 0;
 		$today = strtotime(date('Y-m-d'));
-		for ($loopTime = strtotime($this->getStartDate(); $loopTime <= $today; $looptime += 86400) {
+		/*for ($loopTime = strtotime($this->getStartDate(); $loopTime <= $today; $looptime += 86400) {*/
 
-		}
+		/*}*/
 		/*for (loopTime = new Date(goal.startDate); loopTime <= today; loopTime.setTime(loopTime.valueOf() + 86400000)) {*/
 			/*if (goal.readingDays[loopTime.getDay()] == 1) {*/
 				/*date = loopTime.getFullYear() + '-' + (loopTime.getMonth() + 1) + '-' + loopTime.getDate();*/
@@ -214,10 +217,10 @@ class Book extends Model {
 				$currententry = $this->getCurrentPage();
 			} elseif (count($entries) > 1) {
 				if ($this->compareDateToToday($entries[count($entries) - 1]->getEntryDate())) {
-					$previousentry = $entries[count($entries) - 2].getPageNumber();
-					$currententry = $entries[count($entries) - 1].getPageNumber();
+					$previousentry = $entries[count($entries) - 2]->getPageNumber();
+					$currententry = $entries[count($entries) - 1]->getPageNumber();
 				} else {
-					$previousentry = $entries[count($entries) - 1].getPageNumber();
+					$previousentry = $entries[count($entries) - 1]->getPageNumber();
 					$currententry = $previousentry;
 				}
 			}

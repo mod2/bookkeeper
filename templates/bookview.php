@@ -2,7 +2,6 @@
 		<h1><?php echo $args->current_book->getTitle(); ?></h1>
 
 		<div id="today">
-			<span id="loading">Loading...</span>
 			<input type="hidden" id="currentbookid" value="<?php echo $args->current_book->getBookId(); ?>">
 			<div id="goals" name="">I&rsquo;m on page <input type="text" id="currententry" value="<?php echo $args->current_book->getCurrentPage(); ?>" maxlength="5" /></div>
 			<div id="actionhtml"><?php echo $args->action_html; ?></div>
@@ -22,7 +21,7 @@
 		<h3>Entries</h3>
 		<ul id="entries">
 		<?php foreach ($args->current_book->getEntries() as $entry): ?>
-			<li><?php echo date("M d", strtotime($entry->getEntryDate())); ?></li>
+			<li><?php echo date("M d", strtotime($entry->getEntryDate())); ?> (page <?php echo $entry->getPageNumber(); ?>)</li>
 		<?php endforeach; ?>
 		</ul>
 

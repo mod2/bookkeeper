@@ -22,7 +22,7 @@
 
 			<ul id="dangerous" <?php if($args->new_book): echo 'style="display:none;"'; endif; ?>>
 				<li><a id="hidebooklink" href="#">Hide this book</a></li>
-				<li><a id="deletebooklink" href="#">Delete this book</a></li>
+				<li><a id="deletebooklink" href="<?php echo $args->app_url . '/' . $args->username . '/action/deletebook/' . $args->current_book->getBookId(); ?>">Delete this book</a></li>
 			</ul>
 		</form>
 	</div>
