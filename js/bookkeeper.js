@@ -25,6 +25,16 @@ var Bookkeeper = function () {
 		return daysLeft + 1;
 	};
 
+	this.compareDates = function (date1, date2) {
+		var rtnInt = 0;
+		if (date1.valueOf() < date2.valueOf()) {
+			rtnInt = -1;
+		} else if (date1.valueOf() > date2.valueOf()) {
+			rtnInt = 1;
+		}
+		return rtnInt;
+	};
+
 	this.chartEntries = function (book) {
 		chartpoints = [];
 		previousPage = 0;
@@ -35,14 +45,14 @@ var Bookkeeper = function () {
 			if (book.readingDays[loopTime.getDay()] == 1) {
 				date = loopTime.getFullYear() + '-' + (loopTime.getMonth() + 1) + '-' + loopTime.getDate();
 				for (currentEntry; currentEntry < book.entries.length; currentEntry++) {
-					compared = this.compareDates(new Date(book.entries[currentEntry].date), new Date(date));
+					compared = this.compareDates(new Date(book.entries[currentEntry].entryDate), new Date(date));
 					if (compared == 0) {
-						previousPage = book.entries[currentEntry].page;
+						previousPage = book.entries[currentEntry].pageNumber;
 						break;
 					} else if (compared == 1) {
 						break;
 					} else {
-						previousPage = book.entries[currentEntry].page;
+						previousPage = book.entries[currentEntry].pageNumber;
 					}
 				}
 				chartpoints.push(previousPage);
