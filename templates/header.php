@@ -14,11 +14,13 @@
 	<script type="text/javascript" charset="utf-8">
 		var currentuser = '<?php echo $args->username; ?>';
 		var app_url = '<?php echo $args->app_url; ?>';
-		var current_book = <?php echo $args->current_book->getJson(); ?>;
+		var current_book = {};
+		<?php if ($args->current_book): ?>
+		current_book = <?php echo $args->current_book->getJson(); ?>;
+		<?php endif; ?>
 	</script>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="<?php echo $args->app_url; ?>/js/date_input.js" type="text/javascript" charset="utf-8"></script>
-	<script src="<?php echo $args->app_url; ?>/js/config.js" type="text/javascript" charset="utf-8"></script>
 	<script src="<?php echo $args->app_url; ?>/js/bookkeeper.js" type="text/javascript" charset="utf-8"></script>
 	<script src="<?php echo $args->app_url; ?>/js/chart.js" type="text/javascript" charset="utf-8"></script>
 </head>

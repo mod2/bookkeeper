@@ -89,11 +89,11 @@ $(document).ready(function () {
 
 		if (canvas.getContext) {
 			context = canvas.getContext('2d');
+			chartEntries = bk.chartEntries(current_book);
+			var chart = new Chart(current_book.totalPages, bk.calcDaysBetween(current_book.startDate, current_book.endDate, current_book.readingDays), chartEntries, canvas, context);
 		}
 	}
 
-	chartEntries = bk.chartEntries(current_book);
-	var chart = new Chart(current_book.totalPages, bk.calcDaysBetween(current_book.startDate, current_book.endDate, current_book.readingDays), chartEntries, canvas, context);
 
 	$(".date_input").date_input();
 	$("#currententry").focus();
