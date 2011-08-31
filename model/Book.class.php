@@ -20,11 +20,14 @@ class Book extends Model {
 	protected $percentage;
 	protected $pagesLeft;
 	protected $entries;
+	protected $readingDays;
 
 	protected $pagesPerDay;
 	protected $pagesToday;
 	protected $toPage;
 	protected $daysLeft;
+
+	protected $actionHtml;
 
 	public static function getBookFromSlug($slug) {
 		$sql = "SELECT bookId FROM Book WHERE slug='?' LIMIT 1";
@@ -49,6 +52,33 @@ class Book extends Model {
 	}
 
 	public function __construct($id = 0) {
+		$this->setBookId(0);
+		$this->setUsername('');
+		$this->setTitle('');
+		$this->setTotalPages(0);
+		$this->setStartDate(date('Y-m-d'));
+		$this->setEndDate(date('Y-m-d'));
+		$this->setSunday(1);
+		$this->setMonday(1);
+		$this->setTuesday(1);
+		$this->setWednesday(1);
+		$this->setThursday(1);
+		$this->setFriday(1);
+		$this->setSaturday(1);
+		$this->setHidden(0);
+		$this->setPrivate(1);
+		$this->setSlug('');
+
+		$this->setReadingDays(array(true, true, true, true, true, true, true));
+		$this->setEntries(array());
+		$this->setPagesLeft(0);
+		$this->setPercentageComplete(0);
+
+		$this->pagesPerDay = 0;
+		$this->pagesToday = 0;
+		$this->toPage = 0;
+		$this->daysLeft = 0;
+
 		if (intval($id) != 0) {
 			$sql = "SELECT * FROM Book WHERE bookId = ? LIMIT 1";
 			$params = array(intval($id));
@@ -71,61 +101,19 @@ class Book extends Model {
 				$this->setHidden($results[0]['hidden']);
 				$this->setPrivate($results[0]['private']);
 				$this->setSlug($results[0]['slug']);
-			} else {
-				$this->setBookId(0);
-				$this->setUsername('');
-				$this->setTitle('');
-				$this->setTotalPages(1);
-				$this->setStartDate('');
-				$this->setEndDate('');
-				$this->setSunday(1);
-				$this->setMonday(1);
-				$this->setTuesday(1);
-				$this->setWednesday(1);
-				$this->setThursday(1);
-				$this->setFriday(1);
-				$this->setSaturday(1);
-				$this->setHidden(0);
-				$this->setPrivate(1);
-				$this->setSlug('');
+
+				$this->setReadingDays(array($this->getSunday(), $this->getMonday(), $this->getTuesday(), $this->getWednesday(), $this->getThursday(), $this->getFriday(), $this->getSaturday()));
+				$this->setEntries(Entry::getAllEntries($this->getBookId()));
+				if (count($this->entries) > 0) {
+					$this->setPagesLeft($this->getTotalPages() - $this->entries[count($this->entries) - 1]->getPageNumber());
+				} else {
+					$this->setPagesLeft($this->getTotalPages());
+				}
+				$this->setPercentageComplete(round((($this->getTotalPages() - $this->getPagesLeft()) / $this->getTotalPages()) * 100));
+
+				$this->getPagesPerDay();
+				$this->getToPage();
 			}
-
-			$this->setEntries(Entry::getAllEntries($this->getBookId()));
-			if (count($this->entries) > 0) {
-				$this->setPagesLeft($this->getTotalPages() - $this->entries[count($this->entries) - 1]->getPageNumber());
-			} else {
-				$this->setPagesLeft($this->getTotalPages());
-			}
-			$this->setPercentageComplete(round((($this->getTotalPages() - $this->getPagesLeft()) / $this->getTotalPages()) * 100));
-
-			$this->getPagesPerDay();
-			$this->getToPage();
-		} else {
-			$this->setBookId(0);
-			$this->setUsername('');
-			$this->setTitle('');
-			$this->setTotalPages(0);
-			$this->setStartDate(date('Y-m-d'));
-			$this->setEndDate(date('Y-m-d'));
-			$this->setSunday(1);
-			$this->setMonday(1);
-			$this->setTuesday(1);
-			$this->setWednesday(1);
-			$this->setThursday(1);
-			$this->setFriday(1);
-			$this->setSaturday(1);
-			$this->setHidden(0);
-			$this->setPrivate(1);
-			$this->setSlug('');
-
-			$this->setEntries(array());
-			$this->setPagesLeft(0);
-			$this->setPercentageComplete(0);
-
-			$this->pagesPerDay = 0;
-			$this->pagesToday = 0;
-			$this->toPage = 0;
-			$this->daysLeft = 0;
 		}
 	}
 
@@ -175,12 +163,14 @@ class Book extends Model {
 	#***************************************************************************
 	# Business Logic
 	#***************************************************************************
-	/*this.chartEntries = function (goal, entries) {*/
-		/*chartpoints = [];*/
-		/*previousPage = 0;*/
-		/*currentEntry = 0;*/
-		/*tempday = new Date();*/
-		/*today = new Date(tempday.getFullYear() + '-' + (tempday.getMonth() + 1) + '-' + tempday.getDate());*/
+	public function getChartEntries() {
+		$chartpoints = array();
+		$previousPage = 0;
+		$currentEntry = 0;
+		$today = strtotime(date('Y-m-d'));
+		for ($loopTime = strtotime($this->getStartDate(); $loopTime <= $today; $looptime += 86400) {
+
+		}
 		/*for (loopTime = new Date(goal.startDate); loopTime <= today; loopTime.setTime(loopTime.valueOf() + 86400000)) {*/
 			/*if (goal.readingDays[loopTime.getDay()] == 1) {*/
 				/*date = loopTime.getFullYear() + '-' + (loopTime.getMonth() + 1) + '-' + loopTime.getDate();*/
@@ -199,7 +189,7 @@ class Book extends Model {
 			/*}*/
 		/*}*/
 		/*return chartpoints;*/
-	/*};*/
+	}
 
 	public function getCurrentPage() {
 		if (count($this->entries) > 0) {
@@ -240,7 +230,7 @@ class Book extends Model {
 	public function getDaysLeft() {
 		if ($this->daysLeft == 0) {
 			$today = strtotime(date("Y-m-d"));
-			$this->daysLeft = $this->daysBetween($today, strtotime($this->getEndDate()), $this->getReadingDaysArray());
+			$this->daysLeft = $this->daysBetween($today, strtotime($this->getEndDate()), $this->getReadingDays());
 		}
 		return $this->daysLeft;
 	}
@@ -278,7 +268,7 @@ class Book extends Model {
 	public function isTodayAReadingDay() {
 		$today = date('w');
 		$rtnBool = true;
-		$days = $this->getReadingDaysArray();
+		$days = $this->getReadingDays();
 		if ($days[$today] == 0) {
 			$rtnBool = false;
 		}
@@ -320,9 +310,12 @@ class Book extends Model {
 	#***************************************************************************
 	# Getters and Setters
 	#***************************************************************************
-	public function getReadingDaysArray() {
-		$array = array($this->getSunday(), $this->getMonday(), $this->getTuesday(), $this->getWednesday(), $this->getThursday(), $this->getFriday(), $this->getSaturday());
-		return $array;
+	public function setReadingDays($array) {
+		$this->readingDays = $array;
+	}
+
+	public function getReadingDays() {
+		return $this->readingDays;
 	}
 
 	public function getBookId() {
@@ -519,5 +512,13 @@ class Book extends Model {
 
 	public function setEntries($entries) {
 		$this->entries = $entries;
+	}
+
+	public function setActionHtml($html) {
+		$this->actionHtml = $html;
+	}
+
+	public function getActionHtml() {
+		return $this->actionHtml;
 	}
 }

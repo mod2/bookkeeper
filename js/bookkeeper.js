@@ -249,15 +249,19 @@ $(document).ready(function () {
 
 	$(".date_input").date_input();
 	$("#currententry").focus();
+	$("#loading").hide();
 
 	$("#currententry").change(function () {
 		bookid = Number($("#currentbookid").val());
 		page = Number($(this).val());
+		$("#loading").show();
 		$.getJSON(app_url + '/' + currentuser + '/action/saveentry?bookid=' + bookid + '&page=' + page, function (data) {
-			console.log(data);
 			percent = Math.round(data.percentage);
 			$("#booklist li a#book" + data.bookId + " .percent").css('width', percent + 'px');
 			$("#booklist li a#book" + data.bookId + " .percentage span").html('<b>' + percent + '%</b> (' + data.pagesLeft + ' pages left)');
+			$("#pagesleft").text(data.pagesLeft);
+			$("#actionhtml").html(data.actionHtml);
+			$("#loading").hide();
 		});
 	});
 

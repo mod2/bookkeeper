@@ -98,23 +98,28 @@ SQL;
 		self::mainPage($user, $params, true);
 	}
 
+	private static function getActionHTML($book) {
+		$actionHtml = '';
+		if (!$book->isTodayAReadingDay()) {
+			$actionHtml = "<div id='notreadingday' class='action'>You&rsquo;re off the hook today.</div>";
+		} elseif ($book->getPagesToday() == 0) {
+			$actionHtml = "<div id='reached' class='action'>You&rsquo;ve hit your goal for today.</div>";
+		} elseif ($book->getPagesToday() < 0) {
+			$numPages = strval($book->getPagesToday() * -1);
+			$actionHtml = "<div id='over' class='action'>You&rsquo;re <span class='pagenum'><span id='pagesover'>$numPages</span> pages</span> over your goal for today.</div>";
+		} else {
+			$actionHtml = "<div id='action' class='action'>Read to <span class='pagenum'>page <span id='topage'>{$book->getToPage()}</span></span> today <span class='pagecount'>(<span id='pagestoday'>{$book->getPagesToday()}</span> pages)</span></div>";
+		}
+		return $actionHtml;
+	}
+
 	public static function displayBook($args)
 	{
 		$user = $args[0];
 		$slug = $args[1];
 		$b = Book::getBookFromSlug($slug);
 		$title = $b->getTitle() . ' | ' . $user;
-		$actionHtml = '';
-		if (!$b->isTodayAReadingDay()) {
-			$actionHtml = "<div id='notreadingday' class='action'>You&rsquo;re off the hook today.</div>";
-		} elseif ($b->getPagesToday() == 0) {
-			$actionHtml = "<div id='reached' class='action'>You&rsquo;ve hit your goal for today.</div>";
-		} elseif ($b->getPagesToday() < 0) {
-			$numPages = strval($b->getPagesToday() * -1);
-			$actionHtml = "<div id='over' class='action'>You&rsquo;re <span class='pagenum'><span id='pagesover'>$numPages</span> pages</span> over your goal for today.</div>";
-		} else {
-			$actionHtml = "<div id='action' class='action'>Read to <span class='pagenum'>page <span id='topage'>{$b->getToPage()}</span></span> today <span class='pagecount'>(<span id='pagestoday'>{$b->getPagesToday()}</span> pages)</span></div>";
-		}
+		$actionHtml = self::getActionHTML($b);
 
 		$params = array('title'=>$title, 'current_book'=>$b, 'action_html'=>$actionHtml, 'selected_book_id'=>$b->getBookId());
 		self::mainPage($user, $params);
@@ -188,6 +193,7 @@ SQL;
 		$entry->setPageNumber($page);
 		$entry->save();
 		$b = new Book($bookid);
+		$b->setActionHtml(self::getActionHTML($b));
 		echo $b->getJson();
 	}
 
