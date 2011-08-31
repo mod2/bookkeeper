@@ -54,23 +54,41 @@ class Book extends Model {
 			$params = array(intval($id));
 			$db = new Database();
 			$results = $db->query($sql, $params);
-			// todo check to make sure something was returned
-			$this->setBookId($results[0]['bookId']);
-			$this->setUsername($results[0]['username']);
-			$this->setTitle($results[0]['title']);
-			$this->setTotalPages($results[0]['totalPages']);
-			$this->setStartDate($results[0]['startDate']);
-			$this->setEndDate($results[0]['endDate']);
-			$this->setSunday($results[0]['sunday']);
-			$this->setMonday($results[0]['monday']);
-			$this->setTuesday($results[0]['tuesday']);
-			$this->setWednesday($results[0]['wednesday']);
-			$this->setThursday($results[0]['thursday']);
-			$this->setFriday($results[0]['friday']);
-			$this->setSaturday($results[0]['saturday']);
-			$this->setHidden($results[0]['hidden']);
-			$this->setPrivate($results[0]['private']);
-			$this->setSlug($results[0]['slug']);
+			if (count($results) > 0) {
+				$this->setBookId($results[0]['bookId']);
+				$this->setUsername($results[0]['username']);
+				$this->setTitle($results[0]['title']);
+				$this->setTotalPages($results[0]['totalPages']);
+				$this->setStartDate($results[0]['startDate']);
+				$this->setEndDate($results[0]['endDate']);
+				$this->setSunday($results[0]['sunday']);
+				$this->setMonday($results[0]['monday']);
+				$this->setTuesday($results[0]['tuesday']);
+				$this->setWednesday($results[0]['wednesday']);
+				$this->setThursday($results[0]['thursday']);
+				$this->setFriday($results[0]['friday']);
+				$this->setSaturday($results[0]['saturday']);
+				$this->setHidden($results[0]['hidden']);
+				$this->setPrivate($results[0]['private']);
+				$this->setSlug($results[0]['slug']);
+			} else {
+				$this->setBookId(0);
+				$this->setUsername('');
+				$this->setTitle('');
+				$this->setTotalPages(1);
+				$this->setStartDate('');
+				$this->setEndDate('');
+				$this->setSunday(1);
+				$this->setMonday(1);
+				$this->setTuesday(1);
+				$this->setWednesday(1);
+				$this->setThursday(1);
+				$this->setFriday(1);
+				$this->setSaturday(1);
+				$this->setHidden(0);
+				$this->setPrivate(1);
+				$this->setSlug('');
+			}
 
 			$this->setEntries(Entry::getAllEntries($this->getBookId()));
 			if (count($this->entries) > 0) {

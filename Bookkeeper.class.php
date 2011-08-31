@@ -85,7 +85,7 @@ SQL;
 
 	public static function displayAddBook($args) {
 		$user = $args[0];
-		$params = array('new_book'=>true);
+		$params = array('title'=>"New Book | $user", 'new_book'=>true);
 		self::mainPage($user, $params, true);
 	}
 
@@ -94,7 +94,7 @@ SQL;
 		$slug = $args[1];
 		$b = Book::getBookFromSlug($slug);
 		$title = 'Edit ' . $b->getTitle() . ' | ' . $user;
-		$params = array('current_book'=>$b);
+		$params = array('title'=>"Edit {$b->getTitle()} | $user", 'current_book'=>$b);
 		self::mainPage($user, $params, true);
 	}
 
