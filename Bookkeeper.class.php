@@ -125,13 +125,14 @@ SQL;
 		self::mainPage($user, $params);
 	}
 
-	private static function mainPage($username, $params, $displayEdit = false, $displayHome = false) {
+	private static function mainPage($username, $params, $displayEdit = false, $displayHome = false, $page = "book") {
 		$args = new stdClass();
 		$args->username = $username;
 		$args->app_url = APP_URL;
 		$args->books = Book::getAllBooks($username);
 		$args->edit_mode = $displayEdit;
 		$args->home_mode = $displayHome;
+		$args->page = $page;
 		foreach ($params as $key=>$value) {
 			$args->$key = $value;
 		}
@@ -150,7 +151,7 @@ SQL;
 	public static function displayUserHome($args) {
 		$user = $args[0];
 		$params = array('title'=>$user);
-		self::mainPage($user, $params, false, true);
+		self::mainPage($user, $params, false, true, "home");
 	}
 
 	public static function saveEntry($args) {
