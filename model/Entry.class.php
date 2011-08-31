@@ -6,7 +6,7 @@ class Entry extends Model {
 	protected $entryDate;
 
 	public static function getAllEntries($bookId) {
-		$sql = "SELECT entryId FROM Entry WHERE bookId=?";
+		$sql = "SELECT entryId FROM Entry WHERE bookId=? ORDER BY entryDate";
 		$db = new Database();
 		$rs = $db->query($sql, array($bookId));
 		$array = array();
