@@ -85,7 +85,7 @@ SQL;
 
 	public static function displayAddBook($args) {
 		$user = $args[0];
-		$params = array('title'=>"New Book | $user", 'new_book'=>true, 'current_book'=>new Book());
+		$params = array('title'=>"Add Book | $user", 'new_book'=>true, 'current_book'=>new Book());
 		self::mainPage($user, $params, true);
 	}
 
