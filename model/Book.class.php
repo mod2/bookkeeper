@@ -52,7 +52,7 @@ class Book extends Model {
 	}
 
 	public static function getCurrentBooks($username) {
-		$sql = "SELECT Book.bookID, groupedEntry.lastPage FROM Book INNER JOIN (SELECT Book.bookId, MAX(Entry.pageNumber) AS lastPage FROM Book JOIN Entry ON Book.bookId = Entry.bookId GROUP BY Book.bookId) groupedEntry ON Book.bookId = groupedEntry.bookId WHERE Book.totalPages > groupedEntry.lastPage AND username = '?' AND hidden = 0";
+		$sql = "SELECT Book.bookId FROM Book INNER JOIN (SELECT Book.bookId, MAX(Entry.pageNumber) AS lastPage FROM Book JOIN Entry ON Book.bookId = Entry.bookId GROUP BY Book.bookId) groupedEntry ON Book.bookId = groupedEntry.bookId WHERE Book.totalPages > groupedEntry.lastPage AND username = '?' AND hidden = 0";
 		$db = new Database();
 		$rs = $db->query($sql, array($username));
 		$array = array();

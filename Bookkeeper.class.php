@@ -129,7 +129,7 @@ SQL;
 		$args = new stdClass();
 		$args->username = $username;
 		$args->app_url = APP_URL;
-		$args->books = Book::getAllBooks($username);
+		$args->books = Book::getCurrentBooks($username);
 		$args->edit_mode = $displayEdit;
 		$args->home_mode = $displayHome;
 		$args->page = $page;
