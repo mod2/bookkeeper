@@ -92,8 +92,11 @@ class Bookkeeper
 	 *
 	 * @author ChadGH
 	 **/
-	private static function checkUserAuth() {
-		if (!array_key_exists('authorizeduser', $_SESSION) || !array_key_exists('auth', $_SESSION['authorizeduser']) || !$_SESSION['authorizeduser']['auth']) {
+	private static function checkUserAuth($username = '') {
+		if (!array_key_exists('authorizeduser', $_SESSION) 
+			|| !array_key_exists('auth', $_SESSION['authorizeduser']) 
+				|| !$_SESSION['authorizeduser']['auth']
+			|| ($username != '' && array_key_exists('username', $_SESSION['authorizeduser']) && $username != $_SESSION['authorizeduser']['username'])) {
 			header('Location: ' . APP_URL . '/');
 			exit(1);
 		}
@@ -210,15 +213,15 @@ SQL;
 	}
 
 	public static function displayAddBook($args) {
-		self::checkUserAuth();
 		$user = $args[0];
+		self::checkUserAuth($user);
 		$params = array('title'=>"Add Book | $user", 'new_book'=>true, 'current_book'=>new Book());
 		self::mainPage($user, $params, true);
 	}
 
 	public static function displayEditBook($args) {
-		self::checkUserAuth();
 		$user = $args[0];
+		self::checkUserAuth($user);
 		$slug = $args[1];
 		$b = Book::getBookFromSlug($slug);
 		$title = 'Edit ' . $b->getTitle() . ' | ' . $user;
@@ -244,8 +247,8 @@ SQL;
 	}
 
 	public static function displayBook($args) {
-		self::checkUserAuth();
 		$user = $args[0];
+		self::checkUserAuth($user);
 		$slug = $args[1];
 		$b = Book::getBookFromSlug($slug);
 		$title = $b->getTitle() . ' | ' . $user;
@@ -279,8 +282,8 @@ SQL;
 	 * @return void
 	 **/
 	public static function displayUserHome($args) {
-		self::checkUserAuth();
 		$user = $args[0];
+		self::checkUserAuth($user);
 		$params = array('title'=>$user);
 		self::mainPage($user, $params, false, true, "home");
 	}
@@ -294,8 +297,8 @@ SQL;
 	 * @return void
 	 **/
 	public static function displayAllBooks($args) {
-		self::checkUserAuth();
 		$username = $args[0];
+		self::checkUserAuth($username);
 
 		$args = new stdClass();
 		$args->username = $username;
@@ -364,8 +367,8 @@ SQL;
 
 
 	public static function deleteBook($args) {
-		self::checkUserAuth();
 		$username = trim($args[0]);
+		self::checkUserAuth($username);
 		$bookId = intval($args[1]);
 		$b = new Book($bookId);
 		if ($b->getUsername() == $username) {
@@ -383,8 +386,8 @@ SQL;
 	 * @return void
 	 **/
 	public static function saveBook($args) {
-		self::checkUserAuth();
 		$username = trim($args[0]);
+		self::checkUserAuth($username);
 		$parts = explode('&', trim($args[1]));
 		$id = 0;
 		$variales = array();
