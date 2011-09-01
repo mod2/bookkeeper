@@ -180,8 +180,8 @@ SQL;
 		$args->hiddenBooks = Book::getAllHiddenBooks($username);
 
 		$args->page = "all";
+		$args->title = 'All Books | ' . $user;
 
-		/*$args->userInfo = new User($user);*/
 		self::displayTemplate('all.php', $args);
 	}
 

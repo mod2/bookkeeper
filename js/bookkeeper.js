@@ -98,12 +98,13 @@ $(document).ready(function () {
 	$(".date_input").date_input();
 
 	// make sure the entry field exists (if it doesn't, we're on a finished book page)
-	if ($("#currententry").val()) {
+	var currententry = $("#currententry");
+	if (currententry.val()) {
 		// focus on the entry
-		$("#currententry").focus();
+		currententry.focus();
 		// and move the cursor to the end
-		var entrylength = $("#currententry").val().length;
-		$("#currententry")[0].setSelectionRange(entrylength, entrylength);
+		var entrylength = currententry.val().length;
+		currententry[0].setSelectionRange(entrylength, entrylength);
 	}
 
 	$("#deletebooklink").click(function () {
