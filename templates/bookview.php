@@ -22,7 +22,7 @@
 		<h3>Entries</h3>
 		<ul id="entries">
 		<?php foreach ($args->current_book->getEntries() as $entry): ?>
-			<li>Page <?php echo $entry->getPageNumber(); ?> <span class='date'>(<?php echo date("d M", strtotime($entry->getEntryDate())); ?>)</span></li>
+			<li>Page <?php echo $entry->getPageNumber(); ?> <span class='date'>(<?php echo date("j M", strtotime($entry->getEntryDate())); ?>)</span></li>
 		<?php endforeach; ?>
 		</ul>
 
