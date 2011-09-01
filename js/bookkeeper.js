@@ -1,10 +1,10 @@
 var canvas;
 var context;
 
-var Bookkeeper = function () {
+var Bookkeeper = function() {
 	this.months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Juy', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-	this.makeTwoDigits = function (number) {
+	this.makeTwoDigits = function(number) {
 		number = String(number);
 		newNumber = number;
 		if (number.length == 1) {
@@ -13,9 +13,10 @@ var Bookkeeper = function () {
 		return newNumber;
 	};
 
-	this.calcDaysBetween = function (start, end, readingDays) {
-		date1 = new Date(start);
-		date2 = new Date(end);
+	this.calcDaysBetween = function(start, end, readingDays) {
+		date1 = parseDate(start);
+		date2 = parseDate(end);
+		console.log(date1, date2);
 		daysLeft = 0;
 		for (loopTime = date1; loopTime < date2; loopTime.setTime(loopTime.valueOf() + 86400000)) {
 			if (readingDays[loopTime.getDay()] == 1) {
@@ -80,7 +81,19 @@ $.extend(DateInput.DEFAULT_OPTS, {
 	}
 });
 
-$(document).ready(function () {
+function parseDate(input) {
+	format = 'yyyy-mm-dd';
+
+	var parts = input.match(/(\d+)/g), 
+		i = 0, fmt = {};
+
+	// extract date-part indexes from the format
+	format.replace(/(yyyy|dd|mm)/g, function(part) { fmt[part] = i++; });
+
+	return new Date(parts[fmt['yyyy']], parts[fmt['mm']]-1, parts[fmt['dd']]);
+}
+
+$(document).ready(function() {
 	bk = new Bookkeeper();
 	canvas = document.getElementById("reading_chart");
 	if (canvas != null) {
@@ -90,6 +103,7 @@ $(document).ready(function () {
 		if (canvas.getContext) {
 			context = canvas.getContext('2d');
 			chartEntries = bk.chartEntries(current_book);
+			console.log(current_book.startDate, current_book.endDate);
 			var chart = new Chart(current_book.totalPages, bk.calcDaysBetween(current_book.startDate, current_book.endDate, current_book.readingDays), chartEntries, canvas, context);
 		}
 	}
@@ -106,17 +120,17 @@ $(document).ready(function () {
 		$("#currententry")[0].setSelectionRange(entrylength, entrylength);
 	}
 
-	$("#deletebooklink").click(function () {
+	$("#deletebooklink").click(function() {
 		if (confirm("Are you sure you want to delete this book? This action can not be undone.")) {
 			return true;
 		}
 		return false;
 	});
 
-	$("#currententry").change(function () {
+	$("#currententry").change(function() {
 		bookid = Number($("#currentbookid").val());
 		page = Number($(this).val());
-		$.getJSON(app_url + '/' + currentuser + '/action/saveentry?bookid=' + bookid + '&page=' + page, function (data) {
+		$.getJSON(app_url + '/' + currentuser + '/action/saveentry?bookid=' + bookid + '&page=' + page, function(data) {
 			percent = Math.round(data.percentage);
 			$("#booklist li a#book" + data.bookId + " .percent").css('width', percent + 'px');
 			$("#booklist li a#book" + data.bookId + " .percentage span").html('<b>' + percent + '%</b> (' + data.pagesLeft + ' pages left)');

@@ -59,18 +59,6 @@ function Chart(numPages, numDays, entries, canvas, context) {
 		c.stroke();
 		c.closePath();
 
-		// draw the reading day ticks
- /*
-		c.strokeStyle = TICKSTYLE;
-		c.beginPath();
-		for (x = this.minX + tick_step; x <= this.maxX; x += tick_step) {
-			c.moveTo(x, this.maxY);
-			c.lineTo(x, this.maxY + TICKLENGTH);
-		}
-		c.stroke();
-		c.closePath();
-		*/
-
 		// set up some font stuff
 		c.font = "9x helvetica";
 		c.textBaseline = "middle";
