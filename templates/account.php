@@ -7,6 +7,7 @@
 		<form action="<?php echo $args->app_url . '/saveaccount/'; ?>" id="account">
 			<label>Username</label>
 			<input type="text" id="username" name="username" value="<?php echo $args->user->getUsername(); ?>"/>
+			<input type="hidden" id="google" name="google" value="<?php echo $args->user->getGoogleIdentifier(); ?>"/>
 
 			<label>Email address</label>
 			<input type="email" id="email" name="email" value="<?php echo $args->user->getEmail(); ?>"/>

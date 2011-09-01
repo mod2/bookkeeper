@@ -148,9 +148,13 @@ class Bookkeeper
 	{
 		$rtnVar = array('unique'=>true);
 		$username = $args[0];
-		$user = User::getUserByUsername($username);
-		if ($user != null) {
-			$rtnVar['unique'] = false;
+		$google = $args[1];
+		$user = new User($google);
+		if ($user->getUsername() != $username) {
+			$user = User::getUserByUsername($username);
+			if ($user != null) {
+				$rtnVar['unique'] = false;
+			}
 		}
 		echo json_encode($rtnVar);
 	}
@@ -167,7 +171,7 @@ class Bookkeeper
 		$variables = array();
 		foreach ($parts as $variable) {
 			$pair = explode('=', $variable);
-			$variables[$pair[0]] = $pair[1];
+			$variables[$pair[0]] = urldecode($pair[1]);
 		}
 		$user = new User($_SESSION['authorizeduser']['google']);
 		$user->setUsername($variables['username']);
