@@ -4,45 +4,46 @@
 	<div id="view">
 		<h1>All Books</h1>
 
+		<?php if (count($args->finished_books) > 0): ?>
 		<h3>Finished</h3>
 		<ul class="allbooks">
+			<?php foreach($args->finished_books as $book): ?>
 			<li>
 				<header>
-					<div class="bookinfo">Finished 22 Aug 2011 (9 days)</div>
-					<h4><a href="#">Mistborn</a></h4>
+					<?php $entries = $book->getEntries(); ?>
+					<?php $date = date("d M Y", strtotime($entries[count($entries) - 1]->getEntryDate())); ?>
+					<?php $entryDate = strtotime($date); ?>
+					<?php $endDate = strtotime($book->getEndDate()); ?>
+					<div class="bookinfo">Finished <?php echo $date; ?> (<?php echo strval(abs($entryDate - $endDate) / (60*60*24)); ?> days)</div>
+					<h4><a href="<?php echo $args->app_url . '/' . $args->username . '/book/' . $book->getSlug(); ?>"><?php echo $book->getTitle(); ?></a></h4>
 				</header>
 			</li>	
-			<li>
-				<header>
-					<div class="bookinfo">Finished 20 Aug 2011 (3 days)</div>
-					<h4><a href="#">Parzival</a></h4>
-				</header>
-			</li>	
-			<li>
-				<header>
-					<div class="bookinfo">Finished 19 Aug 2011 (14 days)</div>
-					<h4><a href="#">The Name of the Wind</a></h4>
-				</header>
-			</li>	
+			<?php endforeach; ?>
 		</ul>
+		<?php endif; ?>
 
+		<?php if (count($args->books) > 0): ?>
 		<h3>Current</h3>
 		<ul class="allbooks">
+			<?php foreach($args->books as $book): ?>
 			<li>
 				<header>
-					<div class="bookinfo">80% (219 pages left)</div>
-					<h4><a href="#">Well of Ascension</a></h4>
+					<div class="bookinfo"><?php echo $book->getPercentageComplete(); ?>% (<?php echo $book->getPagesLeft(); ?> pages left)</div>
+					<h4><a href="<?php echo $args->app_url . '/' . $args->username . '/book/' . $book->getSlug(); ?>"><?php echo $book->getTitle(); ?></a></h4>
 				</header>
 			</li>	
+			<?php endforeach; ?>
 		</ul>
+		<?php endif; ?>
 
+		<?php if (count($args->hidden_books) > 0): ?>
 		<h3>Hidden</h3>
 		<ul class="allbooks hidden">
-			<li><h4><a href="#">Kingpin</a></h4></li>
-			<li><h4><a href="#">Don Quijote</a></h4></li>
-			<li><h4><a href="#">David Copperfield</a></h4></li>
-			<li><h4><a href="#">Emma</a></h4></li>
+			<?php foreach($args->hidden_books as $book): ?>
+			<li><h4><a href="<?php echo $args->app_url . '/' . $args->username . '/book/' . $book->getSlug(); ?>"><?php echo $book->getTitle(); ?></a></h4></li>
+			<?php endforeach; ?>
 		</ul>
+		<?php endif; ?>
 	</div>
 </section>
 
