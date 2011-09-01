@@ -15,7 +15,7 @@
 		var currentuser = '<?php echo $args->username; ?>';
 		var app_url = '<?php echo $args->app_url; ?>';
 		var current_book = {};
-		<?php if ($args->current_book): ?>
+		<?php if (property_exists($args, "current_book") && $args->current_book): ?>
 		current_book = <?php echo $args->current_book->getJson(); ?>;
 		<?php endif; ?>
 	</script>
