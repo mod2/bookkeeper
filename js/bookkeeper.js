@@ -152,7 +152,7 @@ $(document).ready(function() {
 			content = '';
 			for (i in data.entries) {
 				thedate = new Date(data.entries[i].entryDate);
-				content += '<li>' + bk.months[thedate.getMonth()] + ' ' + thedate.getDate() + ' (page ' + data.entries[i].pageNumber + ')</li>';
+				content += '<li>Page ' + data.entries[i].pageNumber + ' <span class="date">(' + thedate.getDate() + ' ' + bk.months[thedate.getMonth()] + ')</span></li>';
 			}
 			$("#entries").html(content);
 			chartEntries = bk.chartEntries(data);
