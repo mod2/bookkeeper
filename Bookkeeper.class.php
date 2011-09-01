@@ -179,6 +179,7 @@ SQL;
 		$args->currentBooks = Book::getAllCurrentBooks($username);
 		$args->hiddenBooks = Book::getAllHiddenBooks($username);
 
+		$args->title = "All Books";
 		$args->page = "all";
 
 		/*$args->userInfo = new User($user);*/
