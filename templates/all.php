@@ -6,42 +6,29 @@
 
 		<h3>Finished</h3>
 		<ul class="allbooks">
+		<?php foreach ($args->finishedBooks as $book): ?>
 			<li>
-				<header>
-					<div class="bookinfo">Finished 22 Aug 2011 (9 days)</div>
-					<h4><a href="#">Mistborn</a></h4>
-				</header>
-			</li>	
-			<li>
-				<header>
-					<div class="bookinfo">Finished 20 Aug 2011 (3 days)</div>
-					<h4><a href="#">Parzival</a></h4>
-				</header>
-			</li>	
-			<li>
-				<header>
-					<div class="bookinfo">Finished 19 Aug 2011 (14 days)</div>
-					<h4><a href="#">The Name of the Wind</a></h4>
-				</header>
-			</li>	
+				<div class="bookinfo">Finished <?php echo $book->finishedDate; ?> (<?php echo $book->totalDays; ?>)</div>
+				<h4><a href="<?php echo $args->app_url; ?>/<?php echo $args->username; ?>/<?php echo $book->slug; ?>/"><?php echo $book->title; ?></a></h4>
+			</li>
+		<?php endforeach; ?>
 		</ul>
 
 		<h3>Current</h3>
 		<ul class="allbooks">
+		<?php foreach ($args->currentBooks as $book): ?>
 			<li>
-				<header>
-					<div class="bookinfo">80% (219 pages left)</div>
-					<h4><a href="#">Well of Ascension</a></h4>
-				</header>
-			</li>	
+				<div class="bookinfo"><?php echo $book->percentDone; ?> (<?php echo $book->pagesLeft; ?> left)</div>
+				<h4><a href="<?php echo $args->app_url; ?>/<?php echo $args->username; ?>/<?php echo $book->slug; ?>/"><?php echo $book->title; ?></a></h4>
+			</li>
+		<?php endforeach; ?>
 		</ul>
 
 		<h3>Hidden</h3>
 		<ul class="allbooks hidden">
-			<li><h4><a href="#">Kingpin</a></h4></li>
-			<li><h4><a href="#">Don Quijote</a></h4></li>
-			<li><h4><a href="#">David Copperfield</a></h4></li>
-			<li><h4><a href="#">Emma</a></h4></li>
+		<?php foreach ($args->hiddenBooks as $book): ?>
+			<li><h4><a href="<?php echo $args->app_url; ?>/<?php echo $args->username; ?>/<?php echo $book->slug; ?>/"><?php echo $book->title; ?></a></h4></li>
+		<?php endforeach; ?>
 		</ul>
 	</div>
 </section>
