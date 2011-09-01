@@ -19,6 +19,7 @@ body							{ margin: 0; padding: 0; font-family: "Crimson Text", Georgia, serif;
 #sidebar ul li.selected .percentage_container	{ border-color: #bbb; }
 #sidebar ul li.selected .percent		{ background: #ccc; }
 
+#sidebar ul li.pagelink			{ background: #ece9d7; background: -webkit-gradient(linear, left top, left bottom, from(#d1e7f2), to(#c1d7e2)); background: -moz-linear-gradient(top, #dcd9c7, #ccc9b7); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dcd9c7', endColorstr='#ccc9b7'); }
 #sidebar ul li.pagelink a		{ padding: 4px 0; }
 #sidebar ul li.pagelink:first-child { margin-top: 50px; }
 #sidebar ul li.pagelink.last	{ margin-bottom: 20px; }

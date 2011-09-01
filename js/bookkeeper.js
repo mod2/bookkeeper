@@ -16,7 +16,6 @@ var Bookkeeper = function() {
 	this.calcDaysBetween = function(start, end, readingDays) {
 		date1 = parseDate(start);
 		date2 = parseDate(end);
-		console.log(date1, date2);
 		daysLeft = 0;
 		for (loopTime = date1; loopTime < date2; loopTime.setTime(loopTime.valueOf() + 86400000)) {
 			if (readingDays[loopTime.getDay()] == 1) {
@@ -41,12 +40,12 @@ var Bookkeeper = function() {
 		previousPage = 0;
 		currentEntry = 0;
 		tempday = new Date();
-		today = new Date(tempday.getUTCFullYear() + '-' + (tempday.getUTCMonth() + 1) + '-' + tempday.getUTCDate());
-		for (loopTime = new Date(book.startDate); loopTime <= today; loopTime.setTime(loopTime.valueOf() + 86400000)) {
+		today = parseDate(tempday.getUTCFullYear() + '-' + (tempday.getUTCMonth() + 1) + '-' + tempday.getUTCDate());
+		for (loopTime = parseDate(book.startDate); loopTime <= today; loopTime.setTime(loopTime.valueOf() + 86400000)) {
 			if (book.readingDays[loopTime.getDay()] == 1) {
 				date = loopTime.getUTCFullYear() + '-' + (loopTime.getUTCMonth() + 1) + '-' + loopTime.getUTCDate();
 				for (currentEntry; currentEntry < book.entries.length; currentEntry++) {
-					compared = this.compareDates(new Date(book.entries[currentEntry].entryDate), new Date(date));
+					compared = this.compareDates(parseDate(book.entries[currentEntry].entryDate), parseDate(date));
 					if (compared == 0) {
 						previousPage = book.entries[currentEntry].pageNumber;
 						break;
@@ -103,7 +102,6 @@ $(document).ready(function() {
 		if (canvas.getContext) {
 			context = canvas.getContext('2d');
 			chartEntries = bk.chartEntries(current_book);
-			console.log(current_book.startDate, current_book.endDate);
 			var chart = new Chart(current_book.totalPages, bk.calcDaysBetween(current_book.startDate, current_book.endDate, current_book.readingDays), chartEntries, canvas, context);
 		}
 	}
