@@ -63,6 +63,45 @@ class Book extends Model {
 		return $array;
 	}
 
+	public static function getAllFinishedBooks($username) {
+		$sql = "SELECT Book.bookId, groupedEntry.lastEntry AS finishedDate, DATEDIFF(groupedEntry.lastEntry, Book.startDate) AS totalDays FROM Book INNER JOIN (SELECT Book.bookId, MAX(Entry.pageNumber) AS lastPage, MAX(Entry.entryDate) AS lastEntry FROM Book JOIN Entry ON Book.bookId = Entry.bookId GROUP BY Book.bookId) groupedEntry ON Book.bookId = groupedEntry.bookId WHERE Book.totalPages = groupedEntry.lastPage AND username = '?' AND hidden = 0 ORDER BY finishedDate DESC";
+		$db = new Database();
+		$rs = $db->query($sql, array($username));
+		$array = array();
+		foreach ($rs as $book) {
+			$b = new Book(intval($book['bookId']));
+			$b->finishedDate = $book['finishedDate'];
+			$b->totalDays = Book::getDayString($book['totalDays']);
+			$array[] = $b;
+		}
+		return $array;
+	}
+
+	public static function getAllCurrentBooks($username) {
+		$sql = "SELECT Book.bookId, (groupedEntry.lastPage / Book.totalPages * 100) AS percentage, (Book.totalPages - groupedEntry.lastPage) AS pagesLeft FROM Book INNER JOIN (SELECT Book.bookId, MAX(Entry.pageNumber) AS lastPage FROM Book JOIN Entry ON Book.bookId = Entry.bookId GROUP BY Book.bookId) groupedEntry ON Book.bookId = groupedEntry.bookId WHERE Book.totalPages > groupedEntry.lastPage AND username = '?' AND hidden = 0 ORDER BY percentage DESC;";
+		$db = new Database();
+		$rs = $db->query($sql, array($username));
+		$array = array();
+		foreach ($rs as $book) {
+			$b = new Book(intval($book['bookId']));
+			$b->numPagesLeft = Book::getPageString($book['pagesLeft']);
+			$array[] = $b;
+		}
+		return $array;
+	}
+
+	public static function getAllHiddenBooks($username) {
+		$sql = "SELECT bookId FROM Book WHERE username = '?' AND hidden = 1";
+		$db = new Database();
+		$rs = $db->query($sql, array($username));
+		$array = array();
+		foreach ($rs as $book) {
+			$b = new Book(intval($book['bookId']));
+			$array[] = $b;
+		}
+		return $array;
+	}
+
 	public function __construct($id = 0) {
 		$this->setBookId(0);
 		$this->setUsername('');
@@ -290,6 +329,18 @@ class Book extends Model {
 		return $rtnBool;
 	}
 
+	public static function getPageString($pageNum) {
+		$retstr = $pageNum . ' page';
+		$retstr .= (intval($pageNum) != 1) ? 's' : '';
+		return $retstr;
+	}
+
+	public static function getDayString($numDays) {
+		$retstr = $numDays . ' day';
+		$retstr .= (intval($numDays) != 1) ? 's' : '';
+		return $retstr;
+	}
+
 	#***************************************************************************
 	# Utility Functions
 	#***************************************************************************
@@ -320,7 +371,6 @@ class Book extends Model {
 		}
 		return $rtnInt;
 	}
-
 
 	#***************************************************************************
 	# Getters and Setters

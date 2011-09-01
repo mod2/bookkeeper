@@ -154,6 +154,35 @@ SQL;
 		self::mainPage($user, $params, false, true, "home");
 	}
 
+	/**
+	 * displayAllBooks
+	 * displays the All Books page
+	 *
+	 * @author Ben Crowder
+	 * @param 
+	 * @return void
+	 **/
+	public static function displayAllBooks($args) {
+		$username = $args[0];
+
+		$args = new stdClass();
+		$args->username = $username;
+		$args->app_url = APP_URL;
+
+		// for nav
+		$args->books = Book::getCurrentBooks($username);
+
+		// for all books page
+		$args->finishedBooks = Book::getAllFinishedBooks($username);
+		$args->currentBooks = Book::getAllCurrentBooks($username);
+		$args->hiddenBooks = Book::getAllHiddenBooks($username);
+
+		$args->page = "all";
+
+		/*$args->userInfo = new User($user);*/
+		self::displayTemplate('all.php', $args);
+	}
+
 	public static function saveEntry($args) {
 		$username = trim($args[0]);
 		$parts = explode('&', trim($args[1]));

@@ -23,7 +23,7 @@ $routes = array(
 	"#^" . APP_URL . "/([^/]+)/book/add/?$#" => 'Bookkeeper::displayAddBook',
 	"#^" . APP_URL . "/([^/]+)/book/([^/]+)/?$#" => 'Bookkeeper::displayBook',
 	"#^" . APP_URL . "/([^/]+)/book/([^/]+)/edit/?$#" => 'Bookkeeper::displayEditBook',
-	"#^" . APP_URL . "/([^/]+)/all/?$#" => 'Bookkeeper::allBooks'
+	"#^" . APP_URL . "/([^/]+)/all/?$#" => 'Bookkeeper::displayAllBooks'
 );
 
 Router::routeURI($routes, 'Bookkeeper::display404');
