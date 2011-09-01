@@ -66,7 +66,7 @@ $.extend(DateInput.DEFAULT_OPTS, {
 	stringToDate: function(string) {
 		var matches;
 		if (matches = string.match(/^(\d{4,4})-(\d{2,2})-(\d{2,2})$/)) {
-			return new Date(matches[1], matches[2] - 1, matches[3]);
+			return Date(matches[1], matches[2] - 1, matches[3]);
 		} else {
 			return null;
 		};
@@ -151,7 +151,7 @@ $(document).ready(function() {
 			$("#entries").html('');
 			content = '';
 			for (i in data.entries) {
-				thedate = new Date(data.entries[i].entryDate);
+				thedate = parseDate(data.entries[i].entryDate);
 				content += '<li>Page ' + data.entries[i].pageNumber + ' <span class="date">(' + thedate.getDate() + ' ' + bk.months[thedate.getMonth()] + ')</span></li>';
 			}
 			$("#entries").html(content);
