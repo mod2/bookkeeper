@@ -51,6 +51,18 @@ class Book extends Model {
 		return $array;
 	}
 
+	public static function getCurrentBooks($username) {
+		$sql = "SELECT Book.bookID, groupedEntry.lastPage FROM Book INNER JOIN (SELECT Book.bookId, MAX(Entry.pageNumber) AS lastPage FROM Book JOIN Entry ON Book.bookId = Entry.bookId GROUP BY Book.bookId) groupedEntry ON Book.bookId = groupedEntry.bookId WHERE Book.totalPages > groupedEntry.lastPage AND username = '?' AND hidden = 0";
+		$db = new Database();
+		$rs = $db->query($sql, array($username));
+		$array = array();
+		foreach ($rs as $book) {
+			$b = new Book(intval($book['bookId']));
+			$array[] = $b;
+		}
+		return $array;
+	}
+
 	public function __construct($id = 0) {
 		$this->setBookId(0);
 		$this->setUsername('');
