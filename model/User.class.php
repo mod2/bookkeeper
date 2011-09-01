@@ -6,6 +6,16 @@ class User extends Model {
 	protected $private;
 	protected $existing;
 
+	public static function getUserByUsername($username) {
+		$sql = "SELECT googleIdentifier FROM User WHERE username='?' LIMIT 1";
+		$db = new Database();
+		$id = $db->query($sql, array($username));
+		if (count($id) < 1) {
+			return null;
+		}
+		return new User($id[0]['googleIdentifier']);
+	}
+
 	public function __construct($googleIdentifier = '') {
 		$this->setUsername('');
 		$this->setGoogleIdentifier('');
@@ -29,7 +39,7 @@ class User extends Model {
 
 	public function save() {
 		if ($this->getExisting()) { // update user
-			$sql = "UPDATE User SET username='?', email=?, private=? WHERE googleIdentifier='?' LIMIT 1";
+			$sql = "UPDATE User SET username='?', email='?', private=? WHERE googleIdentifier='?' LIMIT 1";
 			$params = array($this->getUsername(), $this->getEmail(), $this->getPrivate(), $this->getGoogleIdentifier());
 			$db = new Database();
 			$db->insert($sql, $params);
