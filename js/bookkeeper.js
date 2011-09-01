@@ -127,14 +127,19 @@ $(document).ready(function() {
 
 	$("#account").submit(function() {
 		var rtn = false;
-		$.ajax({
-			url: app_url + '/usernamecheck/',
-			async: false,
-			dataType: 'json',
-			success: function(data) {
-				if (data.unique) { rtn = true; }
-			}
-		});
+		var username = $("#username").val();
+		var google = $("#google").val();
+		var email = $("#email").val();
+		if (username != '' && email != '' && google != '') {
+			$.ajax({
+				url: app_url + '/usernamecheck/' + username + '/' + google,
+				async: false,
+				dataType: 'json',
+				success: function(data) {
+					if (data.unique) { rtn = true; }
+				}
+			});
+		}
 		return rtn;
 	});
 

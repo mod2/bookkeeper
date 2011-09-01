@@ -14,10 +14,11 @@ require_once 'openid.php';
 
 $routes = array(
 	"#^" . APP_URL . "/login/?(.*)$#" => 'Bookkeeper::login',
+	"#^" . APP_URL . "/logout/?$#" => 'Bookkeeper::logout',
 	"#^" . APP_URL . "/newaccount/?$#" => 'Bookkeeper::displayNewAccount',
 	"#^" . APP_URL . "/saveaccount/?\?(.*)$#" => 'Bookkeeper::saveAccount',
 	"#^" . APP_URL . "/setup/?$#" => 'Bookkeeper::setup',
-	"#^" . APP_URL . "/usernamecheck/([^/]+)/?$#" => 'Bookkeeper::wsUniqueUsername',
+	"#^" . APP_URL . "/usernamecheck/([^/]+)/([^/]+)/?$#" => 'Bookkeeper::wsUniqueUsername',
 	"#^" . APP_URL . "/([^/]+)/?$#" => 'Bookkeeper::displayUserHome',
 	"#^" . APP_URL . "/([^/]+)/account/?$#" => 'Bookkeeper::displayUserAccount',
 	"#^" . APP_URL . "/([^/]+)/action/savebook/?\?(.*)#" => 'Bookkeeper::saveBook',
