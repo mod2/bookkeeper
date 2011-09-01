@@ -18,8 +18,18 @@ class Bookkeeper
 	 * @return void
 	 **/
 	public static function display404($args) {
-		$b = new Book(2);
-		echo $b->getPagesPerDay();
+		echo json_encode($args);
+		echo "we need a 404 page";
+	}
+
+	/**
+	 * redirectToLogin
+	 * redirects the user to the login page
+	 *
+	 * @author ChadGH
+	 **/
+	public static function redirectToLogin($args) {
+		header('Location: ' . APP_URL . '/login/');
 	}
 
 	/**
@@ -32,27 +42,137 @@ class Bookkeeper
 	 **/
 	public static function login($args) {
 		$bool = false;
+		$openid = new LightOpenID(APP_HOST);
 		try {
-			$openid = new LightOpenID(APP_HOST);
-			if (!$openid->mode) {
+			if (array_key_exists('openid_mode', $_GET) && trim($_GET['openid_mode']) != '') {
+				if ($openid->validate()) {
+					$bool = true;
+				}
+			} else {
 				$openid->identity = 'https://www.google.com/accounts/o8/id';
 				$openid->required = array('contact/email');
 				header('Location: ' . $openid->authUrl());
 				exit(1);
-			} elseif ($openid->validate()) {
-				$bool = true;
 			}
 		} catch(ErrorException $e) {
 			trigger_error($e->getMessage());
 		}
 		
 		if (!$bool) { // didn't successfully login
-			// display login page
-			echo "display login screen";
+			header("Location: http://www.google.com");
 		} else { // successfully logged in
-			header('Location: ' . APP_URL . 'chadgh');
+			/*echo json_encode($openid->getAttributes());*/
+			$attr = $openid->getAttributes();
+			$googleId = trim($attr['contact/email']);
+			$user = new User($googleId);
+			$_SESSION['authorizeduser'] = array();
+			if ($user->getExisting()) {
+				$_SESSION['authorizeduser']['auth'] = true;
+				$_SESSION['authorizeduser']['google'] = $googleId;
+				if ($user->getUsername() == '') {
+					header('Location: ' . APP_URL . '/newaccount/');
+				} else {
+					$_SESSION['authorizeduser']['username'] = $user->getUsername();
+					header('Location: ' . APP_URL . '/' . $user->getUsername());
+				}
+			} else { // new user
+				$_SESSION['authorizeduser']['auth'] = true;
+				$_SESSION['authorizeduser']['google'] = $googleId;
+				$user->setGoogleIdentifier($googleId);
+				$user->setEmail($googleId);
+				$user->save();
+				header('Location: ' . APP_URL . '/newaccount/');
+			}
+		}
+	}
+
+	/**
+	 * checkUserAuth
+	 * returns true or false based on if there is an authenticated user session
+	 *
+	 * @author ChadGH
+	 **/
+	private static function checkUserAuth() {
+		if (!array_key_exists('authorizeduser', $_SESSION) || !array_key_exists('auth', $_SESSION['authorizeduser']) || !$_SESSION['authorizeduser']['auth']) {
+			header('Location: ' . APP_URL . '/');
 			exit(1);
 		}
+	}
+
+	/**
+	 * displayNewAccount
+	 * display the new user account page. This page is used for creating a new user account
+	 *
+	 * @author ChadGH
+	 **/
+	public static function displayNewAccount($args) {
+		self::checkUserAuth();
+		$user = new User($_SESSION['authorizeduser']['google']);
+		$args = new stdClass();
+		$args->title = "New Account";
+		$args->app_url = APP_URL;
+		$args->user = $user;
+		$args->books = array();
+		self::displayTemplate('account.php', $args);
+	}
+
+	/**
+	 * displayUserAccount
+	 * display the user's account page.
+	 *
+	 * @author ChadGH
+	 **/
+	public static function displayUserAccount($args) {
+		self::checkUserAuth();
+		$user = new User($_SESSION['authorizeduser']['google']);
+		$args = new stdClass();
+		$args->username = $user->getUsername();
+		$args->title = "Account | " . $args->username;
+		$args->app_url = APP_URL;
+		$args->user = $user;
+		$args->books = Book::getCurrentBooks($args->username);
+		self::displayTemplate('account.php', $args);
+	}
+
+	/**
+	 * wsUniqueUsername
+	 * returns a true or false indicating whether or not the
+	 * provided username is unique.
+	 *
+	 * @author ChadGH
+	 * @return json bool
+	 **/
+	public static function wsUniqueUsername($args)
+	{
+		$rtnVar = array('unique'=>true);
+		$username = $args[0];
+		$user = User::getUserByUsername($username);
+		if ($user != null) {
+			$rtnVar['unique'] = false;
+		}
+		echo json_encode($rtnVar);
+	}
+
+	/**
+	 * saveAccount
+	 * save account changes
+	 *
+	 * @author ChadGH
+	 **/
+	public static function saveAccount($args) {
+		self::checkUserAuth();
+		$parts = explode('&', $args[0]);
+		$variables = array();
+		foreach ($parts as $variable) {
+			$pair = explode('=', $variable);
+			$variables[$pair[0]] = $pair[1];
+		}
+		$user = new User($_SESSION['authorizeduser']['google']);
+		$user->setUsername($variables['username']);
+		$_SESSION['authorizeduser']['username'] = $user->getUsername();
+		$user->setEmail($variables['email']);
+		$user->save();
+		header('Location: ' . APP_URL . '/' . $user->getUsername());
 	}
 
 	/**
@@ -84,12 +204,14 @@ SQL;
 	}
 
 	public static function displayAddBook($args) {
+		self::checkUserAuth();
 		$user = $args[0];
 		$params = array('title'=>"Add Book | $user", 'new_book'=>true, 'current_book'=>new Book());
 		self::mainPage($user, $params, true);
 	}
 
 	public static function displayEditBook($args) {
+		self::checkUserAuth();
 		$user = $args[0];
 		$slug = $args[1];
 		$b = Book::getBookFromSlug($slug);
@@ -115,8 +237,8 @@ SQL;
 		return $actionHtml;
 	}
 
-	public static function displayBook($args)
-	{
+	public static function displayBook($args) {
+		self::checkUserAuth();
 		$user = $args[0];
 		$slug = $args[1];
 		$b = Book::getBookFromSlug($slug);
@@ -151,6 +273,7 @@ SQL;
 	 * @return void
 	 **/
 	public static function displayUserHome($args) {
+		self::checkUserAuth();
 		$user = $args[0];
 		$params = array('title'=>$user);
 		self::mainPage($user, $params, false, true, "home");
@@ -165,6 +288,7 @@ SQL;
 	 * @return void
 	 **/
 	public static function displayAllBooks($args) {
+		self::checkUserAuth();
 		$username = $args[0];
 
 		$args = new stdClass();
@@ -175,18 +299,20 @@ SQL;
 		$args->books = Book::getCurrentBooks($username);
 
 		// for all books page
-		$args->finishedBooks = Book::getAllFinishedBooks($username);
-		$args->currentBooks = Book::getAllCurrentBooks($username);
-		$args->hiddenBooks = Book::getAllHiddenBooks($username);
+		$args->finishedBooks = Book::getFinishedBooks($username);
+		$args->currentBooks = $args->books;
+		$args->hiddenBooks = Book::getHiddenBooks($username);
 
 		$args->title = "All Books";
 		$args->page = "all";
-		$args->title = 'All Books | ' . $user;
+		$args->title = 'All Books | ' . $username;
 
 		self::displayTemplate('all.php', $args);
 	}
 
 	public static function saveEntry($args) {
+		/*todo check authentication in some way*/
+		/*self::checkUserAuth();*/
 		$username = trim($args[0]);
 		$parts = explode('&', trim($args[1]));
 		$bookid = 0;
@@ -232,6 +358,7 @@ SQL;
 
 
 	public static function deleteBook($args) {
+		self::checkUserAuth();
 		$username = trim($args[0]);
 		$bookId = intval($args[1]);
 		$b = new Book($bookId);
@@ -249,8 +376,8 @@ SQL;
 	 * @param 
 	 * @return void
 	 **/
-	public static function saveBook($args)
-	{
+	public static function saveBook($args) {
+		self::checkUserAuth();
 		$username = trim($args[0]);
 		$parts = explode('&', trim($args[1]));
 		$id = 0;
@@ -333,12 +460,9 @@ SQL;
 	}
 
 	/**
-	 * getTemplate
-	 * undocumented function
+	 * displayTemplate
 	 *
 	 * @author ChadGH
-	 * @param 
-	 * @return void
 	 **/
 	private static function displayTemplate($templateName, $args) {
 		include APP_PATH . '/templates/' . $templateName;

@@ -21,7 +21,7 @@
 		<ul class="allbooks">
 		<?php foreach ($args->currentBooks as $book): ?>
 			<li>
-				<div class="bookinfo"><?php echo $book->getPercentageComplete(); ?>% (<?php echo $book->numPagesLeft; ?> left)</div>
+				<div class="bookinfo"><?php echo $book->getPercentageComplete(); ?>% (<?php echo Book::getPageString($book->getPagesLeft()); ?> left)</div>
 				<h4><a href="<?php echo $args->app_url . '/' . $args->username . '/book/' . $book->getSlug(); ?>"><?php echo $book->getTitle(); ?></a></h4>
 			</li>
 		<?php endforeach; ?>

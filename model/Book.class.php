@@ -39,81 +39,50 @@ class Book extends Model {
 		return new Book(intval($id[0]['bookId']));
 	}
 
-	/*public static function getCurrentBooks($username) {*/
-		/*$sql = "SELECT DISTINCT b.bookId FROM Book b, Entry e WHERE b.bookId=e.bookId and b.username = '?' and b.hidden=0 and (b.totalPages > (SELECT pageNumber FROM Entry WHERE bookId=b.bookId ORDER BY pageNumber DESC LIMIT 1) and b.endDate >= CURDATE())";*/
-		/*return self::getBooks($sql, $username);*/
-	/*}*/
-
-	public static function getFinishedBooks($username) {
-		$sql = "SELECT DISTINCT b.bookId FROM Book b, Entry e WHERE b.bookId=e.bookId and b.username = '?' and (b.totalPages = (SELECT pageNumber FROM Entry WHERE bookId=b.bookId ORDER BY pageNumber DESC LIMIT 1) or b.endDate < CURDATE())";
-		return self::getBooks($sql, $username);
-	}
-
-	public static function getHiddenBooks($username) {
-		$sql = "SELECT DISTINCT bookId FROM Book WHERE username = '?' and hidden=1";
-		return self::getBooks($sql, $username);
-	}
-
 	public static function getBooks($sql, $username) {
 		$db = new Database();
 		$rs = $db->query($sql, array($username));
-		$array = array();
+		$rtn = array();
 		foreach ($rs as $book) {
 			$b = new Book(intval($book['bookId']));
-			$array[] = $b;
+			$rtn[] = $b;
 		}
-		return $array;
+		return $rtn;
 	}
 
 	public static function getCurrentBooks($username) {
-		$sql = "SELECT Book.bookId FROM Book INNER JOIN (SELECT Book.bookId, MAX(Entry.pageNumber) AS lastPage FROM Book JOIN Entry ON Book.bookId = Entry.bookId GROUP BY Book.bookId) groupedEntry ON Book.bookId = groupedEntry.bookId WHERE Book.totalPages > groupedEntry.lastPage AND username = '?' AND hidden = 0";
-		$db = new Database();
-		$rs = $db->query($sql, array($username));
-		$array = array();
-		foreach ($rs as $book) {
-			$b = new Book(intval($book['bookId']));
-			$array[] = $b;
-		}
-		return $array;
+		$sql = <<<SQL
+			SELECT DISTINCT b.bookId 
+			FROM Book b, Entry e 
+			WHERE b.bookId=e.bookId 
+			AND b.username = '?' 
+			AND b.hidden = 0 
+			AND b.totalPages > (SELECT pageNumber FROM Entry WHERE bookId=b.bookId ORDER BY pageNumber DESC LIMIT 1);
+SQL;
+		return self::getBooks($sql, $username);
 	}
 
-	public static function getAllFinishedBooks($username) {
-		$sql = "SELECT Book.bookId, groupedEntry.lastEntry AS finishedDate, DATEDIFF(groupedEntry.lastEntry, Book.startDate) AS totalDays FROM Book INNER JOIN (SELECT Book.bookId, MAX(Entry.pageNumber) AS lastPage, MAX(Entry.entryDate) AS lastEntry FROM Book JOIN Entry ON Book.bookId = Entry.bookId GROUP BY Book.bookId) groupedEntry ON Book.bookId = groupedEntry.bookId WHERE Book.totalPages = groupedEntry.lastPage AND username = '?' AND hidden = 0 ORDER BY finishedDate DESC";
-		$db = new Database();
-		$rs = $db->query($sql, array($username));
-		$array = array();
-		foreach ($rs as $book) {
-			$b = new Book(intval($book['bookId']));
-			$b->finishedDate = $book['finishedDate'];
-			$b->totalDays = Book::getDayString($book['totalDays']);
-			$array[] = $b;
+	public static function getFinishedBooks($username) {
+		$sql = <<<SQL
+			SELECT DISTINCT b.bookId 
+			FROM Book b, Entry e 
+			WHERE b.bookId = e.bookId 
+			AND b.username = '?' 
+			AND b.totalPages = (SELECT pageNumber FROM Entry WHERE bookId=b.bookId ORDER BY pageNumber DESC LIMIT 1)
+			ORDER BY e.entryDate DESC
+SQL;
+		$books = self::getBooks($sql, $username);
+		foreach ($books as $book) {
+			$finishedDate = $book->entries[count($book->entries) - 1]->getEntryDate();
+			$book->finishedDate = date('j M', strtotime($finishedDate));
+			$book->totalDays = Book::getDayString(abs(strtotime($book->getStartDate()) - strtotime($finishedDate)) / (60*60*24));
 		}
-		return $array;
+		return $books;
 	}
 
-	public static function getAllCurrentBooks($username) {
-		$sql = "SELECT Book.bookId, (groupedEntry.lastPage / Book.totalPages * 100) AS percentage, (Book.totalPages - groupedEntry.lastPage) AS pagesLeft FROM Book INNER JOIN (SELECT Book.bookId, MAX(Entry.pageNumber) AS lastPage FROM Book JOIN Entry ON Book.bookId = Entry.bookId GROUP BY Book.bookId) groupedEntry ON Book.bookId = groupedEntry.bookId WHERE Book.totalPages > groupedEntry.lastPage AND username = '?' AND hidden = 0 ORDER BY percentage DESC;";
-		$db = new Database();
-		$rs = $db->query($sql, array($username));
-		$array = array();
-		foreach ($rs as $book) {
-			$b = new Book(intval($book['bookId']));
-			$b->numPagesLeft = Book::getPageString($book['pagesLeft']);
-			$array[] = $b;
-		}
-		return $array;
-	}
-
-	public static function getAllHiddenBooks($username) {
+	public static function getHiddenBooks($username) {
 		$sql = "SELECT bookId FROM Book WHERE username = '?' AND hidden = 1";
-		$db = new Database();
-		$rs = $db->query($sql, array($username));
-		$array = array();
-		foreach ($rs as $book) {
-			$b = new Book(intval($book['bookId']));
-			$array[] = $b;
-		}
-		return $array;
+		return self::getBooks($sql, $username);
 	}
 
 	public function __construct($id = 0) {

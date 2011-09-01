@@ -126,6 +126,19 @@ $(document).ready(function() {
 		return false;
 	});
 
+	$("#account").submit(function() {
+		var rtn = false;
+		$.ajax({
+			url: app_url + '/usernamecheck/',
+			async: false,
+			dataType: 'json',
+			success: function(data) {
+				if (data.unique) { rtn = true; }
+			}
+		});
+		return rtn;
+	});
+
 	$("#currententry").change(function() {
 		bookid = Number($("#currentbookid").val());
 		page = Number($(this).val());
