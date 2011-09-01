@@ -86,6 +86,11 @@ SQL;
 		return self::getBooks($sql, $username);
 	}
 
+	public static function getAllBooks($username) {
+		$sql = "SELECT bookId FROM Book WHERE username = '?'";
+		return self::getBooks($sql, $username);
+	}
+
 	public function __construct($id = 0) {
 		$this->setBookId(0);
 		$this->setUsername('');

@@ -14,6 +14,7 @@
 
 			<input type="submit" value="Save Changes" class="button" />
 
+			<p>API KEY: <?php echo $args->key; ?></p>
 			<p><small>We use the username for the short URL, and the email address is only so we can contact you if something goes wrong. (We won't give it to anyone, especially not vile spammers.)</small></p>
 		</form>
 	</div>

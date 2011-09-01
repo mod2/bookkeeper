@@ -141,8 +141,34 @@ class Bookkeeper
 		$args->title = "Account | " . $args->username;
 		$args->app_url = APP_URL;
 		$args->user = $user;
+		$args->key = hash('sha256', $user->getUsername() . '-' . $user->getGoogleIdentifier() . $user->getEmail());
 		$args->books = Book::getCurrentBooks($args->username);
 		self::displayTemplate('account.php', $args);
+	}
+
+	/**
+	 * wsExport
+	 * export all books and entries in json web service
+	 *
+	 * @author ChadGH
+	 * @return echo json string
+	 **/
+	public static function wsExport($args) {
+		$username = trim($args[0]);
+		$user = User::getUserByUsername($username);
+		if ($user != null) {
+			$key = trim($args[1]);
+			if ($key == hash('sha256', $user->getUsername() . '-' . $user->getGoogleIdentifier() . $user->getEmail())) {
+				$books = Book::getAllBooks($username);
+				$rtn = '[';
+				foreach ($books as $book) {
+					$rtn .= $book->getJson() . ', ';
+				}
+				$rtn = substr($rtn, 0, -2);
+				$rtn .= ']';
+				echo $rtn;
+			}
+		}
 	}
 
 	/**
