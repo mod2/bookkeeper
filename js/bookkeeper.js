@@ -70,13 +70,15 @@ $.extend(DateInput.DEFAULT_OPTS, {
 		} else {
 			return null;
 		};
-	}, 
+	},
 	dateToString: function(date) {
-		var month = (date.getMonth() + 1).toString();
-		var dom = date.getDate().toString();
+		dateObj = new Date(date);
+		fullyear = dateObj.getFullYear();
+		var month = (dateObj.getMonth() + 1).toString();
+		var dom = dateObj.getDate().toString();
 		if (month.length == 1) month = "0" + month;
 		if (dom.length == 1) dom = "0" + dom;
-		return date.getFullYear() + "-" + month + "-" + dom;
+		return fullyear + "-" + month + "-" + dom;
 	}
 });
 
@@ -105,9 +107,6 @@ $(document).ready(function() {
 			var chart = new Chart(current_book.totalPages, bk.calcDaysBetween(current_book.startDate, current_book.endDate, current_book.readingDays), chartEntries, canvas, context);
 		}
 	}
-
-	// set up date pickers
-	$(".date_input").date_input();
 
 	// make sure the entry field exists (if it doesn't, we're on a finished book page)
 	var currententry = $("#currententry");
@@ -159,4 +158,7 @@ $(document).ready(function() {
 			var chart = new Chart(data.totalPages, bk.calcDaysBetween(data.startDate, data.endDate, data.readingDays), chartEntries, canvas, context);
 		});
 	});
+
+	// set up date pickers
+	$(".date_input").date_input();
 });
