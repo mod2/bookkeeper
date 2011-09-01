@@ -47,8 +47,6 @@ body							{ margin: 0; padding: 0; font-family: "Crimson Text", Georgia, serif;
 #today .pagenum					{ font-weight: bold; }
 #today .pagecount				{ color: #999; font-style: italic; }
 
-/*#today #over, #today #reached, #today #notreadingday	{ display: none; }*/
-
 #goals                          { float: right; color: #666; font-family: "Lucida Grande", Helvetica, Arial, sans-serif; font-size: 12px; text-shadow: 0 1px 1px #fff; /* padding: 0px 2px 0px 10px; */ }
 #goals input                    { font-size: 1.3em; font-weight: bold; border: none; padding: 1px 8px; width: 4.5em; margin-left: 2px; -moz-border-radius: 1em; -webkit-border-radius: 1em; border-radius: 1em; border-width: 1px; border-style: solid; border-color: #ddd; color: #6f1515; }
 #goals input:focus              { outline: none; background: #fffee6; }

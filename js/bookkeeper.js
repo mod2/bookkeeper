@@ -97,11 +97,14 @@ $(document).ready(function () {
 	// set up date pickers
 	$(".date_input").date_input();
 
-	// focus on the entry
-	$("#currententry").focus();
-	// and move the cursor to the end
-	var entrylength = $("#currententry").val().length;
-	$("#currententry")[0].setSelectionRange(entrylength, entrylength);
+	// make sure the entry field exists (if it doesn't, we're on a finished book page)
+	if ($("#currententry").val()) {
+		// focus on the entry
+		$("#currententry").focus();
+		// and move the cursor to the end
+		var entrylength = $("#currententry").val().length;
+		$("#currententry")[0].setSelectionRange(entrylength, entrylength);
+	}
 
 	$("#deletebooklink").click(function () {
 		if (confirm("Are you sure you want to delete this book? This action can not be undone.")) {

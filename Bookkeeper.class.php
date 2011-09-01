@@ -100,7 +100,9 @@ SQL;
 
 	private static function getActionHTML($book) {
 		$actionHtml = '';
-		if (!$book->isTodayAReadingDay()) {
+		if ($book->getPagesLeft() == 0) {
+			$actionHtml = "<div id='finished' class='action'>You finished!</div>";
+		} elseif (!$book->isTodayAReadingDay()) {
 			$actionHtml = "<div id='notreadingday' class='action'>You&rsquo;re off the hook today.</div>";
 		} elseif ($book->getPagesToday() == 0) {
 			$actionHtml = "<div id='reached' class='action'>You&rsquo;ve hit your goal for today.</div>";
