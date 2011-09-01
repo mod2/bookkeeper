@@ -13,9 +13,12 @@ require_once 'Bookkeeper.class.php';
 require_once 'openid.php';
 
 $routes = array(
-	"#^" . APP_URL . "/login/?$#" => 'Bookkeeper::login',
+	"#^" . APP_URL . "/login/?(.*)$#" => 'Bookkeeper::login',
+	"#^" . APP_URL . "/newaccount/?$#" => 'Bookkeeper::displayNewAccount',
+	"#^" . APP_URL . "/saveaccount/?\?(.*)$#" => 'Bookkeeper::saveAccount',
 	"#^" . APP_URL . "/setup/?$#" => 'Bookkeeper::setup',
 	"#^" . APP_URL . "/([^/]+)/?$#" => 'Bookkeeper::displayUserHome',
+	"#^" . APP_URL . "/([^/]+)/account/?$#" => 'Bookkeeper::displayUserAccount',
 	"#^" . APP_URL . "/([^/]+)/action/savebook/?\?(.*)#" => 'Bookkeeper::saveBook',
 	"#^" . APP_URL . "/([^/]+)/action/deletebook/([\d]+)#" => 'Bookkeeper::deleteBook',
 	"#^" . APP_URL . "/([^/]+)/action/saveentry/?\?(.*)#" => 'Bookkeeper::saveEntry',
@@ -23,7 +26,8 @@ $routes = array(
 	"#^" . APP_URL . "/([^/]+)/book/add/?$#" => 'Bookkeeper::displayAddBook',
 	"#^" . APP_URL . "/([^/]+)/book/([^/]+)/?$#" => 'Bookkeeper::displayBook',
 	"#^" . APP_URL . "/([^/]+)/book/([^/]+)/edit/?$#" => 'Bookkeeper::displayEditBook',
-	"#^" . APP_URL . "/([^/]+)/all/?$#" => 'Bookkeeper::displayAllBooks'
+	"#^" . APP_URL . "/([^/]+)/all/?$#" => 'Bookkeeper::displayAllBooks',
+	"#^" . APP_URL . "/?$#" => 'Bookkeeper::redirectToLogin'
 );
 
 Router::routeURI($routes, 'Bookkeeper::display404');

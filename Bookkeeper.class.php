@@ -18,8 +18,18 @@ class Bookkeeper
 	 * @return void
 	 **/
 	public static function display404($args) {
-		$b = new Book(2);
-		echo $b->getPagesPerDay();
+		echo json_encode($args);
+		echo "we need a 404 page";
+	}
+
+	/**
+	 * redirectToLogin
+	 * redirects the user to the login page
+	 *
+	 * @author ChadGH
+	 **/
+	public static function redirectToLogin($args) {
+		header('Location: ' . APP_URL . '/login/');
 	}
 
 	/**
@@ -32,26 +42,96 @@ class Bookkeeper
 	 **/
 	public static function login($args) {
 		$bool = false;
+		$openid = new LightOpenID(APP_HOST);
 		try {
-			$openid = new LightOpenID(APP_HOST);
-			if (!$openid->mode) {
+			if (array_key_exists('openid_mode', $_GET) && trim($_GET['openid_mode']) != '') {
+				if ($openid->validate()) {
+					$bool = true;
+				}
+			} else {
 				$openid->identity = 'https://www.google.com/accounts/o8/id';
 				$openid->required = array('contact/email');
 				header('Location: ' . $openid->authUrl());
 				exit(1);
-			} elseif ($openid->validate()) {
-				$bool = true;
 			}
 		} catch(ErrorException $e) {
 			trigger_error($e->getMessage());
 		}
 		
 		if (!$bool) { // didn't successfully login
-			// display login page
-			echo "display login screen";
+			header("Location: http://www.google.com");
 		} else { // successfully logged in
-			header('Location: ' . APP_URL . 'chadgh');
-			exit(1);
+			/*echo json_encode($openid->getAttributes());*/
+			$attr = $openid->getAttributes();
+			$googleId = trim($attr['contact/email']);
+			$user = new User($googleId);
+			$_SESSION['authorizeduser'] = array();
+			if ($user->getExisting()) {
+				$_SESSION['authorizeduser']['auth'] = true;
+				$_SESSION['authorizeduser']['google'] = $googleId;
+				if ($user->getUsername() == '') {
+					header('Location: ' . APP_URL . '/newaccount/');
+				} else {
+					$_SESSION['authorizeduser']['username'] = $user->getUsername();
+					header('Location: ' . APP_URL . '/' . $user->getUsername());
+				}
+			} else { // new user
+				$_SESSION['authorizeduser']['auth'] = true;
+				$_SESSION['authorizeduser']['google'] = $googleId;
+				$user->setGoogleIdentifier($googleId);
+				$user->setEmail($googleId);
+				$user->save();
+				header('Location: ' . APP_URL . '/newaccount/');
+			}
+		}
+	}
+
+	/**
+	 * authenticatedUser
+	 * returns true or false based on if there is an authenticated user session
+	 *
+	 * @author ChadGH
+	 **/
+	private static function authenticatedUser() {
+		$rtnAuth = false;
+		if (array_key_exists('authorizeduser', $_SESSION) && array_key_exists('auth', $_SESSION['authorizeduser']) && $_SESSION['authorizeduser']['auth']) {
+			$rtnAuth = true;
+		}
+		return $rtnAuth;
+	}
+
+	/**
+	 * displayNewAccount
+	 * display the new user account page. This page is used for creating a new user account
+	 *
+	 * @author ChadGH
+	 **/
+	public static function displayNewAccount($args) {
+		if (self::authenticatedUser()) {
+			$user = new User($_SESSION['bookkeeper']['authorizeduser']['google']);
+			$args = new stdClass();
+			$args->title = "New Account";
+			$args->user = $user;
+			$args->books = array();
+			self::displayTemplate('account.php', $args);
+		} else {
+			header('Location: ' . APP_URL . '/');
+			exit();
+		}
+	}
+
+	/**
+	 * saveAccount
+	 * save account changes
+	 *
+	 * @author ChadGH
+	 **/
+	public static function saveAccount($args) {
+		if (self::authenticatedUser()) {
+			$parts = explode('&', $args[0]);
+		} else {
+			header('Location: ' . APP_URL . '/');
+			exit();
 		}
 	}
 
@@ -180,7 +260,7 @@ SQL;
 		$args->hiddenBooks = Book::getAllHiddenBooks($username);
 
 		$args->page = "all";
-		$args->title = 'All Books | ' . $user;
+		$args->title = 'All Books | ' . $username;
 
 		self::displayTemplate('all.php', $args);
 	}

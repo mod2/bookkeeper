@@ -4,12 +4,12 @@
 	<div id="view">
 		<h1>Account</h1>
 
-		<form id="account">
+		<form action="<?php echo $args->app_url . '/saveaccount/'; ?>" id="account">
 			<label>Username</label>
-			<input type="text" id="username" name="username" />
+			<input type="text" id="username" name="username" value="<?php echo $args->user->getUsername(); ?>"/>
 
 			<label>Email address</label>
-			<input type="email" id="email" name="email" />
+			<input type="email" id="email" name="email" value="<?php echo $args->user->getEmail(); ?>"/>
 
 			<input type="submit" value="Save Changes" class="button" />
 
