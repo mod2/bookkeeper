@@ -39,10 +39,10 @@ class Book extends Model {
 		return new Book(intval($id[0]['bookId']));
 	}
 
-	public static function getCurrentBooks($username) {
-		$sql = "SELECT DISTINCT b.bookId FROM Book b, Entry e WHERE b.bookId=e.bookId and b.username = '?' and b.hidden=0 and (b.totalPages > (SELECT pageNumber FROM Entry WHERE bookId=b.bookId ORDER BY pageNumber DESC LIMIT 1) and b.endDate >= CURDATE())";
-		return self::getBooks($sql, $username);
-	}
+	/*public static function getCurrentBooks($username) {*/
+		/*$sql = "SELECT DISTINCT b.bookId FROM Book b, Entry e WHERE b.bookId=e.bookId and b.username = '?' and b.hidden=0 and (b.totalPages > (SELECT pageNumber FROM Entry WHERE bookId=b.bookId ORDER BY pageNumber DESC LIMIT 1) and b.endDate >= CURDATE())";*/
+		/*return self::getBooks($sql, $username);*/
+	/*}*/
 
 	public static function getFinishedBooks($username) {
 		$sql = "SELECT DISTINCT b.bookId FROM Book b, Entry e WHERE b.bookId=e.bookId and b.username = '?' and (b.totalPages = (SELECT pageNumber FROM Entry WHERE bookId=b.bookId ORDER BY pageNumber DESC LIMIT 1) or b.endDate < CURDATE())";
