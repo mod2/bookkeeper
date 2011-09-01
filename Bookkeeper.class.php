@@ -113,6 +113,8 @@ class Bookkeeper
 		$args->app_url = APP_URL;
 		$args->user = $user;
 		$args->books = array();
+		$args->username = '';
+		$args->page = 'newaccount';
 		self::displayTemplate('account.php', $args);
 	}
 
