@@ -165,6 +165,6 @@ form#account p small				{ color: #999; font-family: "Lucida Grande", Helvetica, 
 /* Subfooter */
 /* -------------------------------------------------- */
 
-#detail > footer				{ position: relative; top: 20px; font-size: 11px; font-family: "Lucida Grande", Helvetica, Arial, sans-serif; color: #999; padding: 0 5px; }
-#detail > footer a				{ color: #777; text-decoration: none; }
+#detail > footer				{ position: relative; top: 20px; font-size: 11px; font-family: "Lucida Grande", Helvetica, Arial, sans-serif; color: #999; padding: 0 5px; clear: both; overflow: hidden; }
+#detail > footer a				{ color: #888; text-decoration: none; font-weight: bold; }
 #detail > footer a#logoutlink	{ float: right; }
