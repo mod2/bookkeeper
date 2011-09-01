@@ -32,6 +32,12 @@ class Bookkeeper
 		header('Location: ' . APP_URL . '/login/');
 	}
 
+	public static function logout($args) {
+		$_SESSION['authorizeduser'] = array();
+		unset($_SESSION['authorizeduser']);
+		header('Location: http://www.google.com');
+	}
+
 	/**
 	 * login
 	 * redirects to google (using openId) to login a user.
