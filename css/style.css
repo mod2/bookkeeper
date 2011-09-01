@@ -30,12 +30,12 @@ body							{ margin: 0; padding: 0; font-family: "Crimson Text", Georgia, serif;
 /* Book detail */
 /* -------------------------------------------------- */
 
-#detail							{ background: #fff; width: 65%; max-width: 700px; float: left; box-shadow: -5px 0 10px rgba(0, 0, 0, 0.1), 5px 0 10px rgba(0, 0, 0, 0.1); -moz-border-radius: 0 0 .5em .5em; -webkit-border-radius: 0 0 .5em .5em; border-radius: 0 0 .5em .5em; margin-bottom: 100px; min-height: 300px; }
+#detail							{ background: #fff; width: 65%; max-width: 700px; float: left; box-shadow: -5px 0 10px rgba(0, 0, 0, 0.1), 5px 0 10px rgba(0, 0, 0, 0.1); -moz-border-radius: 0 0 .5em .5em; -webkit-border-radius: 0 0 .5em .5em; border-radius: 0 0 .5em .5em; margin-bottom: 100px; }
 #detail h1						{ font-size: 36px; font-weight: normal; letter-spacing: -0.05em; font-style: italic; margin: 0; color: #6f1515; line-height: 1.1em; }
 #detail h1:first-child			{ margin-top: 50px; }
 #detail h3						{ text-transform: uppercase; color: #999; margin: 2em 0 .3em 0; font-size: .9em; font-weight: normal; letter-spacing: 0.05em; }
 
-#view							{ padding: 50px; padding-top: 0; }
+#view							{ padding: 50px; padding-top: 0; min-height: 300px; }
 #edit							{ padding: 50px; padding-top: 0; }
 
 
@@ -118,8 +118,8 @@ ul#dangerous li a				{ color: #666; text-decoration: none; border-bottom: dotted
 /* Footer */
 /* -------------------------------------------------- */
 
-footer							{ border-top: dotted 1px #bbb; padding-top: 5px; font-size: 10px; font-family: "Lucida Grande", Helvetica, Arial, sans-serif; text-align: right; }
-footer a						{ text-decoration: none; border-bottom: dotted 1px #999; color: #666; }
+#view footer, #edit footer		{ border-top: dotted 1px #bbb; padding-top: 5px; font-size: 10px; font-family: "Lucida Grande", Helvetica, Arial, sans-serif; text-align: right; }
+#view footer a, #edit footer a	{ text-decoration: none; border-bottom: dotted 1px #999; color: #666; }
 
 
 /* Datepicker */
@@ -160,3 +160,11 @@ form#account input[type="text"]		{ width: 175px; }
 form#account input[type="email"]	{ width: 250px; }
 form#account input[type="submit"]	{ margin: 1em 0; }
 form#account p small				{ color: #999; font-family: "Lucida Grande", Helvetica, Arial, sans-serif; font-size: 10px; line-height: 1.4em; }
+
+
+/* Subfooter */
+/* -------------------------------------------------- */
+
+#detail > footer				{ position: relative; top: 20px; font-size: 11px; font-family: "Lucida Grande", Helvetica, Arial, sans-serif; color: #999; padding: 0 5px; }
+#detail > footer a				{ color: #777; text-decoration: none; }
+#detail > footer a#logoutlink	{ float: right; }

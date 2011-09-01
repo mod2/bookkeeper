@@ -37,6 +37,7 @@
 		</ul>
 		<?php endif; ?>
 	</div>
+	<?php include 'subfooter.php'; ?>
 </section>
 
 <?php include 'footer.php'; ?>
