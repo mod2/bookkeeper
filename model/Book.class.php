@@ -54,10 +54,11 @@ class Book extends Model {
 		$sql = <<<SQL
 			SELECT DISTINCT b.bookId 
 			FROM Book b, Entry e 
-			WHERE b.bookId=e.bookId 
-			AND b.username = '?' 
+			WHERE b.username = '?' 
 			AND b.hidden = 0 
-			AND b.totalPages > (SELECT pageNumber FROM Entry WHERE bookId=b.bookId ORDER BY pageNumber DESC LIMIT 1);
+			AND ((b.bookId=e.bookId AND b.totalPages > (SELECT pageNumber FROM Entry WHERE bookId=b.bookId ORDER BY pageNumber DESC LIMIT 1))
+			OR (SELECT COUNT(*) FROM Entry WHERE bookId=b.bookId) = 0)
+			ORDER BY b.bookId;
 SQL;
 		return self::getBooks($sql, $username);
 	}
@@ -153,37 +154,35 @@ SQL;
 
 	public function save() {
 		if ($this->getBookId() > 0) { // update book
-			//todo if title has changed change slug
 			$sql = "UPDATE Book SET username='?', title='?', totalPages=?, startDate='?', endDate='?', sunday=?, monday=?, tuesday=?, wednesday=?, thursday=?, friday=?, saturday=?, hidden=?, private=?, slug='?' WHERE bookId=? LIMIT 1";
 			$params = array($this->getUsername(), $this->getTitle(), $this->getTotalPages(), $this->getMYSQLStartDate(), $this->getMYSQLEndDate(), $this->getSunday(), $this->getMonday(), $this->getTuesday(), $this->getWednesday(), $this->getThursday(), $this->getFriday(), $this->getSaturday(), $this->getHidden(), $this->getPrivate(), $this->getSlug(), $this->getBookId());
 			$db = new Database();
 			$db->insert($sql, $params);
 		} else { // new book
 			$db = new Database();
-			$slug = str_replace(' ', '-', strtolower($this->getTitle()));
-			$sql = "SELECT slug FROM Book WHERE slug LIKE '?%'";
-			$rs = $db->query($sql, array($slug));
-			$count = 1;
-			//todo this doesn't work quite right
-			if (count($rs) > 0) {
-				foreach ($rs as $slug) {
-					$currentCount = intval(substr($slug['slug'], -1));
-					if ($currentCount >= $count) {
-						$count = $currentCount + 1;
-					} else {
-						$count++;
-					}
-				}
-			}
-			if ($count > 1) {
-				$slug .= '-' . $count;
-			}
-			$this->setSlug($slug);
+			$this->setSlug($this->generateSlug());
 			$sql = "INSERT INTO Book (username, title, totalPages, startDate, endDate, sunday, monday, tuesday, wednesday, thursday, friday, saturday, hidden, private, slug) VALUES ('?', '?', ?, '?', '?', ?, ?, ?, ?, ?, ?, ?, ?, ?, '?')";
 			$params = array($this->getUsername(), $this->getTitle(), $this->getTotalPages(), $this->getMYSQLStartDate(), $this->getMYSQLEndDate(), $this->getSunday(), $this->getMonday(), $this->getTuesday(), $this->getWednesday(), $this->getThursday(), $this->getFriday(), $this->getSaturday(), $this->getHidden(), $this->getPrivate(), $this->getSlug());
 			$id = $db->insert($sql, $params);
 			$this->setBookId($id);
 		}
+	}
+
+	private function generateSlug() {
+		$db = new Database();
+		$slug = preg_replace('#\s#', '-', preg_replace('#[^\w\s]#', '', strtolower(trim($this->getTitle()))));
+		$sql = "SELECT slug FROM Book WHERE slug LIKE '?%'";
+		$rs = $db->query($sql, array($slug));
+		$count = 1;
+		if (count($rs) > 0) {
+			foreach ($rs as $r) {
+				$count++;
+			}
+		}
+		if ($count > 1) {
+			$slug .= '-' . strval($count);
+		}
+		return $slug;
 	}
 
 	public function delete() {
