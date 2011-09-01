@@ -129,7 +129,7 @@ SQL;
 		$args = new stdClass();
 		$args->username = $username;
 		$args->app_url = APP_URL;
-		$args->books = Book::getAllBooks($username);
+		$args->books = Book::getCurrentBooks($username);
 		$args->edit_mode = $displayEdit;
 		$args->home_mode = $displayHome;
 		$args->page = $page;
@@ -153,6 +153,20 @@ SQL;
 		$params = array('title'=>$user);
 		self::mainPage($user, $params, false, true, "home");
 	}
+
+	public static function displayAllBooks($args) {
+		$user = $args[0];
+		$args = new stdClass();
+		$args->username = $user;
+		$args->app_url = APP_URL;
+		$args->books = Book::getCurrentBooks($user);
+		$args->finished_books = Book::getFinishedBooks($user);
+		$args->hidden_books = Book::getHiddenBooks($user);
+		$args->page = 'all';
+		$args->title = 'All Books | ' . $user;
+		self::displayTemplate('all.php', $args);
+	}
+
 
 	public static function saveEntry($args) {
 		$username = trim($args[0]);
