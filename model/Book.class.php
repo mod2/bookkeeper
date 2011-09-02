@@ -407,7 +407,11 @@ SQL;
 	}
 
 	public function getMYSQLStartDate() {
-		return date('Y-m-d', strtotime($this->getStartDate()));
+		if ($this->getStartDate() == '' || $this->getStartDate() == '0000-00-00') {
+			return '0000-00-00';
+		} else {
+			return date('Y-m-d', strtotime($this->getStartDate()));
+		}	
 	}
 
 	public function setStartDate($value) {
@@ -419,7 +423,11 @@ SQL;
 	}
 
 	public function getMYSQLEndDate() {
-		return date('Y-m-d', strtotime($this->getEndDate()));
+		if ($this->getEndDate() == '' || $this->getEndDate() == '0000-00-00') {
+			return '0000-00-00';
+		} else {
+			return date('Y-m-d', strtotime($this->getEndDate()));
+		}
 	}
 
 	public function setEndDate($value) {

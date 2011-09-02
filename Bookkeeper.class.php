@@ -274,6 +274,8 @@ SQL;
 			$actionHtml = "<div id='finished' class='action'>You finished!</div>";
 		} elseif (!$book->isTodayAReadingDay()) {
 			$actionHtml = "<div id='notreadingday' class='action'>You&rsquo;re off the hook today.</div>";
+		} elseif ($book->getEndDate() == '0000-00-00') {
+			$actionHtml = "<div id='nogoalread' class='action'>Read!</div>";
 		} elseif ($book->getPagesToday() == 0) {
 			$actionHtml = "<div id='reached' class='action'>You&rsquo;ve hit your goal for today.</div>";
 		} elseif ($book->getPagesToday() < 0) {
@@ -501,15 +503,6 @@ SQL;
 				case 'editbookenddate':
 					$b->setEndDate($value);
 					break;
-				/*case 'hidden':*/
-					/*$b->setHidden($value);*/
-					/*break;*/
-				/*case 'private':*/
-					/*$b->setPrivate($value);*/
-					/*break;*/
-				/*case 'editbookid':*/
-					/*$b->setBookId($value);*/
-					/*break;*/
 				case 'sunday':
 					$b->setSunday(true);
 					break;
