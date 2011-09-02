@@ -4,8 +4,8 @@
 			<input type="hidden" name="editbookid" value="<?php if (!$args->new_book): echo $args->current_book->getBookId(); endif; ?>" id="editbookid">
 			<label for="editbookname">Title</label><input type="text" name="editbooktitle" value="<?php if (!$args->new_book): echo $args->current_book->getTitle(); endif; ?>" id="editbooktitle">
 			<label for="editbooktotalpages">Total Pages</label><input type="text" name="editbooktotalpages" value="<?php if (!$args->new_book): echo $args->current_book->getTotalPages(); endif; ?>" id="editbooktotalpages" maxlength="5">
-			<label for="editbookstartdate">Start Date</label><input type="text" name="editbookstartdate" value="<?php if ($args->new_book) { echo date("Y-m-d"); } else { echo $args->current_book->getStartDate(); } ?>" id="editbookstartdate" class="date_input">
-			<label for="editbookenddate">End Date</label><input type="text" name="editbookenddate" value="<?php if (!$args->new_book): echo $args->current_book->getEndDate(); endif; ?>" id="editbookenddate" class="date_input">
+			<label for="editbookstartdate">Start Date</label><input type="text" name="editbookstartdate" value="<?php if ($args->new_book) { echo date("Y-m-d"); } else { echo $args->current_book->getStartDate(); } ?>" id="editbookstartdate" class="date_input"><small>Format: YYYY-MM-DD</small>
+			<label for="editbookenddate">End Date</label><input type="text" name="editbookenddate" value="<?php if (!$args->new_book): echo $args->current_book->getEndDate(); endif; ?>" id="editbookenddate" class="date_input" placeholder="YYYY-MM-DD"><small>Format: YYYY-MM-DD</small>
 
 			<h3>Reading Days</h3>
 			<ul id="readingdays">

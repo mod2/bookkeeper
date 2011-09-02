@@ -91,11 +91,13 @@ ul#entries li .date				{ color: #aaa; }
 #edit input[type="text"]		{ padding: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; border: solid 1px #bbb; font-weight: bold; font-size: 1em; }
 #edit #editbooktitle			{ width: 400px; }
 #edit #editbooktotalpages		{ width: 62px; }
-#edit #editbookstartdate		{ width: 120px; }
-#edit #editbookenddate			{ width: 120px; }
+#edit #editbookstartdate		{ width: 140px; }
+#edit #editbookenddate			{ width: 140px; }
+#edit small						{ color: #999; font-family: "Lucida Grande", Helvetica, Arial, sans-serif; display: inline-block; margin-left: 8px; font-size: 10px; }
 
 #edit ul#readingdays			{ margin: 0 0 1.5em 0; padding: 0; clear: both; overflow: hidden; }
 #edit ul#readingdays li			{ display: inline; margin-right: 15px; float: left; text-align: center; }
+#edit ul#readingdays li label	{ margin-top: 0; }
 
 
 /* Dangerous */
