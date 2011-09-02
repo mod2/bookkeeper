@@ -323,7 +323,20 @@ SQL;
 	public static function displayUserHome($args) {
 		$user = $args[0];
 		self::checkUserAuth($user);
-		$params = array('title'=>$user);
+		$books = Book::getCurrentBooks($user);
+		$activeBooks = array();
+		$dormantBooks = array();
+		$reachedBooks = array();
+		foreach ($books as $book) {
+			if ($book->isTodayAReadingDay() && $book->getPagesToday() > 0) {
+				$activeBooks[] = $book;
+			} elseif ($book->isTodayAReadingDay() && $book->getPagesToday() <= 0) {
+				$reachedBooks[] = $book;
+			} elseif (!$book->isTodayAReadingDay()) {
+				$dormantBooks[] = $book;
+			}
+		}
+		$params = array('title'=>$user, 'activeBooks'=>$activeBooks, 'reachedBooks'=>$reachedBooks, 'dormantBooks'=>$dormantBooks);
 		self::mainPage($user, $params, false, true, "home");
 	}
 
