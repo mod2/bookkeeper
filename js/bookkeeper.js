@@ -98,6 +98,11 @@ $(document).ready(function() {
 		currententry[0].setSelectionRange(entrylength, entrylength);
 	}
 
+	var editTitle = $("#editbooktitle");
+	if (editTitle && editTitle.length > 0 && $("#edit h1").text() == 'Add Book') {
+		editTitle.focus();
+	}
+
 	$("#deletebooklink").click(function() {
 		if (confirm("Are you sure you want to delete this book? This action can not be undone.")) {
 			return true;
