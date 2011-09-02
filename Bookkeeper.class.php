@@ -219,6 +219,7 @@ class Bookkeeper
 		$user->setUsername($variables['username']);
 		$_SESSION['authorizeduser']['username'] = $user->getUsername();
 		$user->setEmail($variables['email']);
+		$user->setTimezone($variables['timezone']);
 		$user->save();
 		header('Location: ' . APP_URL . '/' . $user->getUsername());
 	}
