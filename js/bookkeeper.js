@@ -128,6 +128,13 @@ $(document).ready(function() {
 		return rtn;
 	});
 
+	$("#currententry").keydown(function(e) {
+		var charCode = (e.which) ? e.which : e.keyCode;
+		if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
+			return false;
+		return true;
+	});
+
 	$("#currententry").change(function() {
 		bookid = Number($("#currentbookid").val());
 		page = Number($(this).val());
