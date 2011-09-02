@@ -431,7 +431,7 @@ SQL;
 		if ($b->getUsername() == $username) {
 			$b->delete();
 		}
-		header('Location: ' . APP_URL . "/$username/");
+		header('Location: ' . APP_URL . "/$username/all");
 	}
 
 	/**
