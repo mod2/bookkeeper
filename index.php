@@ -23,6 +23,7 @@ $routes = array(
 	"#^" . APP_URL . "/([^/]+)/account/?$#" => 'Bookkeeper::displayUserAccount',
 	"#^" . APP_URL . "/([^/]+)/action/savebook/?\?(.*)#" => 'Bookkeeper::saveBook',
 	"#^" . APP_URL . "/([^/]+)/action/deletebook/([\d]+)#" => 'Bookkeeper::deleteBook',
+	"#^" . APP_URL . "/([^/]+)/action/hidebook/([\d]+)#" => 'Bookkeeper::hideBook',
 	"#^" . APP_URL . "/([^/]+)/action/saveentry/?\?(.*)#" => 'Bookkeeper::saveEntry',
 	"#^" . APP_URL . "/([^/]+)/action/saveuser/?\?(.*)#" => 'Bookkeeper::saveUser',
 	"#^" . APP_URL . "/([^/]+)/book/add/?$#" => 'Bookkeeper::displayAddBook',

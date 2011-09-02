@@ -397,6 +397,24 @@ SQL;
 		echo $b->getJson();
 	}
 
+	public static function hideBook($args) {
+		$username = trim($args[0]);
+		self::checkUserAuth($username);
+		$bookId = intval($args[1]);
+		$b = new Book($bookId);
+		$redirect = '';
+		if ($b->getUsername() == $username) {
+			if ($b->getHidden()) {
+				$b->setHidden(false);
+				$redirect = 'book/' . $b->getSlug();
+			} else {
+				$b->setHidden(true);
+				$redirect = 'all';
+			}
+			$b->save();
+		}
+		header('Location: ' . APP_URL . "/$username/$redirect");
+	}
 
 	public static function deleteBook($args) {
 		$username = trim($args[0]);

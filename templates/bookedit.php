@@ -21,7 +21,11 @@
 			<p><input type="submit" value="Save Book" class="button"></p>
 
 			<ul id="dangerous" <?php if($args->new_book): echo 'style="display:none;"'; endif; ?>>
-				<li><a id="hidebooklink" href="#">Hide this book</a></li>
+				<?php if (!$args->new_book && $args->current_book->getHidden()): ?>
+				<li><a id="hidebooklink" href="<?php echo $args->app_url . '/' . $args->username . '/action/hidebook/' . $args->current_book->getBookId(); ?>">Show this book</a></li>
+				<?php elseif (!$args->newbook && !$args->current_book->getHidden()): ?>
+				<li><a id="hidebooklink" href="<?php echo $args->app_url . '/' . $args->username . '/action/hidebook/' . $args->current_book->getBookId(); ?>">Hide this book</a></li>
+				<?php endif; ?>
 				<li><a id="deletebooklink" href="<?php echo $args->app_url . '/' . $args->username . '/action/deletebook/' . $args->current_book->getBookId(); ?>">Delete this book</a></li>
 			</ul>
 		</form>
