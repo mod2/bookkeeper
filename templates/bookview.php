@@ -23,6 +23,8 @@
 			<?php if ($endDate != '0000-00-00'): ?>
 			<li><h3>Goal date</h3><span id="goaldate"><?php echo date("j M", strtotime($args->current_book->getEndDate())); ?></span></li>
 			<?php endif; ?>
+			<?php $entries = $args->current_book->getEntries(); ?>
+			<li><h3>Finished date</h3><span id="finisheddate"><?php echo date("j M", strtotime($entries[count($entries) - 1]->getEntryDate())); ?></span></li>
 		<?php endif; ?>
 			<li><h3>Total pages</h3><span id="totalpages"><?php echo $args->current_book->getTotalPages(); ?></span></li>
 		</ul>
