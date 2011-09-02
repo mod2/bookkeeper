@@ -163,7 +163,4 @@ $(document).ready(function() {
 			var chart = new Chart(data.totalPages, bk.calcDaysBetween(data.startDate, data.endDate, data.readingDays), chartEntries, canvas, context);
 		});
 	});
-
-	// set up date pickers
-	$(".date_input").date_input();
 });
