@@ -145,6 +145,8 @@ $(document).ready(function() {
 			if (percent == 100) {
 				// hide the li since we're done
 				parent_li = $("#booklist li a#book" + data.bookId).parent("li");
+				parent_li.css("z-index", "-50");
+				parent_li.css("position", "relative");
 				width = parent_li.width() + 10;
 				parent_li.animate({ left: '+=' + width }, 500, function() { $(this).hide(); } );
 			}

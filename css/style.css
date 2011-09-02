@@ -10,7 +10,7 @@ body							{ margin: 0; padding: 0; font-family: "Crimson Text", Georgia, serif;
 
 #sidebar						{ width: 35%; float: left; }
 #sidebar ul						{ margin: 0; width: 90%; max-width: 275px; float: right; list-style: none; clear: both; }
-#sidebar ul li					{ line-height: 1.3em; margin-bottom: 7px; padding-left: 8px; -moz-border-radius: .5em 0 0 .5em; -webkit-border-radius: .5em 0 0 .5em; border-radius: .5em 0 0 .5em; box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3); border-style: solid none none solid; border-width: 1px; border-color: rgba(255, 255, 255, 0.6); background: #dcd9c7; background: -webkit-gradient(linear, left top, left bottom, from(#dcd9c7), to(#ccc9b7)); background: -moz-linear-gradient(top, #dcd9c7, #ccc9b7); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dcd9c7', endColorstr='#ccc9b7'); min-width: 115px; z-index: -50; position: relative; }
+#sidebar ul li					{ line-height: 1.3em; margin-bottom: 7px; padding-left: 8px; -moz-border-radius: .5em 0 0 .5em; -webkit-border-radius: .5em 0 0 .5em; border-radius: .5em 0 0 .5em; box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3); border-style: solid none none solid; border-width: 1px; border-color: rgba(255, 255, 255, 0.6); background: #dcd9c7; background: -webkit-gradient(linear, left top, left bottom, from(#dcd9c7), to(#ccc9b7)); background: -moz-linear-gradient(top, #dcd9c7, #ccc9b7); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dcd9c7', endColorstr='#ccc9b7'); min-width: 115px; }
 #sidebar ul li a				{ padding: 7px 0 3px; display: inline-block; color: #000; text-decoration: none; font-style: italic; font-size: 1.2em; text-shadow: #fff -1px 1px 1px; width: 100%; }
 #sidebar ul li a .percentage	{ font-style: normal; text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6); }
 
