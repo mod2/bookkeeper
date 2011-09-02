@@ -10,7 +10,7 @@
 		<?php endforeach; ?>
 		</ul>
 
-		<h3>Ahead</h3>
+		<h3>Awesomeness Incarnate (Goals Already Met)</h3>
 		<ul class="smalllist">
 		<li><a href="#">Well of Ascension (by 5 pages)</a></li>
 		</ul>
