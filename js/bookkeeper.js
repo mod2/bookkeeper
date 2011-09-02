@@ -141,6 +141,13 @@ $(document).ready(function() {
 			$("#entries").html(content);
 			chartEntries = bk.chartEntries(data);
 			var chart = new Chart(data.totalPages, bk.calcDaysBetween(data.startDate, data.endDate, data.readingDays), chartEntries, canvas, context);
+
+			if (percent == 100) {
+				// hide the li since we're done
+				parent_li = $("#booklist li a#book" + data.bookId).parent("li");
+				width = parent_li.width() + 10;
+				parent_li.animate({ left: '+=' + width }, 500, function() { $(this).hide(); } );
+			}
 		});
 	});
 });

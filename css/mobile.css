@@ -5,8 +5,8 @@
 #sidebar						{ float: none; width: 100%; overflow: hidden; clear: both; }
 #sidebar ul						{ width: 100%; max-width: 100%; float: none; padding: 0; }
 #sidebar ul li					{ margin-bottom: 1px; -moz-border-radius: 0px; -webkit-border-radius: 0px; border-radius: 0px; }
+#sidebar ul li.pagelink:first-child		{ margin-top: 8px; }
 #sidebar h3						{ width: 100%; max-width: 100%; float: none; }
-#sidebar h3:first-child			{ margin-top: 8px; }
 
 #detail							{ float: none; width: 100%; margin-bottom: 0; -moz-border-radius: 0px; -webkit-border-radius: 0px; border-radius: 0px; padding-bottom: 30px; }
 #detail h1:first-child			{ margin-top: 15px; padding-top: 25px; }
