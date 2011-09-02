@@ -35,7 +35,7 @@ body							{ margin: 0; padding: 0; font-family: "Crimson Text", Georgia, serif;
 #detail h1:first-child			{ margin-top: 50px; }
 #detail h3						{ text-transform: uppercase; color: #999; margin: 2em 0 .3em 0; font-size: .9em; font-weight: normal; letter-spacing: 0.05em; }
 
-#view							{ padding: 50px; padding-top: 0; min-height: 300px; }
+#view							{ padding: 50px; padding-top: 0; min-height: 500px; }
 #edit							{ padding: 50px; padding-top: 0; }
 
 
@@ -144,10 +144,10 @@ ul.allbooks > li h4 a:hover		{ color: #6f1515; text-decoration: underline; }
 
 ul.allbooks > li .bookinfo		{ float: right; margin-top: 5px; font-family: "Lucida Grande", Helvetica, Arial, sans-serif; font-size: 11px; color: #666; margin-left: 15px; }
 
-ul.allbooks.hidden				{ border-bottom: solid 1px #ddd; }
-ul.allbooks.hidden > li			{ font-family: "Lucida Grande", Helvetica, Arial, sans-serif; font-size: 11px; margin: 5px 5px 5px 0; display: inline-block; border: none; }
-ul.allbooks.hidden > li a		{ color: #999; padding: 3px 8px 5px; background: #eee; -moz-border-radius: 1em; -webkit-border-radius: 1em; border-radius: 1em; text-decoration: none; }
-ul.allbooks.hidden > li a:hover	{ background: #bbb; color: #fff; }
+ul.smalllist					{ border-top: solid 1px #ddd; border-bottom: solid 1px #ddd; padding: 0; margin: 0; }
+ul.smalllist > li				{ font-family: "Lucida Grande", Helvetica, Arial, sans-serif; font-size: 11px; margin: 5px 0px 5px 0; padding: 4px 0 5px; display: inline-block; border: none; }
+ul.smalllist > li a				{ color: #999; padding: 3px 8px 5px; background: #eee; -moz-border-radius: 1em; -webkit-border-radius: 1em; border-radius: 1em; text-decoration: none; }
+ul.smalllist > li a:hover		{ background: #bbb; color: #fff; }
 
 
 /* Account */
@@ -168,3 +168,15 @@ form#account p small				{ color: #999; font-family: "Lucida Grande", Helvetica, 
 #detail > footer				{ position: relative; top: 20px; font-size: 11px; font-family: "Lucida Grande", Helvetica, Arial, sans-serif; color: #999; padding: 0 5px; clear: both; overflow: hidden; }
 #detail > footer a				{ color: #888; text-decoration: none; font-weight: bold; }
 #detail > footer #subfooterlinks	{ float: right; }
+
+
+/* Home (Dashboard) */
+/* -------------------------------------------------- */
+
+ul#todaysreading				{ padding: 0; list-style: none; margin: 0; border-top: solid 1px #ddd; }
+ul#todaysreading li				{ padding: 5px 0; font-size: 22px; line-height: 1em; color: #999; font-style: italic; clear: both; overflow: hidden; border-bottom: solid 1px #ddd; }
+ul#todaysreading li .pages		{ width: 175px; margin-right: 15px; font-style: normal; font-weight: bold; color: #6f1515; display: inline-block; }
+ul#todaysreading li .numpages	{ color: #999; font-weight: normal; font-size: .8em; }
+ul#todaysreading li .booktitle	{ display: inline-block; }
+ul#todaysreading li .booktitle a { letter-spacing: -0.05em; color: #000; text-decoration: none; }
+ul#todaysreading li .booktitle a:hover { text-decoration: underline; }

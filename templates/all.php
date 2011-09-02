@@ -30,7 +30,7 @@
 
 		<?php if (count($args->hiddenBooks) > 0): ?>
 		<h3>Hidden</h3>
-		<ul class="allbooks hidden">
+		<ul class="allbooks smalllist">
 		<?php foreach ($args->hiddenBooks as $book): ?>
 			<li><a href="<?php echo $args->app_url . '/' . $args->username . '/book/' . $book->getSlug(); ?>"><?php echo $book->getTitle(); ?></a></li>
 		<?php endforeach; ?>
