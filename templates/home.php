@@ -12,7 +12,8 @@
 
 		<h3>Awesomeness Incarnate (Goals Already Met)</h3>
 		<ul class="smalllist">
-		<li><a href="#">Well of Ascension (by 5 pages)</a></li>
+		<li><a href="#">Well of Ascension (5 pages ahead)</a></li>
+		<li><a href="#">Hero of Ages</a></li>
 		</ul>
 
 		<h3>Off the Hook Today</h3>
