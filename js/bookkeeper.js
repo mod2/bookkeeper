@@ -97,7 +97,11 @@ $(document).ready(function() {
 			if (current_book.endDate == '0000-00-00') {
 				var chart = new Chart(current_book.totalPages, bk.calcDaysBetween(current_book.startDate, current_book.entries[current_book.entries.length - 1].entryDate, []), chartEntries, false, canvas, context);
 			} else {
-				var chart = new Chart(current_book.totalPages, bk.calcDaysBetween(current_book.startDate, current_book.endDate, current_book.readingDays), chartEntries, true, canvas, context);
+				if (current_book.entries.length > 0 && bk.compareDates(parseDate(current_book.entries[current_book.entries.length - 1].entryDate), parseDate(current_book.endDate)) >= 0) {
+					var chart = new Chart(current_book.totalPages, bk.calcDaysBetween(current_book.startDate, current_book.entries[current_book.entries.length - 1].entryDate, current_book.readingDays), chartEntries, true, canvas, context);
+				} else {
+					var chart = new Chart(current_book.totalPages, bk.calcDaysBetween(current_book.startDate, current_book.endDate, current_book.readingDays), chartEntries, true, canvas, context);
+				}
 			}
 		}
 	}
@@ -169,7 +173,11 @@ $(document).ready(function() {
 			if (data.endDate == '0000-00-00') {
 				var chart = new Chart(data.totalPages, bk.calcDaysBetween(data.startDate, data.entries[data.entries.length - 1].entryDate, []), chartEntries, false, canvas, context);
 			} else {
-				var chart = new Chart(data.totalPages, bk.calcDaysBetween(data.startDate, data.endDate, data.readingDays), chartEntries, true, canvas, context);
+				if (bk.compareDates(parseDate(data.entries[data.entries.length - 1].entryDate), parseDate(data.endDate)) >= 0) {
+					var chart = new Chart(data.totalPages, bk.calcDaysBetween(data.startDate, data.entries[data.entries.length - 1].entryDate, data.readingDays), chartEntries, true, canvas, context);
+				} else {
+					var chart = new Chart(data.totalPages, bk.calcDaysBetween(data.startDate, data.endDate, data.readingDays), chartEntries, true, canvas, context);
+				}
 			}
 
 			if (percent == 100) {
