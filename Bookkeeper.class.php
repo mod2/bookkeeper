@@ -18,8 +18,15 @@ class Bookkeeper
 	 * @return void
 	 **/
 	public static function display404($args) {
-		echo json_encode($args);
-		echo "we need a 404 page";
+		$user = new User($_SESSION['authorizeduser']['google']);
+		$args = new stdClass();
+		$args->title = "File Not Found (404)";
+		$args->user = $user;
+		$args->app_url = APP_URL;
+		$args->page = '404';
+		$args->username = $user->getUsername();
+		$args->books = Book::getCurrentBooks($args->username);
+		self::displayTemplate('404.php', $args);
 	}
 
 	/**
