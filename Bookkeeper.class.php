@@ -150,6 +150,7 @@ class Bookkeeper
 		$args->user = $user;
 		$args->key = hash('sha256', $user->getUsername() . '-' . $user->getGoogleIdentifier() . $user->getEmail());
 		$args->books = Book::getCurrentBooks($args->username);
+		$args->page = "account";
 		self::displayTemplate('account.php', $args);
 	}
 
