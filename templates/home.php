@@ -17,7 +17,7 @@
 			<?php if ($book->getPagesToday() == 0): ?>
 			<li><a href="<?php echo $args->app_url . '/' . $args->username . '/book/' . $book->getSlug(); ?>"><?php echo $book->getTitle(); ?></a></li>
 			<?php else: ?>
-			<li><a href="<?php echo $args->app_url . '/' . $args->username . '/book/' . $book->getSlug(); ?>"><?php echo $book->getTitle(); ?> (<?php echo Book::getPageString($book->getPagesToday()); ?> ahead)</a></li>
+			<li><a href="<?php echo $args->app_url . '/' . $args->username . '/book/' . $book->getSlug(); ?>"><?php echo $book->getTitle(); ?> (<?php echo Book::getPageString(abs($book->getPagesToday())); ?> ahead)</a></li>
 			<?php endif; ?>
 		<?php endforeach; ?>
 		</ul>
