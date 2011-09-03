@@ -16,3 +16,8 @@ ul#entries						{ column-count: 1; -webkit-column-count: 1; -moz-column-count: 1
 #detail > footer				{ position: inherit; top: 0px; padding: 0 25px; }
 #detail > footer #subfooterlinks { float: left; margin-top: 10px; color: #fff; }
 #detail > footer #subfooterlinks a { display: inline-block; padding: 5px 15px; background: #eee; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; }
+
+ul.biglist li					{ padding: 10px 0; }
+ul.biglist li .pages			{ display: block; width: auto; }
+
+#editbooktitle					{ width: 100%; max-width: 100%; }
