@@ -14,14 +14,16 @@
 
 			<label for="timezone">Timezone</label>
 			<select name="timezone" id="timezone">
-				<option value="Africa" <?php if ($args->user->getTimezone() == 'Africa') { echo 'selected="selected"'; } ?>>Africa</option>
-				<option value="America" <?php if ($args->user->getTimezone() == 'America') { echo 'selected="selected"'; } ?>>America</option>
-				<option value="Antarctica" <?php if ($args->user->getTimezone() == 'Antarctica') { echo 'selected="selected"'; } ?>>Antarctica</option>
-				<option value="Aisa" <?php if ($args->user->getTimezone() == 'Aisa') { echo 'selected="selected"'; } ?>>Aisa</option>
-				<option value="Atlantic" <?php if ($args->user->getTimezone() == 'Atlantic') { echo 'selected="selected"'; } ?>>Atlantic</option>
-				<option value="Europe" <?php if ($args->user->getTimezone() == 'Europe') { echo 'selected="selected"'; } ?>>Europe</option>
-				<option value="Indian" <?php if ($args->user->getTimezone() == 'Indian') { echo 'selected="selected"'; } ?>>Indian</option>
-				<option value="Pacific" <?php if ($args->user->getTimezone() == 'Pacific') { echo 'selected="selected"'; } ?>>Pacific</option>
+			<?php
+			$tzlist[] = DateTimeZone::listIdentifiers(DateTimeZone::ALL);
+			$tzlist = $tzlist[0];
+			foreach ($tzlist as $timezone) {
+				echo "<option value='$timezone' ";
+				if ($args->user->getTimezone() == $timezone) {
+					echo 'selected="selected"';
+				}
+				echo ">$timezone</option>\n";
+			} ?>
 			</select>
 			<br>
 

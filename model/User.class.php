@@ -22,7 +22,7 @@ class User extends Model {
 		$this->setGoogleIdentifier('');
 		$this->setEmail('');
 		$this->setPrivate(true);
-		$this->setTimezone('America');
+		$this->setTimezone('America/Denver');
 		$this->setExisting(false);
 		if (trim($googleIdentifier) != '') {
 			$sql = "SELECT * FROM User WHERE googleIdentifier='?' LIMIT 1";
