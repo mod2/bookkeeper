@@ -113,6 +113,18 @@ class Bookkeeper
 			header('Location: ' . APP_URL . '/');
 			exit(1);
 		}
+		if ($username != '') {
+			$user = new User($username);
+			$zones = array('Africa' => DateTimeZone::AFRICA,
+				'America' => DateTimeZone::AMERICA,
+				'Antarctica' => DateTimeZone::ANTARCTICA,
+				'Aisa' => DateTimeZone::ASIA,
+				'Atlantic' => DateTimeZone::ATLANTIC,
+				'Europe' => DateTimeZone::EUROPE,
+				'Indian' => DateTimeZone::INDIAN,
+				'Pacific' => DateTimeZone::PACIFIC);
+			date_default_timezone_set($zones[$user->getTimezone()]);
+		}
 	}
 
 	/**
