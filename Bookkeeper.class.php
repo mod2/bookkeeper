@@ -335,16 +335,19 @@ SQL;
 		$activeBooks = array();
 		$dormantBooks = array();
 		$reachedBooks = array();
+		$noGoalBooks = array();
 		foreach ($books as $book) {
-			if ($book->isTodayAReadingDay() && $book->getPagesToday() > 0) {
+			if ($book->isTodayAReadingDay() && $book->getPagesToday() > 0 && $book->getEndDate() != '0000-00-00') {
 				$activeBooks[] = $book;
-			} elseif ($book->isTodayAReadingDay() && $book->getPagesToday() <= 0) {
+			} elseif ($book->isTodayAReadingDay() && $book->getPagesToday() <= 0 && $book->getEndDate() != '0000-00-00') {
 				$reachedBooks[] = $book;
+			} elseif ($book->isTodayAReadingDay() && $book->getEndDate() == '0000-00-00') {
+				$noGoalBooks[] = $book;
 			} elseif (!$book->isTodayAReadingDay()) {
 				$dormantBooks[] = $book;
 			}
 		}
-		$params = array('title'=>$user, 'activeBooks'=>$activeBooks, 'reachedBooks'=>$reachedBooks, 'dormantBooks'=>$dormantBooks);
+		$params = array('title'=>$user, 'activeBooks'=>$activeBooks, 'reachedBooks'=>$reachedBooks, 'dormantBooks'=>$dormantBooks, 'noGoalBooks'=>$noGoalBooks);
 		self::mainPage($user, $params, false, true, "home");
 	}
 
