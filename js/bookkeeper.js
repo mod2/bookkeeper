@@ -94,11 +94,12 @@ $(document).ready(function() {
 		if (canvas.getContext) {
 			context = canvas.getContext('2d');
 			chartEntries = bk.chartEntries(current_book);
+			lastEntry = current_book.entries[current_book.entries.length - 1];
 			if (current_book.endDate == '0000-00-00') {
-				var chart = new Chart(current_book.totalPages, bk.calcDaysBetween(current_book.startDate, current_book.entries[current_book.entries.length - 1].entryDate, []), chartEntries, false, canvas, context);
+				var chart = new Chart(current_book.totalPages, bk.calcDaysBetween(current_book.startDate, lastEntry.entryDate, []), chartEntries, false, canvas, context);
 			} else {
-				if (current_book.entries.length > 0 && bk.compareDates(parseDate(current_book.entries[current_book.entries.length - 1].entryDate), parseDate(current_book.endDate)) >= 0) {
-					var chart = new Chart(current_book.totalPages, bk.calcDaysBetween(current_book.startDate, current_book.entries[current_book.entries.length - 1].entryDate, current_book.readingDays), chartEntries, true, canvas, context);
+				if (current_book.entries.length > 0 && bk.compareDates(parseDate(lastEntry.entryDate), parseDate(current_book.endDate)) >= 0) {
+					var chart = new Chart(current_book.totalPages, bk.calcDaysBetween(current_book.startDate, lastEntry.entryDate, current_book.readingDays), chartEntries, true, canvas, context);
 				} else {
 					var chart = new Chart(current_book.totalPages, bk.calcDaysBetween(current_book.startDate, current_book.endDate, current_book.readingDays), chartEntries, true, canvas, context);
 				}

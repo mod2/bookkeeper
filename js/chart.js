@@ -36,7 +36,7 @@ function Chart(numPages, numDays, entries, drawGoalLines, canvas, context) {
 		// set up intervals
 		bgline_step = this.displayHeight / NUMLINES;
 		day_step = this.displayWidth / this.numDays;
-		tick_step = this.displayWidth / this.numDays;
+		tick_step = this.displayWidth / (this.numDays - 1);
 		page_step = this.displayHeight / this.numPages;
 
 		// clear the canvas
@@ -81,12 +81,14 @@ function Chart(numPages, numDays, entries, drawGoalLines, canvas, context) {
 		// and the bottom labels (days)
 		c.textAlign = "center";
 		c.textBaseline = "top";
-		daylabel_step = this.displayWidth / DAYLABELS;
+		if (this.numDays < DAYLABELS) {
+			DAYLABELS = this.numDays;
+		}
+		daylabel_step = this.displayWidth / (DAYLABELS - 1);
 		numdays_step = this.numDays / DAYLABELS;
-		c.fillText("1", this.minX, this.maxY + LABELMARGIN);
 		c.closePath();
-		for (i=1; i<=DAYLABELS; i++) {
-			c.fillText(Math.round(i * numdays_step), this.minX + (i * daylabel_step), this.maxY + LABELMARGIN);
+		for (i=0; i<DAYLABELS; i++) {
+			c.fillText(Math.round(i * numdays_step) + 1, this.minX + (i * daylabel_step), this.maxY + LABELMARGIN);
 		}
 		c.closePath();
 
@@ -100,44 +102,46 @@ function Chart(numPages, numDays, entries, drawGoalLines, canvas, context) {
 			c.closePath();
 		}
 
-		// now the lines for the entries
-		x = this.minX;
-		y = this.maxY;
-		c.beginPath();
-		c.moveTo(x, y);
-		c.strokeStyle = "#000";
-		c.fillStyle = "rgba(0, 0, 0, 0.2)";
-		for (i in this.entries) {
-			y = this.maxY - (this.entries[i].page * page_step);
-			x = this.minX + (this.entries[i].day * tick_step);
-			c.lineTo(x, y);
-		}
-
-		// and the fill line (with the shading)
-		c.stroke();
-		c.lineTo(this.maxX, y);
-		c.lineTo(this.maxX, this.maxY);
-		c.fill();
-		c.closePath();
-	
-		// draw entry circles	
-		c.fillStyle = "#000";
-		for (i in this.entries) {
-			y = this.maxY - (this.entries[i].page * page_step);
-			x = this.minX + (this.entries[i].day * tick_step);
+		if (this.entries.length > 0) {
+			// now the lines for the entries
+			x = this.minX;
+			y = this.maxY;
 			c.beginPath();
-			c.arc(x, y, 2, 0, Math.PI * 2, false);
+			c.moveTo(x, y);
+			c.strokeStyle = "#000";
+			c.fillStyle = "rgba(0, 0, 0, 0.2)";
+			for (i in this.entries) {
+				y = this.maxY - (this.entries[i].page * page_step);
+				x = this.minX + ((this.entries[i].day - 1) * tick_step);
+				c.lineTo(x, y);
+			}
+
+			// and the fill line (with the shading)
+			c.stroke();
+			c.lineTo(this.maxX, y);
+			c.lineTo(this.maxX, this.maxY);
 			c.fill();
 			c.closePath();
-		}
+		
+			// draw entry circles	
+			c.fillStyle = "#000";
+			for (i in this.entries) {
+				y = this.maxY - (this.entries[i].page * page_step);
+				x = this.minX + ((this.entries[i].day - 1) * tick_step);
+				c.beginPath();
+				c.arc(x, y, 2, 0, Math.PI * 2, false);
+				c.fill();
+				c.closePath();
+			}
 
-		// and the current goal
-		if (drawGoalLines) {
-			c.beginPath();
-			c.strokeStyle = "rgba(255, 0, 0, 0.3)";
-			c.dashedLine(this.minX + (this.entries[i].day * tick_step), y, this.maxX, this.minY, 5);
-			c.stroke();
-			c.closePath();
+			// and the current goal
+			if (drawGoalLines) {
+				c.beginPath();
+				c.strokeStyle = "rgba(255, 0, 0, 0.3)";
+				c.dashedLine(this.minX + ((this.entries[i].day - 1) * tick_step), y, this.maxX, this.minY, 5);
+				c.stroke();
+				c.closePath();
+			}
 		}
 	};
 
