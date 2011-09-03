@@ -204,34 +204,6 @@ SQL;
 	#***************************************************************************
 	# Business Logic
 	#***************************************************************************
-	public function getChartEntries() {
-		$chartpoints = array();
-		$previousPage = 0;
-		$currentEntry = 0;
-		$today = strtotime(date('Y-m-d'));
-		/*for ($loopTime = strtotime($this->getStartDate(); $loopTime <= $today; $looptime += 86400) {*/
-
-		/*}*/
-		/*for (loopTime = new Date(goal.startDate); loopTime <= today; loopTime.setTime(loopTime.valueOf() + 86400000)) {*/
-			/*if (goal.readingDays[loopTime.getDay()] == 1) {*/
-				/*date = loopTime.getFullYear() + '-' + (loopTime.getMonth() + 1) + '-' + loopTime.getDate();*/
-				/*for (currentEntry; currentEntry < entries.length; currentEntry++) {*/
-					/*compared = this.compareDates(new Date(entries[currentEntry].date), new Date(date));*/
-					/*if (compared == 0) {*/
-						/*previousPage = entries[currentEntry].page;*/
-						/*break;*/
-					/*} else if (compared == 1) {*/
-						/*break;*/
-					/*} else {*/
-						/*previousPage = entries[currentEntry].page;*/
-					/*}*/
-				/*}*/
-				/*chartpoints.push(previousPage);*/
-			/*}*/
-		/*}*/
-		/*return chartpoints;*/
-	}
-
 	public function getCurrentPage() {
 		if (count($this->entries) > 0) {
 			return $this->entries[count($this->entries) - 1]->getPageNumber();
@@ -347,11 +319,11 @@ SQL;
 		return $days;
 	}
 
-	private function compareDate($date1, $date2) {
+	public static function compareDate($date1, $date2) {
 		$rtnInt = 0;
 		$dateA = strtotime($date1);
 		$dateB = strtotime($date2);
-		if ($dateA < $date2) {
+		if ($dateA < $dateB) {
 			$rtnInt = -1;
 		} elseif ($dateA > $dateB) {
 			$rtnInt = 1;
