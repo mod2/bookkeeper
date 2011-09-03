@@ -391,6 +391,8 @@ SQL;
 		/*todo check authentication in some way*/
 		/*self::checkUserAuth();*/
 		$username = trim($args[0]);
+		$user = new User($username);
+		date_default_timezone_set($user->getTimezone());
 		$parts = explode('&', trim($args[1]));
 		$bookid = 0;
 		$page = 0;
