@@ -1,7 +1,7 @@
 /* General */
 /* -------------------------------------------------- */
 
-body							{ margin: 0; padding: 0; font-family: "Crimson Text", Georgia, serif; background: #e5e3da; background: -webkit-gradient(radial, 50% 0, 500px, 50% 0 2000px, from(#f5f3ea), to(#ccc9b9)); background: -moz-radial-gradient(50% 0, circle, #f5f3ea 0%, #ccc9b9 70%); background: -webkit-radial-gradient(50% 0, circle, #f5f3ea, #ccc9b9); background: radial-gradient(50% 0, circle, #f5f3ea, #ccc9b9); }
+body							{ margin: 0; padding: 0; font-family: "Crimson Text", Georgia, serif; background: #d5d3ca; background: -webkit-gradient(radial, 50% 0, 500px, 50% 0 2000px, from(#f5f3ea), to(#ccc9b9)); background: -webkit-radial-gradient(50% 0, circle, #f5f3ea, #ccc9b9); background: radial-gradient(50% 0, circle, #f5f3ea, #ccc9b9); }
 #content						{ overflow: hidden; clear: both; }
 
 
