@@ -44,11 +44,11 @@ var Bookkeeper = function() {
 			currentEntry = 0;
 			tempday = new Date();
 			count = 0;
-			today = parseDate(tempday.getUTCFullYear() + '-' + (tempday.getUTCMonth() + 1) + '-' + tempday.getUTCDate());
+			today = parseDate(tempday.getFullYear() + '-' + (tempday.getMonth() + 1) + '-' + tempday.getDate());
 			for (loopTime = parseDate(book.startDate); loopTime <= today; loopTime.setTime(loopTime.valueOf() + 86400000)) {
 				if (book.readingDays[loopTime.getDay()] == 1) {
 					count++;
-					date = loopTime.getUTCFullYear() + '-' + (loopTime.getUTCMonth() + 1) + '-' + loopTime.getUTCDate();
+					date = loopTime.getFullYear() + '-' + (loopTime.getMonth() + 1) + '-' + loopTime.getDate();
 					for (currentEntry; currentEntry < book.entries.length; currentEntry++) {
 						compared = this.compareDates(parseDate(book.entries[currentEntry].entryDate), parseDate(date));
 						if (compared == 0) {
