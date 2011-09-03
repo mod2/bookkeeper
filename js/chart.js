@@ -102,7 +102,30 @@ function Chart(numPages, numDays, entries, drawGoalLines, canvas, context) {
 			c.closePath();
 		}
 
-		if (this.entries.length > 0) {
+		if (this.entries.length == 1) {
+			pageY = this.maxY - this.entries[0].page * page_step;
+			c.beginPath();
+			c.moveTo(this.minX, this.maxY);
+			c.lineTo(this.minX, pageY);
+			c.lineTo(this.maxX, pageY);
+			c.lineTo(this.maxX, this.maxY);
+			c.fillStyle = "rgba(0, 0, 0, 0.2)";
+			c.fill();
+			c.closePath();
+
+			c.strokeStyle = "#000";
+			c.beginPath();
+			c.moveTo(this.minX, this.maxY);
+			c.lineTo(this.minX, pageY);
+			c.stroke();
+			c.closePath();
+
+			c.fillStyle = "#000";
+			c.beginPath();
+			c.arc(this.minX, pageY, 2, 0, Math.PI * 2, false);
+			c.fill();
+			c.closePath();
+		} else if (this.entries.length > 1) {
 			// now the lines for the entries
 			x = this.minX;
 			y = this.maxY;
