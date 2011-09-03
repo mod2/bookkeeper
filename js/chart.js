@@ -69,7 +69,7 @@ function Chart(numPages, numDays, entries, canvas, context) {
 		c.textAlign = "right";
 		c.fillText(this.numPages, this.minX - LABELMARGIN, this.minY);
 		c.fillText(Math.round(this.numPages / 2), this.minX - LABELMARGIN, midY);
-		c.fillText("0", this.minX - LABELMARGIN, this.maxY);
+		c.fillText("1", this.minX - LABELMARGIN, this.maxY);
 		c.closePath();
 
 		// draw right side labels (percentage)
@@ -83,7 +83,9 @@ function Chart(numPages, numDays, entries, canvas, context) {
 		c.textBaseline = "top";
 		daylabel_step = this.displayWidth / DAYLABELS;
 		numdays_step = this.numDays / DAYLABELS;
-		for (i=0; i<=DAYLABELS; i++) {
+		c.fillText("1", this.minX, this.maxY + LABELMARGIN);
+		c.closePath();
+		for (i=1; i<=DAYLABELS; i++) {
 			c.fillText(Math.round(i * numdays_step), this.minX + (i * daylabel_step), this.maxY + LABELMARGIN);
 		}
 		c.closePath();
