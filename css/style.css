@@ -178,10 +178,10 @@ a#exportlink					{ color: #666; font-family: "Lucida Grande", Helvetica, Arial, 
 /* Home (Dashboard) */
 /* -------------------------------------------------- */
 
-ul#todaysreading				{ padding: 0; list-style: none; margin: 0; border-top: solid 1px #ddd; }
-ul#todaysreading li				{ padding: 5px 0; font-size: 22px; line-height: 1em; color: #999; font-style: italic; clear: both; overflow: hidden; border-bottom: solid 1px #ddd; }
-ul#todaysreading li .pages		{ width: 175px; margin-right: 15px; font-style: normal; font-weight: bold; color: #6f1515; display: inline-block; }
-ul#todaysreading li .numpages	{ color: #999; font-weight: normal; font-size: .8em; }
-ul#todaysreading li .booktitle	{ display: inline-block; }
-ul#todaysreading li .booktitle a { letter-spacing: -0.05em; color: #000; text-decoration: none; }
-ul#todaysreading li .booktitle a:hover { text-decoration: underline; }
+ul.biglist						{ padding: 0; list-style: none; margin: 0; border-top: solid 1px #ddd; }
+ul.biglist li					{ padding: 5px 0; font-size: 22px; line-height: 1em; color: #999; font-style: italic; clear: both; overflow: hidden; border-bottom: solid 1px #ddd; }
+ul.biglist li .pages			{ width: 175px; margin-right: 15px; font-style: normal; font-weight: bold; color: #6f1515; display: inline-block; }
+ul.biglist li .numpages			{ color: #999; font-weight: normal; font-size: .8em; }
+ul.biglist li .booktitle		{ display: inline-block; }
+ul.biglist li .booktitle a		{ letter-spacing: -0.05em; color: #000; text-decoration: none; }
+ul.biglist li .booktitle a:hover { text-decoration: underline; }
