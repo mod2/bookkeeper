@@ -1,6 +1,15 @@
 <?php
 class Database
 {
+	public function testDatabase() {
+		try {
+			$this->query('SELECT * FROM User;', array());
+			return true;
+		} catch	(Exception $e) {
+			return false;
+		}
+	}
+
 	private function dbConnect() {
 		$conn = mysql_connect(DB_HOST, DB_USER, DB_PASS) or $this->throwException(mysql_error());
 		mysql_select_db(DB_DATABASE, $conn) or $this->throwException(mysql_error()); 

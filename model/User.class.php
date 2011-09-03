@@ -4,6 +4,7 @@ class User extends Model {
 	protected $googleIdentifier;
 	protected $email;
 	protected $private;
+	protected $timezone;
 	protected $existing;
 
 	public static function getUserByUsername($username) {
@@ -21,6 +22,7 @@ class User extends Model {
 		$this->setGoogleIdentifier('');
 		$this->setEmail('');
 		$this->setPrivate(true);
+		$this->setTimezone('America');
 		$this->setExisting(false);
 		if (trim($googleIdentifier) != '') {
 			$sql = "SELECT * FROM User WHERE googleIdentifier='?' LIMIT 1";
@@ -32,6 +34,7 @@ class User extends Model {
 				$this->setGoogleIdentifier($results[0]['googleIdentifier']);
 				$this->setEmail($results[0]['email']);
 				$this->setPrivate($results[0]['private']);
+				$this->setTimezone($results[0]['timezone']);
 				$this->setExisting(true);
 			}
 		}
@@ -39,13 +42,13 @@ class User extends Model {
 
 	public function save() {
 		if ($this->getExisting()) { // update user
-			$sql = "UPDATE User SET username='?', email='?', private=? WHERE googleIdentifier='?' LIMIT 1";
-			$params = array($this->getUsername(), $this->getEmail(), $this->getPrivate(), $this->getGoogleIdentifier());
+			$sql = "UPDATE User SET username='?', email='?', private=?, timezone='?' WHERE googleIdentifier='?' LIMIT 1";
+			$params = array($this->getUsername(), $this->getEmail(), $this->getPrivate(), $this->getTimezone(), $this->getGoogleIdentifier());
 			$db = new Database();
 			$db->insert($sql, $params);
 		} else { // new user
-			$sql = "INSERT INTO User (username, email, private, googleIdentifier) VALUES ('?', '?', ?, '?')";
-			$params = array($this->getUsername(), $this->getEmail(), $this->getPrivate(), $this->getGoogleIdentifier());
+			$sql = "INSERT INTO User (username, email, private, timezone, googleIdentifier) VALUES ('?', '?', ?, '?', '?')";
+			$params = array($this->getUsername(), $this->getEmail(), $this->getPrivate(), $this->getTimezone(), $this->getGoogleIdentifier());
 			$db = new Database();
 			$db->insert($sql, $params);
 			$this->setExisting(true);
@@ -99,6 +102,14 @@ class User extends Model {
 		} else {
 			$this->private = false;
 		}
+	}
+
+	public function getTimezone() {
+		return $this->timezone;
+	}
+
+	public function setTimezone($zone) {
+		$this->timezone = $zone;
 	}
 
 	public function getExisting() {

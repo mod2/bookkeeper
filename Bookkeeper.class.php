@@ -219,6 +219,7 @@ class Bookkeeper
 		$user->setUsername($variables['username']);
 		$_SESSION['authorizeduser']['username'] = $user->getUsername();
 		$user->setEmail($variables['email']);
+		$user->setTimezone($variables['timezone']);
 		$user->save();
 		header('Location: ' . APP_URL . '/' . $user->getUsername());
 	}
@@ -233,22 +234,27 @@ class Bookkeeper
 	 **/
 	public static function setup($args)
 	{
-		$database = DB_DATABASE;
-		$sql = <<<SQL
-			USE `$database`;
-			DROP TABLE IF EXISTS User;
-			CREATE TABLE `User` (`username` VARCHAR(255) character set utf8 NOT NULL DEFAULT '', `googleIdentifier` varchar(255) character set utf8 NOT NULL DEFAULT '', `email` varchar(255) character set utf8 NOT NULL DEFAULT '', `private` tinyint(1) NOT NULL DEFAULT '1', PRIMARY KEY (`googleIdentifier`)) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-			DROP TABLE IF EXISTS Book;
-			CREATE TABLE `Book` (`bookId` int(11) NOT NULL auto_increment, `username` varchar(255) character set utf8 NOT NULL DEFAULT '', `title` varchar(255) character set utf8 NOT NULL DEFAULT '', `totalPages` int(11) NOT NULL DEFAULT '0', `startDate` date NOT NULL, `endDate` date NOT NULL, `sunday` tinyint(1) NOT NULL DEFAULT '1', `monday` tinyint(1) NOT NULL DEFAULT '1', `tuesday` tinyint(1) NOT NULL DEFAULT '1', `wednesday` tinyint(1) NOT NULL DEFAULT '1', `thursday` tinyint(1) NOT NULL DEFAULT '1', `friday` tinyint(1) NOT NULL DEFAULT '1', `saturday` tinyint(1) NOT NULL DEFAULT '1', `hidden` tinyint(1) NOT NULL DEFAULT '0', `private` tinyint(1) NOT NULL DEFAULT '1', `slug` varchar(255) NOT NULL DEFAULT '', PRIMARY KEY (`bookId`)) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-			DROP TABLE IF EXISTS Entry;
-			CREATE TABLE `Entry` (`entryId` int(11) NOT NULL auto_increment, `bookId` int(11) NOT NULL DEFAULT '0', `pageNumber` int(11) NOT NULL DEFAULT '0', `entryDate` date NOT NULL, PRIMARY KEY (`entryId`)) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+		$db = new Database();
+		if (!$db->testDatabase()) {
+			$database = DB_DATABASE;
+			$sql = <<<SQL
+				USE `$database`;
+				DROP TABLE IF EXISTS User;
+				CREATE TABLE `User` (`username` VARCHAR(255) character set utf8 NOT NULL DEFAULT '', `googleIdentifier` varchar(255) character set utf8 NOT NULL DEFAULT '', `email` varchar(255) character set utf8 NOT NULL DEFAULT '', `private` tinyint(1) NOT NULL DEFAULT '1', `timezone` varchar(255) set utf8 NOT NULL DEFAULT 'America', PRIMARY KEY (`googleIdentifier`)) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+				DROP TABLE IF EXISTS Book;
+				CREATE TABLE `Book` (`bookId` int(11) NOT NULL auto_increment, `username` varchar(255) character set utf8 NOT NULL DEFAULT '', `title` varchar(255) character set utf8 NOT NULL DEFAULT '', `totalPages` int(11) NOT NULL DEFAULT '0', `startDate` date NOT NULL, `endDate` date NOT NULL, `sunday` tinyint(1) NOT NULL DEFAULT '1', `monday` tinyint(1) NOT NULL DEFAULT '1', `tuesday` tinyint(1) NOT NULL DEFAULT '1', `wednesday` tinyint(1) NOT NULL DEFAULT '1', `thursday` tinyint(1) NOT NULL DEFAULT '1', `friday` tinyint(1) NOT NULL DEFAULT '1', `saturday` tinyint(1) NOT NULL DEFAULT '1', `hidden` tinyint(1) NOT NULL DEFAULT '0', `private` tinyint(1) NOT NULL DEFAULT '1', `slug` varchar(255) NOT NULL DEFAULT '', PRIMARY KEY (`bookId`)) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+				DROP TABLE IF EXISTS Entry;
+				CREATE TABLE `Entry` (`entryId` int(11) NOT NULL auto_increment, `bookId` int(11) NOT NULL DEFAULT '0', `pageNumber` int(11) NOT NULL DEFAULT '0', `entryDate` date NOT NULL, PRIMARY KEY (`entryId`)) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 SQL;
-		/*$db = new Database();*/
-		echo "This doesn't work yet. You will need to run the sql below yourself to create the proper database structure.";
-		echo "<pre>";
-		echo $sql;
-		echo "</pre>";
-		/*$db->run(trim($sql));*/
+			/*$db = new Database();*/
+			echo "This doesn't work yet. You will need to run the sql below yourself to create the proper database structure.";
+			echo "<pre>";
+			echo $sql;
+			echo "</pre>";
+			/*$db->run(trim($sql));*/
+		} else {
+			header('Location: ' . APP_URL . '/');
+		}
 	}
 
 	public static function displayAddBook($args) {
@@ -274,6 +280,8 @@ SQL;
 			$actionHtml = "<div id='finished' class='action'>You finished!</div>";
 		} elseif (!$book->isTodayAReadingDay()) {
 			$actionHtml = "<div id='notreadingday' class='action'>You&rsquo;re off the hook today.</div>";
+		} elseif ($book->getEndDate() == '0000-00-00') {
+			$actionHtml = "<div id='nogoalread' class='action'>Read!</div>";
 		} elseif ($book->getPagesToday() == 0) {
 			$actionHtml = "<div id='reached' class='action'>You&rsquo;ve hit your goal for today.</div>";
 		} elseif ($book->getPagesToday() < 0) {
@@ -323,7 +331,20 @@ SQL;
 	public static function displayUserHome($args) {
 		$user = $args[0];
 		self::checkUserAuth($user);
-		$params = array('title'=>$user);
+		$books = Book::getCurrentBooks($user);
+		$activeBooks = array();
+		$dormantBooks = array();
+		$reachedBooks = array();
+		foreach ($books as $book) {
+			if ($book->isTodayAReadingDay() && $book->getPagesToday() > 0) {
+				$activeBooks[] = $book;
+			} elseif ($book->isTodayAReadingDay() && $book->getPagesToday() <= 0) {
+				$reachedBooks[] = $book;
+			} elseif (!$book->isTodayAReadingDay()) {
+				$dormantBooks[] = $book;
+			}
+		}
+		$params = array('title'=>$user, 'activeBooks'=>$activeBooks, 'reachedBooks'=>$reachedBooks, 'dormantBooks'=>$dormantBooks);
 		self::mainPage($user, $params, false, true, "home");
 	}
 
@@ -488,15 +509,6 @@ SQL;
 				case 'editbookenddate':
 					$b->setEndDate($value);
 					break;
-				/*case 'hidden':*/
-					/*$b->setHidden($value);*/
-					/*break;*/
-				/*case 'private':*/
-					/*$b->setPrivate($value);*/
-					/*break;*/
-				/*case 'editbookid':*/
-					/*$b->setBookId($value);*/
-					/*break;*/
 				case 'sunday':
 					$b->setSunday(true);
 					break;

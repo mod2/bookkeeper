@@ -18,7 +18,9 @@ var Bookkeeper = function() {
 		date2 = parseDate(end);
 		daysLeft = 0;
 		for (loopTime = date1; loopTime < date2; loopTime.setTime(loopTime.valueOf() + 86400000)) {
-			if (readingDays[loopTime.getDay()] == 1) {
+			if (readingDays.length != 0 && readingDays[loopTime.getDay()] == 1) {
+				daysLeft++;
+			} else if (readingDays.length == 0) {
 				daysLeft++;
 			}
 		}
@@ -37,25 +39,33 @@ var Bookkeeper = function() {
 
 	this.chartEntries = function(book) {
 		chartpoints = [];
-		previousPage = 0;
-		currentEntry = 0;
-		tempday = new Date();
-		today = parseDate(tempday.getUTCFullYear() + '-' + (tempday.getUTCMonth() + 1) + '-' + tempday.getUTCDate());
-		for (loopTime = parseDate(book.startDate); loopTime <= today; loopTime.setTime(loopTime.valueOf() + 86400000)) {
-			if (book.readingDays[loopTime.getDay()] == 1) {
-				date = loopTime.getUTCFullYear() + '-' + (loopTime.getUTCMonth() + 1) + '-' + loopTime.getUTCDate();
-				for (currentEntry; currentEntry < book.entries.length; currentEntry++) {
-					compared = this.compareDates(parseDate(book.entries[currentEntry].entryDate), parseDate(date));
-					if (compared == 0) {
-						previousPage = book.entries[currentEntry].pageNumber;
-						break;
-					} else if (compared == 1) {
-						break;
-					} else {
-						previousPage = book.entries[currentEntry].pageNumber;
+		if (book.endDate != '0000-00-00') {
+			previousPage = 0;
+			currentEntry = 0;
+			tempday = new Date();
+			count = 0;
+			today = parseDate(tempday.getUTCFullYear() + '-' + (tempday.getUTCMonth() + 1) + '-' + tempday.getUTCDate());
+			for (loopTime = parseDate(book.startDate); loopTime <= today; loopTime.setTime(loopTime.valueOf() + 86400000)) {
+				if (book.readingDays[loopTime.getDay()] == 1) {
+					count++;
+					date = loopTime.getUTCFullYear() + '-' + (loopTime.getUTCMonth() + 1) + '-' + loopTime.getUTCDate();
+					for (currentEntry; currentEntry < book.entries.length; currentEntry++) {
+						compared = this.compareDates(parseDate(book.entries[currentEntry].entryDate), parseDate(date));
+						if (compared == 0) {
+							previousPage = book.entries[currentEntry].pageNumber;
+							break;
+						} else if (compared == 1) {
+							break;
+						} else {
+							previousPage = book.entries[currentEntry].pageNumber;
+						}
 					}
+					chartpoints.push({page: previousPage, day: count});
 				}
-				chartpoints.push(previousPage);
+			}
+		} else {
+			for (i in book.entries) {
+				chartpoints.push({page: book.entries[i].pageNumber, day: this.calcDaysBetween(book.startDate, book.entries[i].entryDate, [])});
 			}
 		}
 		return chartpoints;
@@ -84,7 +94,15 @@ $(document).ready(function() {
 		if (canvas.getContext) {
 			context = canvas.getContext('2d');
 			chartEntries = bk.chartEntries(current_book);
-			var chart = new Chart(current_book.totalPages, bk.calcDaysBetween(current_book.startDate, current_book.endDate, current_book.readingDays), chartEntries, canvas, context);
+			if (current_book.endDate == '0000-00-00') {
+				var chart = new Chart(current_book.totalPages, bk.calcDaysBetween(current_book.startDate, current_book.entries[current_book.entries.length - 1].entryDate, []), chartEntries, false, canvas, context);
+			} else {
+				if (current_book.entries.length > 0 && bk.compareDates(parseDate(current_book.entries[current_book.entries.length - 1].entryDate), parseDate(current_book.endDate)) >= 0) {
+					var chart = new Chart(current_book.totalPages, bk.calcDaysBetween(current_book.startDate, current_book.entries[current_book.entries.length - 1].entryDate, current_book.readingDays), chartEntries, true, canvas, context);
+				} else {
+					var chart = new Chart(current_book.totalPages, bk.calcDaysBetween(current_book.startDate, current_book.endDate, current_book.readingDays), chartEntries, true, canvas, context);
+				}
+			}
 		}
 	}
 
@@ -96,6 +114,11 @@ $(document).ready(function() {
 		// and move the cursor to the end
 		var entrylength = currententry.val().length;
 		currententry[0].setSelectionRange(entrylength, entrylength);
+	}
+
+	var editTitle = $("#editbooktitle");
+	if (editTitle && editTitle.length > 0 && $("#edit h1").text() == 'Add Book') {
+		editTitle.focus();
 	}
 
 	$("#deletebooklink").click(function() {
@@ -123,6 +146,13 @@ $(document).ready(function() {
 		return rtn;
 	});
 
+	$("#currententry").keydown(function(e) {
+		var charCode = (e.which) ? e.which : e.keyCode;
+		if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
+			return false;
+		return true;
+	});
+
 	$("#currententry").change(function() {
 		bookid = Number($("#currentbookid").val());
 		page = Number($(this).val());
@@ -140,7 +170,15 @@ $(document).ready(function() {
 			}
 			$("#entries").html(content);
 			chartEntries = bk.chartEntries(data);
-			var chart = new Chart(data.totalPages, bk.calcDaysBetween(data.startDate, data.endDate, data.readingDays), chartEntries, canvas, context);
+			if (data.endDate == '0000-00-00') {
+				var chart = new Chart(data.totalPages, bk.calcDaysBetween(data.startDate, data.entries[data.entries.length - 1].entryDate, []), chartEntries, false, canvas, context);
+			} else {
+				if (bk.compareDates(parseDate(data.entries[data.entries.length - 1].entryDate), parseDate(data.endDate)) >= 0) {
+					var chart = new Chart(data.totalPages, bk.calcDaysBetween(data.startDate, data.entries[data.entries.length - 1].entryDate, data.readingDays), chartEntries, true, canvas, context);
+				} else {
+					var chart = new Chart(data.totalPages, bk.calcDaysBetween(data.startDate, data.endDate, data.readingDays), chartEntries, true, canvas, context);
+				}
+			}
 
 			if (percent == 100) {
 				// hide the li since we're done

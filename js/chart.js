@@ -3,7 +3,7 @@
 /* From http://vetruvet.blogspot.com/2010/10/drawing-dashed-lines-on-html5-canvas.html */
 CanvasRenderingContext2D.prototype.dashedLine=function(d,e,g,h,a){if(a==undefined)a=2;this.beginPath();this.moveTo(d,e);var b=g-d,c=h-e;a=Math.floor(Math.sqrt(b*b+c*c)/a);b=b/a;c=c/a;for(var f=0;f++<a;){d+=b;e+=c;this[f%2==0?"moveTo":"lineTo"](d,e)}this[f%2==0?"moveTo":"lineTo"](g,h);this.stroke();this.closePath()};
 
-function Chart(numPages, numDays, entries, canvas, context) {
+function Chart(numPages, numDays, entries, drawGoalLines, canvas, context) {
 	this.canvas = canvas;
 	this.context = context;
 	this.numPages = numPages;
@@ -91,12 +91,14 @@ function Chart(numPages, numDays, entries, canvas, context) {
 		c.closePath();
 
 		// draw the goal line
-		c.beginPath();
-		c.strokeStyle = "rgba(0, 0, 0, 0.1)";
-		c.lineWidth = 1;
-		c.dashedLine(this.minX, this.maxY, this.maxX, this.minY, 5);
-		c.stroke();
-		c.closePath();
+		if (drawGoalLines) {
+			c.beginPath();
+			c.strokeStyle = "rgba(0, 0, 0, 0.1)";
+			c.lineWidth = 1;
+			c.dashedLine(this.minX, this.maxY, this.maxX, this.minY, 5);
+			c.stroke();
+			c.closePath();
+		}
 
 		// now the lines for the entries
 		x = this.minX;
@@ -106,9 +108,9 @@ function Chart(numPages, numDays, entries, canvas, context) {
 		c.strokeStyle = "#000";
 		c.fillStyle = "rgba(0, 0, 0, 0.2)";
 		for (i in this.entries) {
-			y = this.maxY - (this.entries[i] * page_step);
+			y = this.maxY - (this.entries[i].page * page_step);
+			x = this.minX + (this.entries[i].day * tick_step);
 			c.lineTo(x, y);
-			x += tick_step;
 		}
 
 		// and the fill line (with the shading)
@@ -120,22 +122,23 @@ function Chart(numPages, numDays, entries, canvas, context) {
 	
 		// draw entry circles	
 		c.fillStyle = "#000";
-		x = this.minX;
 		for (i in this.entries) {
-			y = this.maxY - (this.entries[i] * page_step);
+			y = this.maxY - (this.entries[i].page * page_step);
+			x = this.minX + (this.entries[i].day * tick_step);
 			c.beginPath();
 			c.arc(x, y, 2, 0, Math.PI * 2, false);
 			c.fill();
 			c.closePath();
-			x += tick_step;
 		}
 
 		// and the current goal
-		c.beginPath();
-		c.strokeStyle = "rgba(255, 0, 0, 0.3)";
-		c.dashedLine(this.minX + (i * tick_step), y, this.maxX, this.minY, 5);
-		c.stroke();
-		c.closePath();
+		if (drawGoalLines) {
+			c.beginPath();
+			c.strokeStyle = "rgba(255, 0, 0, 0.3)";
+			c.dashedLine(this.minX + (this.entries[i].day * tick_step), y, this.maxX, this.minY, 5);
+			c.stroke();
+			c.closePath();
+		}
 	};
 
 	this.draw();
