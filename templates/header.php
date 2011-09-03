@@ -10,6 +10,8 @@
 	<link rel="stylesheet" href="<?php echo $args->app_url; ?>/css/tablet.css" media="only screen and (max-width: 900px)" type="text/css" />
 	<link rel="stylesheet" href="<?php echo $args->app_url; ?>/css/mobile.css" media="only screen and (max-width: 450px)" type="text/css" />
 
+	<link rel="shortcut icon" href="<?php echo $args->app_url; ?>/favicon.png" />
+
 	<script type="text/javascript" charset="utf-8">
 		var currentuser = '<?php echo $args->username; ?>';
 		var app_url = '<?php echo $args->app_url; ?>';
