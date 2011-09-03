@@ -8,7 +8,7 @@
 			<li><span class="pages">Page <?php echo $book->getToPage(); ?> <span class="numpages">(<?php echo Book::getPageString($book->getPagesToday()); ?>)</span></span><span class="booktitle"><a href="<?php echo $args->app_url; ?>/<?php echo $args->username; ?>/book/<?php echo $book->getSlug(); ?>"><?php echo $book->getTitle(); ?></a></span></li>
 		<?php endforeach; ?>
 		<?php else: ?>
-			<li>You're GREAT!</li>
+			<li>Congratulations&mdash;like a champion, you&lsquo;ve smashed your goals for the day. Well played, gentle reader, well played. Now go take a break.</li>
 		<?php endif; ?>
 		</ul>
 
