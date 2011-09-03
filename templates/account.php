@@ -27,7 +27,8 @@
 
 			<input type="submit" value="Save Changes" class="button" />
 
-			<p><a href="<?php echo $args->app_url . '/' . $args->username . '/export/' . $args->key; ?>">Export data</a></p>
+			<p><a id="exportlink" href="<?php echo $args->app_url . '/' . $args->username . '/export/' . $args->key; ?>">Export data</a></p>
+
 			<p><small>We use the username for the short URL, and the email address is only so we can contact you if something goes wrong. (We won't give it to anyone, especially not vile spammers.)</small></p>
 		</form>
 	</div>
