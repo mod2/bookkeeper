@@ -94,16 +94,33 @@ $(document).ready(function() {
 		if (canvas.getContext) {
 			context = canvas.getContext('2d');
 			chartEntries = bk.chartEntries(current_book);
+
 			lastEntry = current_book.entries[current_book.entries.length - 1];
+			lastEntryDate = (lastEntry) ? lastEntry.entryDate : '';
+
 			if (current_book.endDate == '0000-00-00') {
-				var chart = new Chart(current_book.totalPages, bk.calcDaysBetween(current_book.startDate, lastEntry.entryDate, []), chartEntries, false, canvas, context);
+				endDate = lastEntryDate;
+				readingDays = [];
+				drawGoalLines = false;
 			} else {
-				if (current_book.entries.length > 0 && bk.compareDates(parseDate(lastEntry.entryDate), parseDate(current_book.endDate)) >= 0) {
-					var chart = new Chart(current_book.totalPages, bk.calcDaysBetween(current_book.startDate, lastEntry.entryDate, current_book.readingDays), chartEntries, true, canvas, context);
+				if (current_book.entries.length > 0 && bk.compareDates(parseDate(lastEntryDate), parseDate(current_book.endDate)) >= 0) {
+					endDate = lastEntryDate;
+					readingDays = current_book.readingDays;
+					drawGoalLines = true;
 				} else {
-					var chart = new Chart(current_book.totalPages, bk.calcDaysBetween(current_book.startDate, current_book.endDate, current_book.readingDays), chartEntries, true, canvas, context);
+					endDate = current_book.endDate;
+					readingDays = current_book.readingDays;
+					drawGoalLines = true;
 				}
 			}
+
+			if (endDate != '') {
+				numDays = bk.calcDaysBetween(current_book.startDate, endDate, readingDays);
+			} else {
+				numDays = 1;
+			}
+
+			chart = new Chart(current_book.totalPages, numDays, chartEntries, drawGoalLines, canvas, context);
 		}
 	}
 
