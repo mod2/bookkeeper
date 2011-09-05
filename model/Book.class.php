@@ -53,10 +53,10 @@ class Book extends Model {
 	public static function getCurrentBooks($username) {
 		$sql = <<<SQL
 			SELECT DISTINCT b.bookId 
-			FROM Book b, Entry e 
+			FROM Book b
 			WHERE b.username = '?' 
 			AND b.hidden = 0 
-			AND ((b.bookId=e.bookId AND b.totalPages > (SELECT pageNumber FROM Entry WHERE bookId=b.bookId ORDER BY pageNumber DESC LIMIT 1))
+			AND (b.totalPages > (SELECT pageNumber FROM Entry WHERE bookId=b.bookId ORDER BY pageNumber DESC LIMIT 1)
 			OR (SELECT COUNT(*) FROM Entry WHERE bookId=b.bookId) = 0)
 			ORDER BY b.bookId;
 SQL;
