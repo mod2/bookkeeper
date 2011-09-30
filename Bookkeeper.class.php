@@ -340,19 +340,38 @@ SQL;
 		$activeBooks = array();
 		$dormantBooks = array();
 		$reachedBooks = array();
+		$reachedNoGoalBooks = array();
 		$noGoalBooks = array();
 		foreach ($books as $book) {
+			$entries = $book->getEntries();
+			$entryToday = (count($entries) > 0 && $entries[count($entries) - 1]->getEntryDate() == date('Y-m-d')) ? true : false;
+			if ($entryToday) {
+				$entryToday = false;
+				if (count($entries) == 1 && $entries[0]->getPageNumber() > 0) {
+					$entryToday = true;
+				} elseif (count($entries) > 1) {
+					$today = $entries[count($entries) - 1];
+					$prev = $entries[count($entries) - 2];
+					if ($today->getPageNumber() > $prev->getPageNumber()) {
+						$entryToday = true;
+					}
+				}
+			}
 			if ($book->isTodayAReadingDay() && $book->getPagesToday() > 0 && $book->getEndDate() != '0000-00-00') {
 				$activeBooks[] = $book;
 			} elseif ($book->isTodayAReadingDay() && $book->getPagesToday() <= 0 && $book->getEndDate() != '0000-00-00') {
 				$reachedBooks[] = $book;
 			} elseif ($book->isTodayAReadingDay() && $book->getEndDate() == '0000-00-00') {
-				$noGoalBooks[] = $book;
+				if ($entryToday) {
+					$reachedNoGoalBooks[] = $book;
+				} else {
+					$noGoalBooks[] = $book;
+				}
 			} elseif (!$book->isTodayAReadingDay()) {
 				$dormantBooks[] = $book;
 			}
 		}
-		$params = array('title'=>$user, 'activeBooks'=>$activeBooks, 'reachedBooks'=>$reachedBooks, 'dormantBooks'=>$dormantBooks, 'noGoalBooks'=>$noGoalBooks);
+		$params = array('title'=>$user, 'activeBooks'=>$activeBooks, 'reachedBooks'=>$reachedBooks, 'reachedNoGoalBooks'=>$reachedNoGoalBooks, 'dormantBooks'=>$dormantBooks, 'noGoalBooks'=>$noGoalBooks);
 		self::mainPage($user, $params, false, true, "home");
 	}
 
