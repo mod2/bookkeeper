@@ -139,6 +139,68 @@ class Bookkeeper
 	}
 
 	/**
+	 * displayImport
+	 * display the import form
+	 *
+	 * @author ChadGH
+	 **/
+	public static function displayImport($args) {
+		self::checkUserAuth();
+		$user = new User($_SESSION['authorizeduser']['google']);
+		$args = new stdClass();
+		$args->username = $user->getUsername();
+		$args->title = "Import Books | " . $args->username;
+		$args->app_url = APP_URL;
+		$args->books = Book::getCurrentBooks($args->username);
+		$args->user = $user;
+		$args->page = "import";
+		self::displayTemplate('import.php', $args);
+	}
+
+	public static function saveImport($args) {
+		self::checkUserAuth();
+		$user = new User($_SESSION['authorizeduser']['google']);
+		$books = Book::getAllBooks($user->getUsername());
+		foreach ($books as $book) {
+			foreach ($book->getEntries() as $entry) {
+				$entry->delete();
+			}
+			$book->delete();
+		}
+		$books = array();
+
+		$jsonstr = $_POST['jsonimport'];
+		$jsonData = json_decode($jsonstr, true);
+		foreach ($jsonData as $book) {
+			$newBook = new Book();
+			$newBook->setUsername($user->getUsername());
+			$newBook->setTitle($book['title']);
+			$newBook->setTotalPages($book['totalPages']);
+			$newBook->setStartDate($book['startDate']);
+			$newBook->setEndDate($book['endDate']);
+			$newBook->setSunday($book['sunday']);
+			$newBook->setMonday($book['monday']);
+			$newBook->setTuesday($book['tuesday']);
+			$newBook->setWednesday($book['wednesday']);
+			$newBook->setThursday($book['thursday']);
+			$newBook->setFriday($book['friday']);
+			$newBook->setSaturday($book['saturday']);
+			$newBook->setHidden($book['hidden']);
+			$newBook->setPrivate($book['private']);
+			$newBook->setSlug($book['slug']);
+			$newBook->save();
+			foreach ($book['entries'] as $entry) {
+				$newEntry = new Entry();
+				$newEntry->setBookId($newBook->getBookId());
+				$newEntry->setPageNumber($entry['pageNumber']);
+				$newEntry->setEntryDate($entry['entryDate']);
+				$newEntry->save();
+			}
+		}
+		header('Location: ' . APP_URL . '/' . $user->getUsername());
+	}
+
+	/**
 	 * displayUserAccount
 	 * display the user's account page.
 	 *
