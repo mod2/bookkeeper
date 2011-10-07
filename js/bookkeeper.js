@@ -146,6 +146,9 @@ $(document).ready(function() {
 		return false;
 	});
 
+	$("#editbookstartdate").simpleDatepicker();
+	$("#editbookenddate").simpleDatepicker();
+
 	$("#account").submit(function() {
 		var rtn = false;
 		var username = $("#username").val();
