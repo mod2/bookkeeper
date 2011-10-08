@@ -22,6 +22,11 @@ function Chart(numPages, numDays, entries, drawGoalLines, canvas, context) {
 		XMARGIN = 35;
 		YMARGIN = 15;
 
+		// if we've gone over the goal date, just display however many entries we have
+		if (this.entries.length > this.numDays) {
+			this.numDays = this.entries.length;
+		}
+
 		cv = this.canvas;
 		c = this.context;
 
