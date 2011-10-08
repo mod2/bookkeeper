@@ -31,6 +31,8 @@ $routes = array(
 	"#^" . APP_URL . "/([^/]+)/book/([^/]+)/edit/?$#" => 'Bookkeeper::displayEditBook',
 	"#^" . APP_URL . "/([^/]+)/all/?$#" => 'Bookkeeper::displayAllBooks',
 	"#^" . APP_URL . "/([^/]+)/export/([^/]+)/?$#" => 'Bookkeeper::wsExport',
+	"#^" . APP_URL . "/([^/]+)/import/?$#" => 'Bookkeeper::displayImport',
+	"#^" . APP_URL . "/([^/]+)/saveimport/?$#" => 'Bookkeeper::saveImport',
 	"#^" . APP_URL . "/?$#" => 'Bookkeeper::redirectToLogin'
 );
 

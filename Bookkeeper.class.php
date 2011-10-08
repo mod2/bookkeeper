@@ -139,6 +139,68 @@ class Bookkeeper
 	}
 
 	/**
+	 * displayImport
+	 * display the import form
+	 *
+	 * @author ChadGH
+	 **/
+	public static function displayImport($args) {
+		self::checkUserAuth();
+		$user = new User($_SESSION['authorizeduser']['google']);
+		$args = new stdClass();
+		$args->username = $user->getUsername();
+		$args->title = "Import Books | " . $args->username;
+		$args->app_url = APP_URL;
+		$args->books = Book::getCurrentBooks($args->username);
+		$args->user = $user;
+		$args->page = "import";
+		self::displayTemplate('import.php', $args);
+	}
+
+	public static function saveImport($args) {
+		self::checkUserAuth();
+		$user = new User($_SESSION['authorizeduser']['google']);
+		$books = Book::getAllBooks($user->getUsername());
+		foreach ($books as $book) {
+			foreach ($book->getEntries() as $entry) {
+				$entry->delete();
+			}
+			$book->delete();
+		}
+		$books = array();
+
+		$jsonstr = $_POST['jsonimport'];
+		$jsonData = json_decode($jsonstr, true);
+		foreach ($jsonData as $book) {
+			$newBook = new Book();
+			$newBook->setUsername($user->getUsername());
+			$newBook->setTitle($book['title']);
+			$newBook->setTotalPages($book['totalPages']);
+			$newBook->setStartDate($book['startDate']);
+			$newBook->setEndDate($book['endDate']);
+			$newBook->setSunday($book['sunday']);
+			$newBook->setMonday($book['monday']);
+			$newBook->setTuesday($book['tuesday']);
+			$newBook->setWednesday($book['wednesday']);
+			$newBook->setThursday($book['thursday']);
+			$newBook->setFriday($book['friday']);
+			$newBook->setSaturday($book['saturday']);
+			$newBook->setHidden($book['hidden']);
+			$newBook->setPrivate($book['private']);
+			$newBook->setSlug($book['slug']);
+			$newBook->save();
+			foreach ($book['entries'] as $entry) {
+				$newEntry = new Entry();
+				$newEntry->setBookId($newBook->getBookId());
+				$newEntry->setPageNumber($entry['pageNumber']);
+				$newEntry->setEntryDate($entry['entryDate']);
+				$newEntry->save();
+			}
+		}
+		header('Location: ' . APP_URL . '/' . $user->getUsername());
+	}
+
+	/**
 	 * displayUserAccount
 	 * display the user's account page.
 	 *
@@ -247,7 +309,7 @@ class Bookkeeper
 				DROP TABLE IF EXISTS User;
 				CREATE TABLE `User` (`username` VARCHAR(255) character set utf8 NOT NULL DEFAULT '', `googleIdentifier` varchar(255) character set utf8 NOT NULL DEFAULT '', `email` varchar(255) character set utf8 NOT NULL DEFAULT '', `private` tinyint(1) NOT NULL DEFAULT '1', `timezone` varchar(255) character set utf8 NOT NULL DEFAULT 'America', PRIMARY KEY (`googleIdentifier`)) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 				DROP TABLE IF EXISTS Book;
-				CREATE TABLE `Book` (`bookId` int(11) NOT NULL auto_increment, `username` varchar(255) character set utf8 NOT NULL DEFAULT '', `title` varchar(255) character set utf8 NOT NULL DEFAULT '', `totalPages` int(11) NOT NULL DEFAULT '0', `startDate` date NOT NULL, `endDate` date NOT NULL, `sunday` tinyint(1) NOT NULL DEFAULT '1', `monday` tinyint(1) NOT NULL DEFAULT '1', `tuesday` tinyint(1) NOT NULL DEFAULT '1', `wednesday` tinyint(1) NOT NULL DEFAULT '1', `thursday` tinyint(1) NOT NULL DEFAULT '1', `friday` tinyint(1) NOT NULL DEFAULT '1', `saturday` tinyint(1) NOT NULL DEFAULT '1', `hidden` tinyint(1) NOT NULL DEFAULT '0', `private` tinyint(1) NOT NULL DEFAULT '1', `slug` varchar(255) NOT NULL DEFAULT '', PRIMARY KEY (`bookId`)) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+				CREATE TABLE `Book` (`bookId` int(11) NOT NULL auto_increment, `username` varchar(255) character set utf8 NOT NULL DEFAULT '', `title` text character set utf8 NOT NULL DEFAULT '', `totalPages` int(11) NOT NULL DEFAULT '0', `startDate` date NOT NULL, `endDate` date NOT NULL, `sunday` tinyint(1) NOT NULL DEFAULT '1', `monday` tinyint(1) NOT NULL DEFAULT '1', `tuesday` tinyint(1) NOT NULL DEFAULT '1', `wednesday` tinyint(1) NOT NULL DEFAULT '1', `thursday` tinyint(1) NOT NULL DEFAULT '1', `friday` tinyint(1) NOT NULL DEFAULT '1', `saturday` tinyint(1) NOT NULL DEFAULT '1', `hidden` tinyint(1) NOT NULL DEFAULT '0', `private` tinyint(1) NOT NULL DEFAULT '1', `slug` varchar(255) NOT NULL DEFAULT '', PRIMARY KEY (`bookId`)) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 				DROP TABLE IF EXISTS Entry;
 				CREATE TABLE `Entry` (`entryId` int(11) NOT NULL auto_increment, `bookId` int(11) NOT NULL DEFAULT '0', `pageNumber` int(11) NOT NULL DEFAULT '0', `entryDate` date NOT NULL, PRIMARY KEY (`entryId`)) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 SQL;
@@ -340,19 +402,38 @@ SQL;
 		$activeBooks = array();
 		$dormantBooks = array();
 		$reachedBooks = array();
+		$reachedNoGoalBooks = array();
 		$noGoalBooks = array();
 		foreach ($books as $book) {
+			$entries = $book->getEntries();
+			$entryToday = (count($entries) > 0 && $entries[count($entries) - 1]->getEntryDate() == date('Y-m-d')) ? true : false;
+			if ($entryToday) {
+				$entryToday = false;
+				if (count($entries) == 1 && $entries[0]->getPageNumber() > 0) {
+					$entryToday = true;
+				} elseif (count($entries) > 1) {
+					$today = $entries[count($entries) - 1];
+					$prev = $entries[count($entries) - 2];
+					if ($today->getPageNumber() > $prev->getPageNumber()) {
+						$entryToday = true;
+					}
+				}
+			}
 			if ($book->isTodayAReadingDay() && $book->getPagesToday() > 0 && $book->getEndDate() != '0000-00-00') {
 				$activeBooks[] = $book;
 			} elseif ($book->isTodayAReadingDay() && $book->getPagesToday() <= 0 && $book->getEndDate() != '0000-00-00') {
 				$reachedBooks[] = $book;
 			} elseif ($book->isTodayAReadingDay() && $book->getEndDate() == '0000-00-00') {
-				$noGoalBooks[] = $book;
+				if ($entryToday) {
+					$reachedNoGoalBooks[] = $book;
+				} else {
+					$noGoalBooks[] = $book;
+				}
 			} elseif (!$book->isTodayAReadingDay()) {
 				$dormantBooks[] = $book;
 			}
 		}
-		$params = array('title'=>$user, 'activeBooks'=>$activeBooks, 'reachedBooks'=>$reachedBooks, 'dormantBooks'=>$dormantBooks, 'noGoalBooks'=>$noGoalBooks);
+		$params = array('title'=>$user, 'activeBooks'=>$activeBooks, 'reachedBooks'=>$reachedBooks, 'reachedNoGoalBooks'=>$reachedNoGoalBooks, 'dormantBooks'=>$dormantBooks, 'noGoalBooks'=>$noGoalBooks);
 		self::mainPage($user, $params, false, true, "home");
 	}
 
