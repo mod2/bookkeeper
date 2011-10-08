@@ -164,7 +164,12 @@ form#account input[type="email"]	{ width: 250px; }
 form#account input[type="submit"]	{ margin: 1em 0; }
 form#account p small				{ color: #999; font-family: "Lucida Grande", Helvetica, Arial, sans-serif; font-size: 10px; line-height: 1.4em; }
 
-a#exportlink					{ color: #666; font-family: "Lucida Grande", Helvetica, Arial, sans-serif; font-size: .7em; text-decoration: none; border-bottom: dotted 1px #999; }
+a#exportlink, a#importlink			{ color: #666; font-family: "Lucida Grande", Helvetica, Arial, sans-serif; font-size: .7em; text-decoration: none; background: #ddd; -moz-border-radius: 1em; -webkit-border-radius: 1em; border-radius: 1em; padding: 4px 8px; }
+a#exportlink:hover, a#importlink:hover	{ background: #444; color: #fff; }
+
+textarea#jsonimport				{ width: 100%; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; border: solid 1px #bbb; margin-top: 1em; }
+
+p.warning						{ font-family: "Lucida Grande", Helvetica, Arial, sans-serif; font-size: .8em; color: #600; background: #fee; padding: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; }
 
 
 /* Subfooter */

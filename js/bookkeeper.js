@@ -167,8 +167,9 @@ $(document).ready(function() {
 	$("#currententry").keydown(function(e) {
 		var charCode = (e.which) ? e.which : e.keyCode;
 
-		// allow backspace, home, end, arrows, insert, delete, 0-9, numpad 0-9, enter
-		if ((charCode == 8) || (charCode >= 35 && charCode <= 57) || (charCode >= 96 && charCode <= 105)) {
+		console.log(charCode);
+		// allow backspace, tab, home, end, arrows, insert, delete, 0-9, numpad 0-9, enter
+		if ((charCode == 8) || (charCode == 9) || (charCode == 13) || (charCode >= 35 && charCode <= 57) || (charCode >= 96 && charCode <= 105)) {
 			return true;
 		}
 
