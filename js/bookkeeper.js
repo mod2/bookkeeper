@@ -42,10 +42,20 @@ var Bookkeeper = function() {
 		if (book.endDate != '0000-00-00') {
 			previousPage = 0;
 			currentEntry = 0;
-			tempday = new Date();
 			count = 0;
-			today = parseDate(tempday.getFullYear() + '-' + (tempday.getMonth() + 1) + '-' + tempday.getDate());
-			for (loopTime = parseDate(book.startDate); loopTime <= today; loopTime.setTime(loopTime.valueOf() + 86400000)) {
+			if (book.pagesLeft > 0) {
+				tempday = new Date();
+				endDateStr = tempday.getFullYear() + '-' + (tempday.getMonth() + 1) + '-' + tempday.getDate();
+			} else {
+				lastEntry = book.entries[book.entries.length - 1].entryDate;
+				if (this.compareDates(parseDate(lastEntry), parseDate(book.endDate)) > 0) {
+					endDateStr = lastEntry;
+				} else {
+					endDateStr = book.endDate;
+				}
+			}
+			endDate = parseDate(endDateStr);
+			for (loopTime = parseDate(book.startDate); loopTime <= endDate; loopTime.setTime(loopTime.valueOf() + 86400000)) {
 				if (book.readingDays[loopTime.getDay()] == 1) {
 					count++;
 					date = loopTime.getFullYear() + '-' + (loopTime.getMonth() + 1) + '-' + loopTime.getDate();
@@ -170,7 +180,7 @@ $(document).ready(function() {
 	$("#currententry").keydown(function(e) {
 		var charCode = (e.which) ? e.which : e.keyCode;
 
-		console.log(charCode);
+		//console.log(charCode);
 		// allow backspace, tab, home, end, arrows, insert, delete, 0-9, numpad 0-9, enter
 		if ((charCode == 8) || (charCode == 9) || (charCode == 13) || (charCode >= 35 && charCode <= 57) || (charCode >= 96 && charCode <= 105)) {
 			return true;
