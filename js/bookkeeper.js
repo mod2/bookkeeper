@@ -56,6 +56,13 @@ var Bookkeeper = function() {
 			}
 			endDate = parseDate(endDateStr);
 			for (loopTime = parseDate(book.startDate); loopTime <= endDate; loopTime.setTime(loopTime.valueOf() + 86400000)) {
+				if (loopTime.getHours() != 0) {
+					if (loopTime.getHours() == 23) {
+						loopTime.setTime(loopTime.valueOf() + (60 * 60 * 1000));
+					} else {
+						loopTime.setTime(loopTime.valueOf() + (-1 * 60 * 60 * 1000));
+					}
+				}
 				if (book.readingDays[loopTime.getDay()] == 1) {
 					count++;
 					date = loopTime.getFullYear() + '-' + (loopTime.getMonth() + 1) + '-' + loopTime.getDate();
