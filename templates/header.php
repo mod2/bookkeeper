@@ -1,7 +1,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
 
 	<title><?php echo $args->title; ?> | Bookkeeper</title>
 
