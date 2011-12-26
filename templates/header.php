@@ -8,8 +8,6 @@
 	<link href='http://fonts.googleapis.com/css?family=Crimson+Text:400,400italic,700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="<?php echo $args->app_url; ?>/css/style.css" type="text/css" media="all" charset="utf-8">
 	<link rel="stylesheet" href="<?php echo $args->app_url; ?>/css/calendar.css" type="text/css" media="all" charset="utf-8">
-	<link rel="stylesheet" href="<?php echo $args->app_url; ?>/css/tablet.css" media="only screen and (max-width: 900px)" type="text/css" />
-	<link rel="stylesheet" href="<?php echo $args->app_url; ?>/css/mobile.css" media="only screen and (max-width: 450px)" type="text/css" />
 
 	<link rel="apple-touch-icon-precomposed" href="<?php echo $args->app_url; ?>/apple-touch-icon.png">
 	<link rel="shortcut icon" href="<?php echo $args->app_url; ?>/favicon.png" />
