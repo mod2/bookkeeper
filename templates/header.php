@@ -34,4 +34,3 @@
 		</div>	
 	</div>
 	<div id="page">
-		<?php include 'nav.php';
