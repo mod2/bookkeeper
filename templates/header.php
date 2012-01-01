@@ -31,7 +31,7 @@
 		<div id="banner">
 			<?php if (property_exists($args, "username")): ?><ul id="account"><li id="navlink"><a href="#booklist">Books</a></li><li><a href="<?php echo $args->app_url . '/' . $args->username; ?>/account">Account</a></li><li><a href="<?php echo $args->app_url; ?>/logout">Logout</a></ul><?php endif; ?>
 			<img src="<?php echo $args->app_url; ?>/favicon.png" />
-			<a href="<?php echo $args->app_url; ?>"><h1>Bookkeeper</h1></a>
+			<a href="<?php echo $args->app_url; ?>/<?php echo $args->username; ?>"><h1>Bookkeeper</h1></a>
 		</div>	
 	</div>
 	<div id="page">
