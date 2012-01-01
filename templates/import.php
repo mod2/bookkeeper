@@ -11,7 +11,8 @@
 			<p><input type="submit" name="importsubmit" id="importsubmit" value="Import" class="button"></p>
 		</form>
 	</div>
-	<?php include 'subfooter.php'; ?>
 </section>
+
+<?php include 'nav.php'; ?>
 
 <?php include 'footer.php'; ?>

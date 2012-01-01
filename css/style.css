@@ -2,16 +2,42 @@
 /* -------------------------------------------------- */
 
 body							{ margin: 0; padding: 0; font-family: "Crimson Text", Georgia, serif; background: #d5d3ca; background: -webkit-gradient(radial, 50% 0, 500px, 50% 0 2000px, from(#f5f3ea), to(#ccc9b9)); background: -webkit-radial-gradient(50% 0, circle, #f5f3ea, #ccc9b9); background: radial-gradient(50% 0, circle, #f5f3ea, #ccc9b9); }
-#content						{ overflow: hidden; clear: both; }
+
+
+/* Banner */
+/* -------------------------------------------------- */
+
+#banner_container				{ background: #d1cfc7; height: 24px; border-bottom: solid 1px #aaa; font-family: "Lucida Grande", Helvetica, Arial, sans-serif; font-size: 11px; }
+#banner							{ width: 90%; max-width: 1000px; padding: 5px; margin: 0px auto; }
+#banner img						{ float: left; margin-right: 5px; margin-top: -1px; }
+#banner h1						{ color: #85837a; margin: 0; font-size: 11px; text-shadow: 0 -1px 2px rgba(255, 255, 255, 0.7), 0 1px 2px rgba(0, 0, 0, 0.1); }
+#banner a						{ text-decoration: none; }
+#banner a:hover					{ color: #000; }
+#banner a:hover h1				{ color: #000; }
+
+#account						{ float: right; margin-right: 1.5%; color: #bbb; }
+#account a						{ color: #85837a; }
+
+
+/* Page */
+/* -------------------------------------------------- */
+
+#page							{ overflow: hidden; clear: both; width: 90%; max-width: 1000px; padding: 5px; margin: 0px auto; }
 
 
 /* Sidebar */
 /* -------------------------------------------------- */
 
+<<<<<<< HEAD
 #sidebar						{ width: 35%; float: left; }
 #sidebar ul						{ margin: 0 5% 0 0; width: 90%; max-width: 275px; float: right; list-style: none; clear: both; overflow-y: scroll; max-height: 700px; padding-right: 5px; }
 #sidebar ul li					{ line-height: 1.3em; margin-bottom: 7px; padding: 0 8px; -moz-border-radius: .5em; -webkit-border-radius: .5em; border-radius: .5em; -moz-box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3); -webkit-box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3); box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3); border-style: solid none none solid; border-width: 1px; border-color: rgba(255, 255, 255, 0.6); background: #dcd9c7; background: -webkit-gradient(linear, left top, left bottom, from(#dcd9c7), to(#ccc9b7)); background: -webkit-linear-gradient(#dcd9c7, #ccc9b7); background: -moz-linear-gradient(top, #dcd9c7, #ccc9b7); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dcd9c7', endColorstr='#ccc9b7'); min-width: 115px; }
 #sidebar ul li a				{ padding: 7px 0 3px; display: inline-block; color: #000; text-decoration: none; font-style: italic; font-size: 1.2em; text-shadow: #fff -1px 1px 1px; width: 100%; }
+=======
+#sidebar						{ width: 30%; float: right; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+#sidebar ul						{ margin: 35px 0 0; padding: 0 1px 1px 0; list-style: none; clear: both; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; }
+#sidebar ul li					{ line-height: 1.3em; margin-bottom: 7px; padding: 0 8px; -moz-border-radius: .5em; -webkit-border-radius: .5em; border-radius: .5em; -moz-box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3); -webkit-box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3); box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3); border-style: solid none none solid; border-width: 1px; border-color: rgba(255, 255, 255, 0.6); background: #dcd9c7; background: -webkit-gradient(linear, left top, left bottom, from(#dcd9c7), to(#ccc9b7)); background: -webkit-linear-gradient(#dcd9c7, #ccc9b7); background: -moz-linear-gradient(top, #dcd9c7, #ccc9b7); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dcd9c7', endColorstr='#ccc9b7'); min-width: 115px; }
+#sidebar ul li a				{ padding: 7px 0 3px; display: inline-block; color: #000; text-decoration: none; font-style: italic; font-size: 1.2em; text-shadow: #fff -1px 1px 1px; width: 100%; letter-spacing: -0.03em; }
 #sidebar ul li a .percentage	{ font-style: normal; text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6); }
 
 #sidebar ul li.selected			{ background: #fff; background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#eee)); background: -webkit-linear-gradient(#fff, #eee); background: -moz-linear-gradient(top, #fff, #eee); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff', endColorstr='#eee'); }
@@ -20,23 +46,23 @@ body							{ margin: 0; padding: 0; font-family: "Crimson Text", Georgia, serif;
 #sidebar ul li.selected .percent		{ background: #ccc; }
 
 #sidebar ul li.pagelink a		{ padding: 4px 0; }
-#sidebar ul li.pagelink:first-child { margin-top: 50px; }
 #sidebar ul li.pagelink.last	{ margin-bottom: 20px; }
 
-#sidebar h3						{ width: 90%; max-width: 275px; float: right; text-transform: uppercase; color: #6f1515; margin: 1em 0 .3em 0; padding-left: 8px; font-size: .9em; font-weight: normal; letter-spacing: 0.05em; text-shadow: #fff -1px 1px 1px; clear: both; }
+#sidebar h3						{ text-transform: uppercase; color: #6f1515; margin: 1em 0 .3em 0; padding-left: 8px; font-size: .9em; font-weight: normal; letter-spacing: 0.05em; text-shadow: #fff -1px 1px 1px; clear: both; }
 #sidebar h3 a					{ color: #6f1515; text-decoration: none; border-bottom: dotted 1px #9f5353; }
 
 
 /* Book detail */
 /* -------------------------------------------------- */
 
-#detail							{ background: #fff; width: 65%; max-width: 700px; float: left; -moz-box-shadow: -5px 0 10px rgba(0, 0, 0, 0.1), 5px 0 10px rgba(0, 0, 0, 0.1); -webkit-box-shadow: -5px 0 1px rgba(0, 0, 0, 0.1), 5px 0 1px rgba(0, 0, 0, 0.1); box-shadow: -5px 0 10px rgba(0, 0, 0, 0.1), 5px 0 10px rgba(0, 0, 0, 0.1); -moz-border-radius: 0 0 .5em .5em; -webkit-border-radius: 0 0 .5em .5em; border-radius: 0 0 .5em .5em; margin-bottom: 100px; }
+#detail							{ background: #fff; width: 65%; margin: 35px 1.5% 100px 3.5%; float: right; -moz-box-shadow: -5px 0 10px rgba(0, 0, 0, 0.1), 5px 0 10px rgba(0, 0, 0, 0.1); -webkit-box-shadow: -5px 0 1px rgba(0, 0, 0, 0.1), 5px 0 1px rgba(0, 0, 0, 0.1); box-shadow: -5px 0 10px rgba(0, 0, 0, 0.1), 5px 0 10px rgba(0, 0, 0, 0.1); -moz-border-radius: .5em; -webkit-border-radius: .5em; border-radius: .5em; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
 #detail h1						{ font-size: 36px; font-weight: normal; letter-spacing: -0.05em; font-style: italic; margin: 0; color: #6f1515; line-height: 1.1em; }
-#detail h1:first-child			{ margin-top: 50px; }
+#detail h1:first-child			{ margin-top: 40px; }
 #detail h3						{ text-transform: uppercase; color: #999; margin: 2em 0 .3em 0; font-size: .9em; font-weight: normal; letter-spacing: 0.05em; }
 
 #view							{ padding: 50px; padding-top: 0; min-height: 500px; }
 #edit							{ padding: 50px; padding-top: 0; }
+#edit form						{ margin-bottom: 0; }
 
 
 /* Goals area */
@@ -164,7 +190,7 @@ form#account input[type="email"]	{ width: 250px; }
 form#account input[type="submit"]	{ margin: 1em 0; }
 form#account p small				{ color: #999; font-family: "Lucida Grande", Helvetica, Arial, sans-serif; font-size: 10px; line-height: 1.4em; }
 
-a#exportlink, a#importlink			{ color: #666; font-family: "Lucida Grande", Helvetica, Arial, sans-serif; font-size: .7em; text-decoration: none; background: #ddd; -moz-border-radius: 1em; -webkit-border-radius: 1em; border-radius: 1em; padding: 4px 8px; }
+a#exportlink, a#importlink			{ color: #888; font-family: "Lucida Grande", Helvetica, Arial, sans-serif; font-size: 11px; text-decoration: none; background: #eee; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; padding: 5px 15px 6px; }
 a#exportlink:hover, a#importlink:hover	{ background: #444; color: #fff; }
 
 textarea#jsonimport				{ width: 100%; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; border: solid 1px #bbb; margin-top: 1em; }
@@ -175,9 +201,8 @@ p.warning						{ font-family: "Lucida Grande", Helvetica, Arial, sans-serif; fon
 /* Subfooter */
 /* -------------------------------------------------- */
 
-#detail > footer				{ position: relative; top: 20px; font-size: 11px; font-family: "Lucida Grande", Helvetica, Arial, sans-serif; color: #999; padding: 0 5px; clear: both; overflow: hidden; }
-#detail > footer a				{ color: #888; text-decoration: none; font-weight: bold; }
-#detail > footer #subfooterlinks	{ float: right; }
+ul#subfooterlinks				{ list-style: none; padding: 0; margin: 0; }
+ul#subfooterlinks li			{ display: inline; margin-left: 15px; }
 
 
 /* Home (Dashboard) */
@@ -193,6 +218,7 @@ ul.biglist li .booktitle a:hover { text-decoration: underline; }
 
 @media only screen and (max-width: 900px) {
 	/* Tablet */
+<<<<<<< HEAD
 	#goals							{ float: none; display: block; padding: 0; margin-bottom: .5em; }
 	ul#entries						{ column-count: 2; -webkit-column-count: 2; -moz-column-count: 2; }
 }
@@ -213,6 +239,58 @@ ul.biglist li .booktitle a:hover { text-decoration: underline; }
 	#detail h1:first-child			{ margin-top: 15px; padding-top: 25px; }
 	
 	ul#entries						{ column-count: 1; -webkit-column-count: 1; -moz-column-count: 1; }
+=======
+
+	#view, #edit					{ padding: 35px; padding-top: 0; }
+
+	#detail							{ margin-top: 20px; }
+	#sidebar ul						{ margin-top: 20px; }
+
+	#goals							{ float: none; display: block; padding: 0; margin-bottom: .5em; }
+	ul#entries						{ column-count: 2; -webkit-column-count: 2; -moz-column-count: 2; }
+
+	#detail > footer				{ position: inherit; top: 0px; padding: 0 35px 35px; }
+	#detail > footer span			{ display: block; font-size: .8em; float: left; width: 200px; line-height: 1.5em; color: #aaa; margin-right: 20px; }
+	#detail > footer span a			{ color: #999; }
+
+	#detail #subfooterlinks			{ float: left; margin-top: 10px; color: #fff; }
+	#detail #subfooterlinks a		{ display: inline-block; padding: 5px 15px 6px; background: #eee; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; font-size: 11px; color: #888; text-decoration: none; border: none; font-weight: bold; }
+	#detail #subfooterlinks a:hover	{ background: #444; color: #fff; }
+	#detail ul#subfooterlinks		{ padding: 0; float: right; }
+
+	#detail form footer				{ padding: 0; clear: both; overflow: hidden; }
+}
+
+@media only screen and (max-width: 700px) {
+	/* Mobile */
+
+	body							{ background: #fff; }
+
+	#banner							{ width: 100%; }
+	#account						{ padding-right: 5px; }
+
+	#page							{ width: 100%; padding: 0; }
+
+	#view, #edit					{ padding: 20px; padding-top: 0; min-height: 0; }
+	
+	#sidebar						{ float: none; width: 100%; overflow: hidden; clear: both; border-top: solid 1px #777; }
+	#sidebar ul						{ width: 100%; max-width: 100%; float: none; padding: 0; margin-top: -7px; background: #999; padding-top: 3px; }
+	#sidebar ul li					{ margin-bottom: 1px; -moz-border-radius: 0px; -webkit-border-radius: 0px; border-radius: 0px; padding: 2px 15px 4px; }
+	#sidebar ul li a				{ padding-top: 3px; text-shadow: -1px 1px 1px rgba(255, 255, 255, 0.6); width: 100%; }
+	#sidebar ul li.pagelink:first-child		{ margin-top: 8px; }
+	#sidebar ul li.pagelink.last	{ margin-bottom: 5px; }
+	#sidebar h3						{ width: 100%; max-width: 100%; float: none; margin: 0; padding: 10px 15px 20px; background: #fff; }
+	
+	#detail							{ float: none; width: 100%; margin: 0; padding: 0 0 30px 0; -moz-border-radius: 0px; -webkit-border-radius: 0px; border-radius: 0px; -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; }
+	#detail h1						{ font-size: 32px; }
+	#detail h1:first-child			{ margin-top: 0; padding-top: 20px; }
+	#detail > footer				{ padding: 0 20px 0 20px; }
+
+	#detail > footer span			{ width: 100%; display: block; float: none; }
+	#detail > footer #subfooterlinks	{ float: none; }
+
+	#detail ul#subfooterlinks		{ float: none; }
+	#detail ul#subfooterlinks li	{ width: 100%; display: block; margin-left: 0; }
 	
 	#goals							{ font-size: .7em; color: #999; }
 	#goals input#currententry		{ width: 100%; margin: .5em 0 1em 0; font-size: 1.8em; padding: 6px; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; border: solid 1px #bbb; }
@@ -227,4 +305,9 @@ ul.biglist li .booktitle a:hover { text-decoration: underline; }
 	ul.biglist li .pages			{ display: block; width: auto; }
 	
 	#editbooktitle					{ width: 100%; max-width: 100%; }
+
+	ul#entries						{ margin-bottom: 30px; }
+
+	#view footer, #edit footer		{ padding-top: 10px; }
+	#view footer a, #edit footer a	{ display: block; text-align: center; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; width: 100%; padding: 5px 15px; color: #888; background: #eee; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; border: none; font-size: 11px; font-weight: bold; margin: 0 0 5px 0; }
 }
