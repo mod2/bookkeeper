@@ -353,9 +353,13 @@ SQL;
 			$actionHtml = "<div id='reached' class='action'>You&rsquo;ve hit your goal for today.</div>";
 		} elseif ($book->getPagesToday() < 0) {
 			$numPages = strval($book->getPagesToday() * -1);
-			$actionHtml = "<div id='over' class='action'>You&rsquo;re <span class='pagenum'><span id='pagesover'>$numPages</span> pages</span> over your goal for today.</div>";
+			$actionHtml = "<div id='over' class='action'>You&rsquo;re <span class='pagenum'><span id='pagesover'>$numPages</span> page";
+			if ($numPages != 1) $actionHtml .= 's';
+			$actionHtml .= "</span> over your goal for today.</div>";
 		} else {
-			$actionHtml = "<div id='action' class='action'>Read to <span class='pagenum'>page <span id='topage'>{$book->getToPage()}</span></span> today <span class='pagecount'>(<span id='pagestoday'>{$book->getPagesToday()}</span> pages)</span></div>";
+			$actionHtml = "<div id='action' class='action'>Read to <span class='pagenum'>page <span id='topage'>{$book->getToPage()}</span></span> today <span class='pagecount'>(<span id='pagestoday'>{$book->getPagesToday()}</span> page";
+			if ($book->getPagesToday() != 1) $actionHtml .= 's';
+			$actionHtml .= ")</span></div>";
 		}
 		return $actionHtml;
 	}
