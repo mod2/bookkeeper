@@ -239,11 +239,9 @@ ul.biglist li .booktitle a:hover { text-decoration: underline; }
 	body							{ background: #fff; }
 
 	#banner_container				{ height: 29px; }
-	#banner							{ width: 100%; }
+	#banner							{ width: 100%; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
 	#banner a						{ padding: 2px 0; display: inline-block; }
 	#banner img						{ margin-top: 1px; }
-
-	#account						{ padding-right: 5px; }
 
 	#page							{ width: 100%; padding: 0; }
 
