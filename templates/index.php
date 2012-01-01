@@ -8,7 +8,6 @@
 	<?php else: ?>
 		<?php include 'bookview.php'; ?>
 	<?php endif; ?>
-	<?php include 'subfooter.php'; ?>
 </section>
 
 <?php include 'nav.php'; ?>
