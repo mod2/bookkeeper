@@ -15,8 +15,12 @@ body							{ margin: 0; padding: 0; font-family: "Crimson Text", Georgia, serif;
 #banner a:hover					{ color: #000; }
 #banner a:hover h1				{ color: #000; }
 
-#account						{ float: right; margin-right: 1.5%; color: #bbb; }
-#account a						{ color: #85837a; }
+ul#account						{ float: right; margin: 0 1.5% 0 0; list-style: none; padding: 0; }
+ul#account li					{ display: inline; }
+ul#account li::after			{ content: ' • '; color: #bbb; }
+ul#account li:last-child::after	{ content: none; }
+ul#account li a					{ color: #85837a; }
+ul#account li#navlink			{ display: none; }
 
 
 /* Page */
@@ -242,6 +246,8 @@ ul.biglist li .booktitle a:hover { text-decoration: underline; }
 	#banner							{ width: 100%; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
 	#banner a						{ padding: 2px 0; display: inline-block; }
 	#banner img						{ margin-top: 1px; }
+
+	ul#account li#navlink			{ display: inline; }
 
 	#page							{ width: 100%; padding: 0; }
 

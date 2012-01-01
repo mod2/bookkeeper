@@ -29,7 +29,7 @@
 <body>
 	<div id="banner_container">
 		<div id="banner">
-			<?php if (property_exists($args, "username")): ?><div id="account"><a href="<?php echo $args->app_url . '/' . $args->username; ?>/account">Account</a> &bull; <a href="<?php echo $args->app_url; ?>/logout">Logout</a></div><?php endif; ?>
+			<?php if (property_exists($args, "username")): ?><ul id="account"><li id="navlink"><a href="#booklist">Books</a></li><li><a href="<?php echo $args->app_url . '/' . $args->username; ?>/account">Account</a></li><li><a href="<?php echo $args->app_url; ?>/logout">Logout</a></ul><?php endif; ?>
 			<img src="<?php echo $args->app_url; ?>/favicon.png" />
 			<a href="<?php echo $args->app_url; ?>"><h1>Bookkeeper</h1></a>
 		</div>	
