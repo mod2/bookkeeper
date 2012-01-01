@@ -28,12 +28,6 @@ body							{ margin: 0; padding: 0; font-family: "Crimson Text", Georgia, serif;
 /* Sidebar */
 /* -------------------------------------------------- */
 
-<<<<<<< HEAD
-#sidebar						{ width: 35%; float: left; }
-#sidebar ul						{ margin: 0 5% 0 0; width: 90%; max-width: 275px; float: right; list-style: none; clear: both; overflow-y: scroll; max-height: 700px; padding-right: 5px; }
-#sidebar ul li					{ line-height: 1.3em; margin-bottom: 7px; padding: 0 8px; -moz-border-radius: .5em; -webkit-border-radius: .5em; border-radius: .5em; -moz-box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3); -webkit-box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3); box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3); border-style: solid none none solid; border-width: 1px; border-color: rgba(255, 255, 255, 0.6); background: #dcd9c7; background: -webkit-gradient(linear, left top, left bottom, from(#dcd9c7), to(#ccc9b7)); background: -webkit-linear-gradient(#dcd9c7, #ccc9b7); background: -moz-linear-gradient(top, #dcd9c7, #ccc9b7); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dcd9c7', endColorstr='#ccc9b7'); min-width: 115px; }
-#sidebar ul li a				{ padding: 7px 0 3px; display: inline-block; color: #000; text-decoration: none; font-style: italic; font-size: 1.2em; text-shadow: #fff -1px 1px 1px; width: 100%; }
-=======
 #sidebar						{ width: 30%; float: right; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
 #sidebar ul						{ margin: 35px 0 0; padding: 0 1px 1px 0; list-style: none; clear: both; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; }
 #sidebar ul li					{ line-height: 1.3em; margin-bottom: 7px; padding: 0 8px; -moz-border-radius: .5em; -webkit-border-radius: .5em; border-radius: .5em; -moz-box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3); -webkit-box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3); box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3); border-style: solid none none solid; border-width: 1px; border-color: rgba(255, 255, 255, 0.6); background: #dcd9c7; background: -webkit-gradient(linear, left top, left bottom, from(#dcd9c7), to(#ccc9b7)); background: -webkit-linear-gradient(#dcd9c7, #ccc9b7); background: -moz-linear-gradient(top, #dcd9c7, #ccc9b7); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dcd9c7', endColorstr='#ccc9b7'); min-width: 115px; }
@@ -218,28 +212,6 @@ ul.biglist li .booktitle a:hover { text-decoration: underline; }
 
 @media only screen and (max-width: 900px) {
 	/* Tablet */
-<<<<<<< HEAD
-	#goals							{ float: none; display: block; padding: 0; margin-bottom: .5em; }
-	ul#entries						{ column-count: 2; -webkit-column-count: 2; -moz-column-count: 2; }
-}
-
-@media only screen and (max-width: 450px) {
-	/* Mobile */
-
-	#view, #edit					{ padding: 25px; padding-top: 0; }
-	
-	#sidebar						{ float: none; width: 100%; overflow: hidden; clear: both; }
-	#sidebar ul						{ width: 100%; max-width: 100%; float: none; padding: 0; }
-	#sidebar ul li					{ margin-bottom: 1px; -moz-border-radius: 0px; -webkit-border-radius: 0px; border-radius: 0px; }
-	#sidebar ul li a				{ text-shadow: -1px 1px 1px rgba(255, 255, 255, 0.6); width: 100%; }
-	#sidebar ul li.pagelink:first-child		{ margin-top: 8px; }
-	#sidebar h3						{ width: 100%; max-width: 100%; float: none; }
-	
-	#detail							{ float: none; width: 100%; margin-bottom: 0; -moz-border-radius: 0px; -webkit-border-radius: 0px; border-radius: 0px; padding-bottom: 30px; }
-	#detail h1:first-child			{ margin-top: 15px; padding-top: 25px; }
-	
-	ul#entries						{ column-count: 1; -webkit-column-count: 1; -moz-column-count: 1; }
-=======
 
 	#view, #edit					{ padding: 35px; padding-top: 0; }
 
