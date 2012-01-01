@@ -245,7 +245,7 @@ ul.biglist li .booktitle a:hover { text-decoration: underline; }
 
 	#page							{ width: 100%; padding: 0; }
 
-	#view, #edit					{ padding: 20px; padding-top: 0; min-height: 0; }
+	#view, #edit					{ padding: 0 20px 0; min-height: 0; }
 	
 	#sidebar						{ float: none; width: 100%; overflow: hidden; clear: both; border-top: solid 1px #777; }
 	#sidebar ul						{ width: 100%; max-width: 100%; float: none; padding: 0; margin-top: -7px; background: #999; padding-top: 3px; }
