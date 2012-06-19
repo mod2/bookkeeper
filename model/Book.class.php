@@ -76,7 +76,7 @@ SQL;
 		foreach ($books as $book) {
 			$finishedDate = $book->entries[count($book->entries) - 1]->getEntryDate();
 			$book->finishedDate = date('j M', strtotime($finishedDate));
-			$book->totalDays = Book::getDayString(abs(strtotime($book->getStartDate()) - strtotime($finishedDate)) / (60*60*24));
+			$book->totalDays = Book::getDayString(intval(abs(strtotime($book->getStartDate()) - strtotime($finishedDate)) / (60*60*24)));
 		}
 		return $books;
 	}
