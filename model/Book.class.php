@@ -65,12 +65,13 @@ SQL;
 
 	public static function getFinishedBooks($username) {
 		$sql = <<<SQL
-			SELECT DISTINCT b.bookId 
+			SELECT DISTINCT b.bookId,
+			(SELECT entryDate FROM Entry WHERE bookId=b.bookId ORDER BY entryDate DESC LIMIT 1) AS entryDate
 			FROM Book b, Entry e 
 			WHERE b.bookId = e.bookId 
 			AND b.username = '?' 
 			AND b.totalPages = (SELECT pageNumber FROM Entry WHERE bookId=b.bookId ORDER BY pageNumber DESC LIMIT 1)
-			ORDER BY e.entryDate DESC
+			ORDER BY entryDate DESC
 SQL;
 		$books = self::getBooks($sql, $username);
 		foreach ($books as $book) {
