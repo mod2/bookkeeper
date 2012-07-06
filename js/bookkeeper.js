@@ -2,7 +2,7 @@ var canvas;
 var context;
 
 var Bookkeeper = function() {
-	this.months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Juy', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+	this.months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 	this.makeTwoDigits = function(number) {
 		number = String(number);
