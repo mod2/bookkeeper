@@ -1,7 +1,7 @@
 	<div id="view" >
 		<h1>Today</h1>
 
-		<h3>Today's Reading Goals</h3>
+		<h3>Today&rsquo;s Reading Goals</h3>
 		<ul class="biglist">
 		<?php if (count($args->activeBooks) > 0): ?>
 		<?php foreach ($args->activeBooks as $book): ?>
