@@ -21,6 +21,8 @@ function Chart(numPages, numDays, entries, drawGoalLines, canvas, context) {
 		YMARGIN = 15;
 		FONTSIZE = 10;
 		NODESIZE = 2;
+		BGLINEWIDTH = 1;
+		LINEWIDTH = 1;
 
 		if (window.devicePixelRatio == 2) {
 			XMARGIN = 60;
@@ -28,6 +30,8 @@ function Chart(numPages, numDays, entries, drawGoalLines, canvas, context) {
 			LABELMARGIN *= 2;
 			FONTSIZE = 18;
 			NODESIZE = 4;
+			BGLINEWIDTH = 1;
+			LINEWIDTH = 2;
 		}
 
 		// if we've gone over the goal date, just display however many entries we have
@@ -58,6 +62,7 @@ function Chart(numPages, numDays, entries, drawGoalLines, canvas, context) {
 
 		// draw the border
 		c.strokeStyle = BORDERSTYLE;
+		c.lineWidth = BGLINEWIDTH;
 		c.beginPath();
 		c.strokeRect(this.minX, this.minY, this.displayWidth, this.displayHeight);
 		c.closePath();
@@ -109,7 +114,7 @@ function Chart(numPages, numDays, entries, drawGoalLines, canvas, context) {
 		if (drawGoalLines) {
 			c.beginPath();
 			c.strokeStyle = "rgba(0, 0, 0, 0.1)";
-			c.lineWidth = 1;
+			c.lineWidth = BGLINEWIDTH;
 			c.dashedLine(this.minX, this.maxY, this.maxX, this.minY, 5);
 			c.stroke();
 			c.closePath();
@@ -145,6 +150,7 @@ function Chart(numPages, numDays, entries, drawGoalLines, canvas, context) {
 			c.beginPath();
 			c.moveTo(x, y);
 			c.strokeStyle = "#000";
+			c.lineWidth = LINEWIDTH;
 			c.fillStyle = "rgba(0, 0, 0, 0.2)";
 			for (i in this.entries) {
 				y = this.maxY - (this.entries[i].page * page_step);
