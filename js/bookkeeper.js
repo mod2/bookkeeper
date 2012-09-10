@@ -112,6 +112,18 @@ $(document).ready(function() {
 			context = canvas.getContext('2d');
 			chartEntries = bk.chartEntries(current_book);
 
+			// Take into account retina displays
+			if (window.devicePixelRatio) {
+				var cvWidth = canvas.width;
+				var cvHeight = canvas.height;
+
+				canvas.width = cvWidth * window.devicePixelRatio;
+				canvas.height = cvHeight * window.devicePixelRatio;
+
+				canvas.style.width = cvWidth + "px";
+				canvas.style.height = cvHeight + "px";
+			}
+
 			lastEntry = current_book.entries[current_book.entries.length - 1];
 			lastEntryDate = (lastEntry) ? lastEntry.entryDate : '';
 

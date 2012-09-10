@@ -15,12 +15,20 @@ function Chart(numPages, numDays, entries, drawGoalLines, canvas, context) {
 		BORDERSTYLE = "#999";
 		BGLINESTYLE = "#ddd";
 		NUMLINES = 10;
-		TICKSTYLE = "#ccc";
-		TICKLENGTH = 4;
 		DAYLABELS = 5;
 		LABELMARGIN = 5;
 		XMARGIN = 35;
 		YMARGIN = 15;
+		FONTSIZE = 10;
+		NODESIZE = 2;
+
+		if (window.devicePixelRatio == 2) {
+			XMARGIN = 60;
+			YMARGIN = 35;
+			LABELMARGIN *= 2;
+			FONTSIZE = 18;
+			NODESIZE = 4;
+		}
 
 		// if we've gone over the goal date, just display however many entries we have
 		if (this.entries.length > this.numDays) {
@@ -65,7 +73,7 @@ function Chart(numPages, numDays, entries, drawGoalLines, canvas, context) {
 		c.closePath();
 
 		// set up some font stuff
-		c.font = "9x helvetica";
+		c.font = FONTSIZE + "px helvetica";
 		c.textBaseline = "middle";
 		c.fillStyle = BORDERSTYLE;
 		midY = this.minY + this.displayHeight / 2;
@@ -157,7 +165,7 @@ function Chart(numPages, numDays, entries, drawGoalLines, canvas, context) {
 				y = this.maxY - (this.entries[i].page * page_step);
 				x = this.minX + ((this.entries[i].day - 1) * tick_step);
 				c.beginPath();
-				c.arc(x, y, 2, 0, Math.PI * 2, false);
+				c.arc(x, y, NODESIZE, 0, Math.PI * 2, false);
 				c.fill();
 				c.closePath();
 			}
