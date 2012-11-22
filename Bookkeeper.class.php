@@ -86,7 +86,16 @@ class Bookkeeper
 					header('Location: ' . APP_URL . '/newaccount/');
 				} else {
 					$_SESSION['authorizeduser']['username'] = $user->getUsername();
-					header('Location: ' . APP_URL . '/' . $user->getUsername());
+
+					// If we're coming from a page on the system, redirect to that page
+					if (array_key_exists("REQUEST_URI", $_SERVER) && $_SERVER['REQUEST_URI'] != '') {
+						$url = $_SERVER['REQUEST_URI'];
+					} else {
+						// Otherwise go to the home page
+						$url = APP_URL . '/' . $user->getUsername();
+					}
+
+					header("Location: $url");
 				}
 			} else { // new user
 				$_SESSION['authorizeduser']['auth'] = true;
