@@ -55,7 +55,9 @@ class Bookkeeper
 	 **/
 	public static function login($args) {
 		$bool = false;
+
 		$openid = new LightOpenID(APP_HOST);
+
 		try {
 			if (array_key_exists('openid_mode', $_GET) && trim($_GET['openid_mode']) != '') {
 				if ($openid->validate()) {
@@ -74,35 +76,32 @@ class Bookkeeper
 		if (!$bool) { // didn't successfully login
 			header("Location: http://www.google.com");
 		} else { // successfully logged in
-			/*echo json_encode($openid->getAttributes());*/
 			$attr = $openid->getAttributes();
 			$googleId = trim($attr['contact/email']);
+
 			$user = new User($googleId);
 			$_SESSION['authorizeduser'] = array();
+
 			if ($user->getExisting()) {
 				$_SESSION['authorizeduser']['auth'] = true;
 				$_SESSION['authorizeduser']['google'] = $googleId;
+
 				if ($user->getUsername() == '') {
 					header('Location: ' . APP_URL . '/newaccount/');
 				} else {
 					$_SESSION['authorizeduser']['username'] = $user->getUsername();
 
-					// If we're coming from a page on the system, redirect to that page
-					if (array_key_exists("REQUEST_URI", $_SERVER) && $_SERVER['REQUEST_URI'] != '') {
-						$url = $_SERVER['REQUEST_URI'];
-					} else {
-						// Otherwise go to the home page
-						$url = APP_URL . '/' . $user->getUsername();
-					}
-
+					$url = APP_URL . '/' . $user->getUsername();
 					header("Location: $url");
 				}
 			} else { // new user
 				$_SESSION['authorizeduser']['auth'] = true;
 				$_SESSION['authorizeduser']['google'] = $googleId;
+
 				$user->setGoogleIdentifier($googleId);
 				$user->setEmail($googleId);
 				$user->save();
+
 				header('Location: ' . APP_URL . '/newaccount/');
 			}
 		}
@@ -117,11 +116,12 @@ class Bookkeeper
 	private static function checkUserAuth($username = '') {
 		if (!array_key_exists('authorizeduser', $_SESSION) 
 			|| !array_key_exists('auth', $_SESSION['authorizeduser']) 
-				|| !$_SESSION['authorizeduser']['auth']
+			|| !$_SESSION['authorizeduser']['auth']
 			|| ($username != '' && array_key_exists('username', $_SESSION['authorizeduser']) && $username != $_SESSION['authorizeduser']['username'])) {
 			header('Location: ' . APP_URL . '/');
 			exit(1);
 		}
+
 		if ($username != '') {
 			$user = new User($username);
 			date_default_timezone_set($user->getTimezone());
