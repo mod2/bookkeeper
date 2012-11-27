@@ -86,7 +86,11 @@ class Bookkeeper
 					header('Location: ' . APP_URL . '/newaccount/');
 				} else {
 					$_SESSION['authorizeduser']['username'] = $user->getUsername();
-					header('Location: ' . APP_URL . '/' . $user->getUsername());
+					if (array_key_exists('redirect_url', $_SESSION) && $_SESSION['redirect_url'] != ''){
+						header('Location: ' . $_SESSION['redirect_url']);
+					} else {
+						header('Location: ' . APP_URL . '/' . $user->getUsername());
+					}
 				}
 			} else { // new user
 				$_SESSION['authorizeduser']['auth'] = true;
@@ -106,10 +110,9 @@ class Bookkeeper
 	 * @author ChadGH
 	 **/
 	private static function checkUserAuth($username = '') {
-		if (!array_key_exists('authorizeduser', $_SESSION) 
-			|| !array_key_exists('auth', $_SESSION['authorizeduser']) 
-				|| !$_SESSION['authorizeduser']['auth']
-			|| ($username != '' && array_key_exists('username', $_SESSION['authorizeduser']) && $username != $_SESSION['authorizeduser']['username'])) {
+		if (!array_key_exists('authorizeduser', $_SESSION) || !array_key_exists('auth', $_SESSION['authorizeduser']) || !$_SESSION['authorizeduser']['auth'] || ($username != '' && array_key_exists('username', $_SESSION['authorizeduser']) && $username != $_SESSION['authorizeduser']['username'])) 
+		{
+			$_SESSION['redirect_url'] = APP_URL . $_SERVER['REQUEST_URI'];
 			header('Location: ' . APP_URL . '/');
 			exit(1);
 		}
