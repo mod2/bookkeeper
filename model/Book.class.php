@@ -158,7 +158,7 @@ SQL;
 				$this->getToPage();
 			}
 		}
-		echo $this->getTitle() . ' - ' . strval($end - $start) . '<br>';
+		//echo $this->getTitle() . ' - ' . strval($end - $start) . '<br>';
 	}
 
 	public function save() {
