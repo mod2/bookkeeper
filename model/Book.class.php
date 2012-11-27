@@ -144,6 +144,7 @@ SQL;
 				$this->setSlug($results[0]['slug']);
 
 				$this->setReadingDays(array($this->getSunday(), $this->getMonday(), $this->getTuesday(), $this->getWednesday(), $this->getThursday(), $this->getFriday(), $this->getSaturday()));
+				$start = time() + microtime();
 				$this->setEntries(Entry::getAllEntries($this->getBookId()));
 				if (count($this->entries) > 0) {
 					$this->setPagesLeft($this->getTotalPages() - $this->entries[count($this->entries) - 1]->getPageNumber());
@@ -151,11 +152,13 @@ SQL;
 					$this->setPagesLeft($this->getTotalPages());
 				}
 				$this->setPercentageComplete(round((($this->getTotalPages() - $this->getPagesLeft()) / $this->getTotalPages()) * 100));
+				$end = time() + microtime();
 
 				$this->getPagesPerDay();
 				$this->getToPage();
 			}
 		}
+		echo $this->getTitle() . ' - ' . strval($end - $start) . '<br>';
 	}
 
 	public function save() {
