@@ -17,9 +17,10 @@ function Chart(numPages, numDays, entries, drawGoalLines, canvas, context) {
 		NUMLINES = 10;
 		DAYLABELS = 5;
 		LABELMARGIN = 5;
-		XMARGIN = 35;
+		XMARGIN = 45;
 		YMARGIN = 15;
 		FONTSIZE = 10;
+		MINIFONTSIZE = 9;
 		NODESIZE = 2;
 		BGLINEWIDTH = 1;
 		LINEWIDTH = 1;
@@ -29,6 +30,7 @@ function Chart(numPages, numDays, entries, drawGoalLines, canvas, context) {
 			YMARGIN = 35;
 			LABELMARGIN *= 2;
 			FONTSIZE = 18;
+			MINIFONTSIZE = 14;
 			NODESIZE = 4;
 			BGLINEWIDTH = 1;
 			LINEWIDTH = 2;
@@ -38,6 +40,7 @@ function Chart(numPages, numDays, entries, drawGoalLines, canvas, context) {
 		if (this.entries.length > this.numDays) {
 			this.numDays = this.entries.length;
 		}
+		this.numDays += 1; // TODO: make sure this works
 
 		cv = this.canvas;
 		c = this.context;
@@ -53,7 +56,7 @@ function Chart(numPages, numDays, entries, drawGoalLines, canvas, context) {
 		// set up intervals
 		bgline_step = this.displayHeight / NUMLINES;
 		day_step = this.displayWidth / this.numDays;
-		tick_step = this.displayWidth / (this.numDays - 1);
+		tick_step = this.displayWidth / (this.numDays - 2);
 		page_step = this.displayHeight / this.numPages;
 
 		// clear the canvas
@@ -85,9 +88,9 @@ function Chart(numPages, numDays, entries, drawGoalLines, canvas, context) {
 
 		// draw left side labels (pages)
 		c.textAlign = "right";
-		c.fillText(this.numPages, this.minX - LABELMARGIN, this.minY);
-		c.fillText(Math.round(this.numPages / 2), this.minX - LABELMARGIN, midY);
-		c.fillText("1", this.minX - LABELMARGIN, this.maxY);
+		c.fillText("p. " + this.numPages, this.minX - LABELMARGIN, this.minY);
+		c.fillText("p. " + Math.round(this.numPages / 2), this.minX - LABELMARGIN, midY);
+		c.fillText("p. 1", this.minX - LABELMARGIN, this.maxY);
 		c.closePath();
 
 		// draw right side labels (percentage)
@@ -96,6 +99,7 @@ function Chart(numPages, numDays, entries, drawGoalLines, canvas, context) {
 		c.fillText("50%", this.maxX + LABELMARGIN, midY);
 		c.fillText("100%", this.maxX + LABELMARGIN, this.minY);
 
+		/*
 		// and the bottom labels (days)
 		c.textAlign = "center";
 		c.textBaseline = "top";
@@ -106,9 +110,10 @@ function Chart(numPages, numDays, entries, drawGoalLines, canvas, context) {
 		numdays_step = this.numDays / DAYLABELS;
 		c.closePath();
 		for (i=0; i<DAYLABELS; i++) {
-			c.fillText(Math.round(i * numdays_step) + 1, this.minX + (i * daylabel_step), this.maxY + LABELMARGIN);
+			c.fillText(Math.round(i * numdays_step), this.minX + (i * daylabel_step), this.maxY + LABELMARGIN);
 		}
 		c.closePath();
+		*/
 
 		// draw the goal line
 		if (drawGoalLines) {
@@ -120,27 +125,29 @@ function Chart(numPages, numDays, entries, drawGoalLines, canvas, context) {
 			c.closePath();
 		}
 
+		// Situations where they finished on the same day they started
 		if (this.entries.length == 1) {
 			pageY = this.maxY - this.entries[0].page * page_step;
 			c.beginPath();
 			c.moveTo(this.minX, this.maxY);
-			c.lineTo(this.minX, pageY);
 			c.lineTo(this.maxX, pageY);
 			c.lineTo(this.maxX, this.maxY);
 			c.fillStyle = "rgba(0, 0, 0, 0.2)";
 			c.fill();
 			c.closePath();
 
-			c.strokeStyle = "#000";
+			// Line
 			c.beginPath();
 			c.moveTo(this.minX, this.maxY);
-			c.lineTo(this.minX, pageY);
+			c.lineTo(this.maxX, pageY);
+			c.strokeStyle = "#000";
 			c.stroke();
 			c.closePath();
 
+			// Dot
 			c.fillStyle = "#000";
 			c.beginPath();
-			c.arc(this.minX, pageY, 2, 0, Math.PI * 2, false);
+			c.arc(this.maxX, pageY, NODESIZE, 0, Math.PI * 2, false);
 			c.fill();
 			c.closePath();
 		} else if (this.entries.length > 1) {
@@ -157,9 +164,9 @@ function Chart(numPages, numDays, entries, drawGoalLines, canvas, context) {
 				x = this.minX + ((this.entries[i].day - 1) * tick_step);
 				c.lineTo(x, y);
 			}
+			c.stroke();
 
 			// and the fill line (with the shading)
-			c.stroke();
 			c.lineTo(this.maxX, y);
 			c.lineTo(this.maxX, this.maxY);
 			c.fill();
@@ -167,11 +174,19 @@ function Chart(numPages, numDays, entries, drawGoalLines, canvas, context) {
 		
 			// draw entry circles	
 			c.fillStyle = "#000";
+			c.textAlign = "center";
+			c.textBaseline = "top";
+			c.font = MINIFONTSIZE + "px Helvetica";
 			for (i in this.entries) {
 				y = this.maxY - (this.entries[i].page * page_step);
 				x = this.minX + ((this.entries[i].day - 1) * tick_step);
 				c.beginPath();
 				c.arc(x, y, NODESIZE, 0, Math.PI * 2, false);
+				/*
+				if (i > 0 && i < this.entries.length - 1 && i % ENTRYSKIP == 0) {
+					c.fillText(this.entries[i].page, x, y - (NODESIZE * 8));
+				}
+				*/
 				c.fill();
 				c.closePath();
 			}
