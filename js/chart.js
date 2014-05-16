@@ -81,7 +81,7 @@ function Chart(numPages, numDays, entries, drawGoalLines, canvas, context) {
 		c.closePath();
 
 		// set up some font stuff
-		c.font = FONTSIZE + "px helvetica";
+		c.font = FONTSIZE + "px Avenir Next";
 		c.textBaseline = "middle";
 		c.fillStyle = BORDERSTYLE;
 		midY = this.minY + this.displayHeight / 2;
@@ -156,9 +156,9 @@ function Chart(numPages, numDays, entries, drawGoalLines, canvas, context) {
 			y = this.maxY;
 			c.beginPath();
 			c.moveTo(x, y);
-			c.strokeStyle = "#000";
+			c.strokeStyle = "rgba(153, 41, 41, 1.0)";
 			c.lineWidth = LINEWIDTH;
-			c.fillStyle = "rgba(0, 0, 0, 0.2)";
+			c.fillStyle = "rgba(200, 20, 0, 0.4)";
 			for (i in this.entries) {
 				y = this.maxY - (this.entries[i].page * page_step);
 				x = this.minX + ((this.entries[i].day - 1) * tick_step);
@@ -173,10 +173,10 @@ function Chart(numPages, numDays, entries, drawGoalLines, canvas, context) {
 			c.closePath();
 		
 			// draw entry circles	
-			c.fillStyle = "#000";
+			c.fillStyle = "rgba(124, 4, 4, 1.0)";
 			c.textAlign = "center";
 			c.textBaseline = "top";
-			c.font = MINIFONTSIZE + "px Helvetica";
+			c.font = MINIFONTSIZE + "px Avenir Next";
 			for (i in this.entries) {
 				y = this.maxY - (this.entries[i].page * page_step);
 				x = this.minX + ((this.entries[i].day - 1) * tick_step);

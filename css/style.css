@@ -1,25 +1,27 @@
 /* General */
 /* -------------------------------------------------- */
 
-body							{ margin: 0; padding: 0; font-family: "Crimson Text", Georgia, serif; background: #d5d3ca; background: -webkit-gradient(radial, 50% 0, 500px, 50% 0 2000px, from(#f5f3ea), to(#ccc9b9)); background: -webkit-radial-gradient(50% 0, circle, #f5f3ea, #ccc9b9); background: radial-gradient(50% 0, circle, #f5f3ea, #ccc9b9); }
+*								{ -moz-box-sizing: border-box; box-sizing: border-box; }
+
+body							{ margin: 0; padding: 0; font-family: Charter, Georgia, serif; background: #fff; }
 
 
 /* Banner */
 /* -------------------------------------------------- */
 
-#banner_container				{ background: #d1cfc7; height: 24px; border-bottom: solid 1px #aaa; font-family: "Lucida Grande", Helvetica, Arial, sans-serif; font-size: 11px; }
-#banner							{ width: 90%; max-width: 1000px; padding: 5px; margin: 0px auto; }
-#banner img						{ float: left; margin-right: 5px; margin-top: -1px; }
-#banner h1						{ color: #85837a; margin: 0; font-size: 11px; text-shadow: 0 -1px 2px rgba(255, 255, 255, 0.7), 0 1px 2px rgba(0, 0, 0, 0.1); }
-#banner a						{ text-decoration: none; }
-#banner a:hover					{ color: #000; }
-#banner a:hover h1				{ color: #000; }
+#banner_container				{ background: #282f36; font-family: Avenir Next, "Lucida Grande", Helvetica, Arial, sans-serif; font-size: 11px; }
+#banner							{ width: 90%; max-width: 1000px; padding: 5px; margin: 0px auto; font-size: 1.3em; }
+#banner img						{ float: left; margin-right: 5px; margin-top: 5px; }
+#banner h1						{ color: #75a2ce; margin: 0; font-size: 16px; margin-top: 2px; font-weight: 600; margin-left: 3px; }
+#banner a						{ text-decoration: none; font-weight: 600; }
+#banner a:hover					{ color: #fff; }
+#banner a:hover h1				{ color: #fff; }
 
 ul#account						{ float: right; margin: 0 1.5% 0 0; list-style: none; padding: 0; }
 ul#account li					{ display: inline; }
-ul#account li::after			{ content: ' • '; color: #bbb; }
+ul#account li::after			{ content: ' • '; color: #355575; }
 ul#account li:last-child::after	{ content: none; }
-ul#account li a					{ color: #85837a; }
+ul#account li a					{ color: #75a2ce; }
 ul#account li#navlink			{ display: none; }
 
 
@@ -32,47 +34,48 @@ ul#account li#navlink			{ display: none; }
 /* Sidebar */
 /* -------------------------------------------------- */
 
-#sidebar						{ width: 30%; float: right; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+#sidebar						{ width: 30%; float: right; }
 #sidebar ul						{ margin: 35px 0 0; padding: 0 1px 1px 0; list-style: none; clear: both; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; }
-#sidebar ul li					{ line-height: 1.3em; margin-bottom: 7px; padding: 0 8px; -moz-border-radius: .5em; -webkit-border-radius: .5em; border-radius: .5em; -moz-box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3); -webkit-box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3); box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3); border-style: solid none none solid; border-width: 1px; border-color: rgba(255, 255, 255, 0.6); background: #dcd9c7; background: -webkit-gradient(linear, left top, left bottom, from(#dcd9c7), to(#ccc9b7)); background: -webkit-linear-gradient(#dcd9c7, #ccc9b7); background: -moz-linear-gradient(top, #dcd9c7, #ccc9b7); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dcd9c7', endColorstr='#ccc9b7'); min-width: 115px; }
-#sidebar ul li a				{ padding: 7px 0 3px; display: inline-block; color: #000; text-decoration: none; font-style: italic; font-size: 1.2em; text-shadow: #fff -1px 1px 1px; width: 100%; }
-#sidebar ul li a .percentage	{ font-style: normal; text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6); }
+#sidebar ul li					{ line-height: 1.3em; padding: 0 8px; min-width: 115px; }
+#sidebar ul li + li				{ border-top: solid 1px #ccc; }
+#sidebar ul li a				{ padding: 8px 0; display: inline-block; color: #000; text-decoration: none; font-size: 1.1em; width: 100%; }
+#sidebar ul li a .percentage	{ font-style: normal; }
 
-#sidebar ul li.selected			{ background: #fff; background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#eee)); background: -webkit-linear-gradient(#fff, #eee); background: -moz-linear-gradient(top, #fff, #eee); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff', endColorstr='#eee'); }
+#sidebar ul li.selected			{ background: #fff; }
 #sidebar ul li.selected .percentage		{ color: #777; }
 #sidebar ul li.selected .percentage_container	{ border-color: #bbb; }
-#sidebar ul li.selected .percent		{ background: #ccc; }
+#sidebar ul li.selected .percent		{ background: #e08181; }
+#sidebar ul li.selected a		{ color: #d65c5c; }
 
-#sidebar ul li.pagelink a		{ padding: 4px 0; }
-#sidebar ul li.pagelink.last	{ margin-bottom: 20px; }
+#sidebar ul li.pagelink a		{ padding: 8px 0; color: #2f8ebb; }
 
-#sidebar h3						{ text-transform: uppercase; color: #6f1515; margin: 1em 0 .3em 0; padding-left: 8px; font-size: .9em; font-weight: normal; letter-spacing: 0.05em; text-shadow: #fff -1px 1px 1px; clear: both; }
-#sidebar h3 a					{ color: #6f1515; text-decoration: none; border-bottom: dotted 1px #9f5353; }
+#sidebar h3						{ color: #6f1515; margin: 2em 0 .3em 0; padding-left: 8px; font-size: 1em; font-weight: normal; letter-spacing: -0.02em; clear: both; }
+#sidebar h3 a					{ color: #677259; text-decoration: none; font-family: Avenir Next, Lucida Grande, Helvetica, Arial, sans-serif; display: block; padding: 8px 12px 10px; background-color: #e8f3d7; text-align: center; font-size: 16px; -moz-border-radius: 3px; border-radius: 3px; }
 
 
 /* Book detail */
 /* -------------------------------------------------- */
 
-#detail							{ background: #fff; width: 65%; margin: 35px 1.5% 100px 3.5%; float: right; -moz-box-shadow: -5px 0 10px rgba(0, 0, 0, 0.1), 5px 0 10px rgba(0, 0, 0, 0.1); -webkit-box-shadow: -5px 0 1px rgba(0, 0, 0, 0.1), 5px 0 1px rgba(0, 0, 0, 0.1); box-shadow: -5px 0 10px rgba(0, 0, 0, 0.1), 5px 0 10px rgba(0, 0, 0, 0.1); -moz-border-radius: .5em; -webkit-border-radius: .5em; border-radius: .5em; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
-#detail h1						{ font-size: 36px; font-weight: normal; letter-spacing: -0.05em; font-style: italic; margin: 0; color: #6f1515; line-height: 1.1em; }
+#detail							{ width: 65%; margin: 0px 1.5% 100px 3.5%; float: right; }
+#detail h1						{ font-size: 28px; font-weight: normal; letter-spacing: -0.02em; margin: 0; color: #d65c5c; line-height: 1.1em; }
 #detail h1:first-child			{ margin-top: 40px; }
-#detail h3						{ text-transform: uppercase; color: #999; margin: 2em 0 .3em 0; font-size: .9em; font-weight: normal; letter-spacing: 0.05em; }
+#detail h3						{ text-transform: uppercase; color: #999; margin: 2em 0 .3em 0; font-size: .5em; font-weight: normal; letter-spacing: 0.03em; font-family: Avenir Next, Lucida Grande, Helvetica, Arial, sans-serif; }
 
-#view							{ padding: 50px; padding-top: 0; min-height: 500px; }
-#edit							{ padding: 50px; padding-top: 0; }
+#view							{ padding-left: 50px; padding-top: 0; min-height: 500px; }
+#edit							{ padding-left: 50px; padding-top: 0; }
 #edit form						{ margin-bottom: 0; }
 
 
 /* Goals area */
 /* -------------------------------------------------- */
 
-#today							{ margin: .5em 0 1.5em; padding-bottom: .5em; border-bottom: dotted 1px #bbb; }
-#today .action					{ font-size: 1.4em; margin: 0; line-height: 1em; }
+#today							{ margin: .5em 0 1.5em; padding-bottom: 1.25em; border-bottom: solid 1px #ddd; }
+#today .action					{ font-size: 1.1em; margin: 0; line-height: 1em; }
 #today .pagenum					{ font-weight: bold; }
 #today .pagecount				{ color: #999; font-style: italic; }
 
-#goals                          { float: right; color: #666; font-family: "Lucida Grande", Helvetica, Arial, sans-serif; font-size: 12px; text-shadow: 0 1px 1px #fff; /* padding: 0px 2px 0px 10px; */ }
-#goals input                    { font-size: 1.3em; font-weight: bold; padding: 1px 8px; width: 4.5em; margin-left: 2px; -moz-border-radius: 1em; -webkit-border-radius: 1em; border-radius: 1em; border-width: 1px; border-style: solid; border-color: #ddd; color: #6f1515; }
+#goals                          { float: right; color: #aaa; font-size: 14px; }
+#goals input                    { font-size: 1.8em; padding: 1px 8px; width: 3.5em; margin-left: 2px; color: #000; background: #fff; border: none; font-family: Charter, Georgia, serif; }
 #goals input:focus              { outline: none; background: #fffee6; }
 
 
@@ -80,18 +83,19 @@ ul#account li#navlink			{ display: none; }
 /* -------------------------------------------------- */
 
 ul#stats						{ padding: 0; list-style: none; clear: both; overflow: hidden; margin: 0; }
-ul#stats li						{ display: inline-block; margin-right: 15px; float: left; margin-bottom: .25em; width: 100px; }
-ul#stats li h3					{ margin: 0 0 3px 0; }
-ul#stats li span				{ font-weight: bold; font-size: 1.4em; line-height: 1em; }
+ul#stats li						{ display: inline-block; margin-right: 15px; float: left; margin-bottom: 1em; width: 100px; }
+ul#stats li h3					{ margin: 0 0 1px 0; }
+ul#stats li span				{ font-size: 1.4em; line-height: 1em; }
 
 
 /* Percentages */
 /* -------------------------------------------------- */
 
-.percentage						{ font-size: 10px; color: #7c7967; clear: both; font-family: "Lucida Grande", Helvetica, Arial, sans-serif; margin-top: 4px; }
-.percentage_container			{ width: 100px; border: solid 1px #bcb9a7; -moz-border-radius: 1em; -webkit-border-radius: 1em; border-radius: 1em; height: 10px; display: inline-block; -moz-box-shadow: 0 1px 1px rgba(255, 255, 255, 0.6), 0 1px 1px rgba(0, 0, 0, 0.1) inset; -webkit-box-shadow: 0 1px 1px rgba(255, 255, 255, 0.6), 0 1px 1px rgba(0, 0, 0, 0.1) inset; box-shadow: 0 1px 1px rgba(255, 255, 255, 0.6), 0 1px 1px rgba(0, 0, 0, 0.1) inset; float: left; margin-right: 5px; margin-bottom: 2px; }
-.percentage span				{ display: block; float: left; margin-top: -3px; margin-right: 10px; }
-.percent						{ background: #aca997; height: 9px; float: left; z-index: 50; -moz-border-radius: 1em; -webkit-border-radius: 1em; border-radius: 1em; border-top: solid 1px rgba(255, 255, 255, 0.5); -moz-box-shadow: 0 1px 5px rgba(255, 255, 255, 0.5) inset, 1px 1px 2px rgba(0, 0, 0, 0.5); -webkit-box-shadow: 0 1px 5px rgba(255, 255, 255, 0.5) inset, 1px 1px 2px rgba(0, 0, 0, 0.5); box-shadow: 0 1px 5px rgba(255, 255, 255, 0.5) inset, 1px 1px 2px rgba(0, 0, 0, 0.5); }
+.percentage						{ font-size: 10px; color: #7c7967; clear: both; font-family: Avenir Next, "Lucida Grande", Helvetica, Arial, sans-serif; margin-top: 6px; }
+.percentage_container			{ width: 100px; height: 10px; display: inline-block; float: left; margin-right: 5px; margin-bottom: 2px; background: #eee; }
+.percentage span				{ display: block; float: left; margin-top: -5px; margin-right: 10px; }
+.percentage b					{ font-weight: 600; }
+.percent						{ background: #000; height: 10px; float: left; z-index: 50; }
 
 
 /* Chart */
@@ -103,7 +107,7 @@ canvas#reading_chart			{ width: 100%; max-width: 700px; height: 250px; backgroun
 /* Entries */
 /* -------------------------------------------------- */
 
-ul#entries						{ margin: 0 0 50px 0; list-style: none; font-size: 11px; padding: 0; font-family: "Lucida Grande", Helvetica, Arial, sans-serif; color: #666; line-height: 1.5em; column-count: 3; column-gap: 20px; -webkit-column-count: 3; -webkit-column-gap: 20px; -moz-column-count: 3; -moz-column-gap: 20px; }
+ul#entries						{ margin: 0 0 50px 0; list-style: none; font-size: 13px; padding: 0; font-family: Avenir Next, "Lucida Grande", Helvetica, Arial, sans-serif; color: #666; line-height: 1.5em; column-count: 3; column-gap: 20px; -webkit-column-count: 3; -webkit-column-gap: 20px; -moz-column-count: 3; -moz-column-gap: 20px; }
 ul#entries li					{ display: inline-block; width: 100%; }
 ul#entries li .date				{ color: #aaa; }
 
@@ -118,7 +122,7 @@ ul#entries li .date				{ color: #aaa; }
 #edit #editbooktotalpages		{ width: 62px; }
 #edit #editbookstartdate		{ width: 140px; }
 #edit #editbookenddate			{ width: 140px; }
-#edit small						{ color: #999; font-family: "Lucida Grande", Helvetica, Arial, sans-serif; display: inline-block; margin-left: 8px; font-size: 10px; }
+#edit small						{ color: #999; font-family: Avenir Next, "Lucida Grande", Helvetica, Arial, sans-serif; display: inline-block; margin-left: 8px; font-size: 10px; }
 
 #edit ul#readingdays			{ margin: 0 0 1.5em 0; padding: 0; clear: both; overflow: hidden; }
 #edit ul#readingdays li			{ display: inline; margin-right: 15px; float: left; text-align: center; }
@@ -128,7 +132,7 @@ ul#entries li .date				{ color: #aaa; }
 /* Dangerous */
 /* -------------------------------------------------- */
 
-ul#dangerous					{ margin-top: 3em; border-top: dotted 1px #bbb; padding-top: 5px; font-size: 10px; font-family: "Lucida Grande", Helvetica, Arial, sans-serif; text-align: right; }
+ul#dangerous					{ margin-top: 3em; border-top: dotted 1px #bbb; padding-top: 5px; font-size: 10px; font-family: Avenir Next, "Lucida Grande", Helvetica, Arial, sans-serif; text-align: right; }
 ul#dangerous li					{ margin-left: 15px; display: inline; }
 ul#dangerous li a				{ color: #666; text-decoration: none; border-bottom: dotted 1px #999; }
 
@@ -145,14 +149,14 @@ ul#dangerous li a				{ color: #666; text-decoration: none; border-bottom: dotted
 /* Footer */
 /* -------------------------------------------------- */
 
-#view footer, #edit footer		{ border-top: dotted 1px #bbb; padding-top: 5px; font-size: 10px; font-family: "Lucida Grande", Helvetica, Arial, sans-serif; text-align: right; }
+#view footer, #edit footer		{ border-top: dotted 1px #bbb; padding-top: 5px; font-size: 13px; font-family: Avenir Next, "Lucida Grande", Helvetica, Arial, sans-serif; text-align: right; }
 #view footer a, #edit footer a	{ text-decoration: none; border-bottom: dotted 1px #999; color: #666; }
 
 
 /* Datepicker */
 /* -------------------------------------------------- */
 
-.date_selector					{ -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; font-family: "Lucida Grande", Helvetica, Arial, sans-serif; }
+.date_selector					{ -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; font-family: Avenir Next, "Lucida Grande", Helvetica, Arial, sans-serif; }
 .date_selector .nav				{ clear: both; overflow: hidden; color: #999; }
 
 .date_selector .button			{ background: none; padding: 0 !important; -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; border: none; position: normal; top: 0; }
@@ -166,13 +170,13 @@ ul.allbooks						{ list-style: none; padding: 0; margin: .25em 0 2em; clear: bot
 ul.allbooks > li				{ padding: 3px 0; border-bottom: solid 1px #ddd; }
 ul.allbooks > li				{ clear: both; overflow: hidden; background: #fff; }
 ul.allbooks > li h4				{ margin: 5px 0; line-height: 1.3em; }
-ul.allbooks > li h4 a			{ text-decoration: none; color: #000; font-style: italic; font-size: 22px; letter-spacing: -0.05em; font-weight: normal; }
+ul.allbooks > li h4 a			{ text-decoration: none; color: #000; font-style: italic; font-size: 18px; letter-spacing: -0.02em; font-weight: normal; }
 ul.allbooks > li h4 a:hover		{ color: #6f1515; text-decoration: underline; }
 
-ul.allbooks > li .bookinfo		{ float: right; margin-top: 5px; font-family: "Lucida Grande", Helvetica, Arial, sans-serif; font-size: 11px; color: #666; margin-left: 15px; }
+ul.allbooks > li .bookinfo		{ float: right; margin-top: 5px; font-family: Avenir Next, "Lucida Grande", Helvetica, Arial, sans-serif; font-size: 11px; color: #666; margin-left: 15px; }
 
 ul.smalllist					{ border-top: solid 1px #ddd; border-bottom: solid 1px #ddd; padding: 0; margin: 0; }
-ul.smalllist > li				{ font-family: "Lucida Grande", Helvetica, Arial, sans-serif; font-size: 11px; margin: 5px 0px 5px 0; padding: 4px 0 5px; display: inline-block; border: none; }
+ul.smalllist > li				{ font-family: Avenir Next, "Lucida Grande", Helvetica, Arial, sans-serif; font-size: 11px; margin: 5px 0px 5px 0; padding: 4px 0 5px; display: inline-block; border: none; }
 ul.smalllist > li a				{ color: #999; padding: 3px 8px 5px; background: #eee; -moz-border-radius: 1em; -webkit-border-radius: 1em; border-radius: 1em; text-decoration: none; }
 ul.smalllist > li a:hover		{ background: #bbb; color: #fff; }
 
@@ -186,14 +190,14 @@ form#account input[type="text"], form#account input[type="email"]	{ padding: 3px
 form#account input[type="text"]		{ width: 175px; }
 form#account input[type="email"]	{ width: 250px; }
 form#account input[type="submit"]	{ margin: 1em 0; }
-form#account p small				{ color: #999; font-family: "Lucida Grande", Helvetica, Arial, sans-serif; font-size: 10px; line-height: 1.4em; }
+form#account p small				{ color: #999; font-family: Avenir Next, "Lucida Grande", Helvetica, Arial, sans-serif; font-size: 10px; line-height: 1.4em; }
 
-a#exportlink, a#importlink			{ color: #888; font-family: "Lucida Grande", Helvetica, Arial, sans-serif; font-size: 11px; text-decoration: none; background: #eee; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; padding: 5px 15px 6px; }
+a#exportlink, a#importlink			{ color: #888; font-family: Avenir Next, "Lucida Grande", Helvetica, Arial, sans-serif; font-size: 11px; text-decoration: none; background: #eee; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; padding: 5px 15px 6px; }
 a#exportlink:hover, a#importlink:hover	{ background: #444; color: #fff; }
 
 textarea#jsonimport				{ width: 100%; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; border: solid 1px #bbb; margin-top: 1em; }
 
-p.warning						{ font-family: "Lucida Grande", Helvetica, Arial, sans-serif; font-size: .8em; color: #600; background: #fee; padding: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; }
+p.warning						{ font-family: Avenir Next, "Lucida Grande", Helvetica, Arial, sans-serif; font-size: .8em; color: #600; background: #fee; padding: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; }
 
 
 /* Subfooter */
@@ -210,7 +214,7 @@ ul.biglist						{ padding: 0; list-style: none; margin: 0; border-top: solid 1px
 ul.biglist li					{ padding: 5px 0; font-size: 22px; line-height: 1em; color: #999; font-style: italic; clear: both; overflow: hidden; border-bottom: solid 1px #ddd; }
 ul.biglist li .pages			{ width: 175px; margin-right: 15px; font-style: normal; font-weight: bold; color: #6f1515; display: inline-block; }
 ul.biglist li .numpages			{ color: #999; font-weight: normal; font-size: .8em; }
-ul.biglist li .booktitle		{ display: inline-block; }
+ul.biglist li .booktitle		{ display: inline-block; width: calc(100% - 190px); }
 ul.biglist li .booktitle a		{ letter-spacing: -0.05em; color: #000; text-decoration: none; }
 ul.biglist li .booktitle a:hover { text-decoration: underline; }
 
@@ -242,9 +246,9 @@ ul.biglist li .booktitle a:hover { text-decoration: underline; }
 
 	body							{ background: #fff; }
 
-	#banner_container				{ height: 29px; }
-	#banner							{ width: 100%; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
-	#banner a						{ padding: 2px 0; display: inline-block; }
+	#banner							{ width: 100%; }
+	#banner a						{ padding: 5px 0; display: inline-block; }
+	#banner h1						{ margin-top: -2px; }
 	#banner img						{ margin-top: 1px; }
 
 	ul#account li#navlink			{ display: inline; }
@@ -254,16 +258,16 @@ ul.biglist li .booktitle a:hover { text-decoration: underline; }
 	#view, #edit					{ padding: 0 20px 0; min-height: 0; }
 	
 	#sidebar						{ float: none; width: 100%; overflow: hidden; clear: both; border-top: solid 1px #777; }
-	#sidebar ul						{ width: 100%; max-width: 100%; float: none; padding: 0; margin-top: -7px; background: #999; padding-top: 3px; }
+	#sidebar ul						{ width: 100%; max-width: 100%; float: none; padding: 0; margin-top: -7px; padding-top: 3px; }
 	#sidebar ul li					{ margin-bottom: 1px; -moz-border-radius: 0px; -webkit-border-radius: 0px; border-radius: 0px; padding: 4px 15px; }
-	#sidebar ul li a				{ padding-top: 3px; text-shadow: -1px 1px 1px rgba(255, 255, 255, 0.6); width: 100%; }
+	#sidebar ul li a				{ padding-top: 3px; width: 100%; padding-bottom: 2px; }
 	#sidebar ul li.pagelink			{ padding-top: 2px; }
-	#sidebar ul li.pagelink:first-child		{ margin-top: 8px; }
-	#sidebar ul li.pagelink.last	{ margin-bottom: 5px; }
-	#sidebar h3						{ width: 100%; max-width: 100%; float: none; margin: 0; padding: 10px 15px 20px; background: #fff; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+	#sidebar ul li.pagelink:first-child		{ margin-top: 6px; }
+
+	#sidebar h3						{ width: 100%; max-width: 100%; float: none; margin: 0; padding: 10px 15px 20px; background: #fff; }
 	
 	#detail							{ float: none; width: 100%; margin: 0; padding: 0 0 30px 0; -moz-border-radius: 0px; -webkit-border-radius: 0px; border-radius: 0px; -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; }
-	#detail h1						{ font-size: 32px; }
+	#detail h1						{ font-size: 24px; }
 	#detail h1:first-child			{ margin-top: 0; padding-top: 20px; }
 	#detail > footer				{ padding: 0 20px 0 20px; }
 
@@ -273,8 +277,10 @@ ul.biglist li .booktitle a:hover { text-decoration: underline; }
 	#detail ul#subfooterlinks		{ float: none; }
 	#detail ul#subfooterlinks li	{ width: 100%; display: block; margin-left: 0; }
 	
+	#today							{ margin-top: .85em; padding-bottom: 0; margin-bottom: .5em; border-bottom: none; }
+
 	#goals							{ font-size: .7em; color: #999; }
-	#goals input#currententry		{ width: 100%; margin: .5em 0 1em 0; font-size: 1.8em; padding: 6px; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; border: solid 1px #bbb; }
+	#goals input#currententry		{ width: 2.5em; margin: 0 0 1em 0; font-size: 2.4em; padding: 0px; display: block; border-bottom: dotted 1px #aaa; -moz-border-radius: 0px; border-radius: 0px; }
 	#goals input:focus              { background: #fff; }
 
 	#detail > footer				{ position: inherit; top: 0px; padding: 0 25px; }
@@ -287,8 +293,20 @@ ul.biglist li .booktitle a:hover { text-decoration: underline; }
 	
 	#editbooktitle					{ width: 100%; max-width: 100%; }
 
-	ul#entries						{ margin-bottom: 30px; }
+	ul#entries						{ margin-bottom: 10px; }
 
-	#view footer, #edit footer		{ padding-top: 10px; }
-	#view footer a, #edit footer a	{ display: block; text-align: center; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; width: 100%; padding: 5px 15px; color: #888; background: #eee; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; border: none; font-size: 11px; font-weight: bold; margin: 0 0 5px 0; }
+	#view footer, #edit footer		{ padding-top: 10px; border-top: none; }
+	#view footer a, #edit footer a	{ display: block; text-align: center; width: 100%; padding: 8px 12px 10px; color: #677259; background: #e8f3d7; -moz-border-radius: 3px; border-radius: 3px; border: none; font-size: 16px; font-weight: normal; margin: 0 0 5px 0; }
+
+	ul#stats li						{ width: 70px; }
+	ul#stats li span				{ font-size: 1.1em; }
+
+	canvas#reading_chart			{ height: 170px; }
+
+	#actionhtml						{ display: none; }
+
+	#detail h3						{ margin-top: .25em; }
+	#detail canvas + h3				{ margin-top: 1em; }
+
+	ul#booklist						{ border-bottom: solid 1px #ccc; }
 }

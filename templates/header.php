@@ -1,11 +1,12 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 
 	<title><?php echo $args->title; ?> | Bookkeeper</title>
 
-	<link href='http://fonts.googleapis.com/css?family=Crimson+Text:400,400italic,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="<?php echo $args->app_url; ?>/css/charter.css" type="text/css" media="all" charset="utf-8">
 	<link rel="stylesheet" href="<?php echo $args->app_url; ?>/css/style.css" type="text/css" media="all" charset="utf-8">
 	<link rel="stylesheet" href="<?php echo $args->app_url; ?>/css/calendar.css" type="text/css" media="all" charset="utf-8">
 
@@ -30,7 +31,6 @@
 	<div id="banner_container">
 		<div id="banner">
 			<?php if (property_exists($args, "username")): ?><ul id="account"><li id="navlink"><a href="#booklist">Books</a></li><li><a href="<?php echo $args->app_url . '/' . $args->username; ?>/account">Account</a></li><li><a href="<?php echo $args->app_url; ?>/logout">Logout</a></ul><?php endif; ?>
-			<img src="<?php echo $args->app_url; ?>/favicon.png" />
 			<a href="<?php echo $args->app_url; ?>/<?php echo $args->username; ?>"><h1>Bookkeeper</h1></a>
 		</div>	
 	</div>
