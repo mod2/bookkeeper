@@ -3,7 +3,7 @@
 
 		<div id="today">
 			<input type="hidden" id="currentbookid" value="<?php echo $args->current_book->getBookId(); ?>">
-			<div id="goals" name=""><?php if ($args->current_book->getPagesLeft() != 0): ?>I&rsquo;m on page <input type="number" id="currententry" value="<?php echo $args->current_book->getCurrentPage(); ?>" maxlength="5" /><?php endif; ?></div>
+			<div id="goals" name=""><?php if ($args->current_book->getPagesLeft() != 0): ?>I&rsquo;m on page <input type="number" pattern="\d*" id="currententry" value="<?php echo $args->current_book->getCurrentPage(); ?>" maxlength="5" /><?php endif; ?></div>
 			<div id="actionhtml"><?php echo $args->action_html; ?></div>
 		</div>
 
