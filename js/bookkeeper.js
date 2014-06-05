@@ -155,7 +155,7 @@ $(document).ready(function() {
 
 	// make sure the entry field exists (if it doesn't, we're on a finished book page)
 	var currententry = $(".currententry");
-	if (currententry.val()) {
+	if (currententry.length == 1) {
 		// focus on the entry
 		currententry.focus();
 		// and move the cursor to the end
