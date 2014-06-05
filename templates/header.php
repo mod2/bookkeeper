@@ -21,7 +21,7 @@
 		current_book = <?php echo $args->current_book->getJson(); ?>;
 		<?php endif; ?>
 	</script>
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="<?php echo $args->app_url; ?>/js/bookkeeper.js?0910" type="text/javascript" charset="utf-8"></script>
 	<script src="<?php echo $args->app_url; ?>/js/chart.js?0910" type="text/javascript" charset="utf-8"></script>
 	<script src="<?php echo $args->app_url; ?>/js/cal.js" type="text/javascript" charset="utf-8"></script>

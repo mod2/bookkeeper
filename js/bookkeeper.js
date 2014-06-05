@@ -160,7 +160,7 @@ $(document).ready(function() {
 		currententry.focus();
 		// and move the cursor to the end
 		var entrylength = currententry.val().length;
-		currententry[0].setSelectionRange(entrylength, entrylength);
+		//currententry[0].setSelectionRange(entrylength, entrylength);
 	}
 
 	var editTitle = $("#editbooktitle");
@@ -199,7 +199,6 @@ $(document).ready(function() {
 	$("#currententry").keydown(function(e) {
 		var charCode = (e.which) ? e.which : e.keyCode;
 
-		//console.log(charCode);
 		// allow backspace, tab, home, end, arrows, insert, delete, 0-9, numpad 0-9, enter
 		if ((charCode == 8) || (charCode == 9) || (charCode == 13) || (charCode >= 35 && charCode <= 57) || (charCode >= 96 && charCode <= 105)) {
 			return true;
@@ -208,7 +207,7 @@ $(document).ready(function() {
 		return false;
 	});
 
-	$("#currententry").change(function() {
+	$("#currententry").on("change", function() {
 		bookid = Number($("#currentbookid").val());
 		page = Number($(this).val());
 		$.getJSON(app_url + '/' + currentuser + '/action/saveentry?bookid=' + bookid + '&page=' + page, function(data) {
