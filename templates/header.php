@@ -30,8 +30,8 @@
 <body>
 	<div id="banner_container">
 		<div id="banner">
-			<?php if (property_exists($args, "username")): ?><ul id="account"><li id="navlink"><a href="#booklist">Books</a></li><li><a href="<?php echo $args->app_url . '/' . $args->username; ?>/account">Account</a></li><li><a href="<?php echo $args->app_url; ?>/logout">Logout</a></ul><?php endif; ?>
-			<a href="<?php echo $args->app_url; ?>/<?php echo $args->username; ?>"><h1>Bookkeeper</h1></a>
+			<?php if (property_exists($args, "username")): ?><ul id="account"><li><a href="<?php echo $args->app_url . '/' . $args->username . '/finished'; ?>">History</a><li><a href="<?php echo $args->app_url . '/' . $args->username; ?>/account">Account</a></li><li><a href="<?php echo $args->app_url; ?>/logout">Logout</a></ul><?php endif; ?>
+			<a href="<?php echo $args->app_url; ?>/<?php echo $args->username; ?>"><h1>Books</h1></a>
 		</div>	
 	</div>
 	<div id="page">

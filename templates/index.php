@@ -1,15 +1,22 @@
 <?php include 'header.php'; ?>
 
-<section id="detail">
-	<?php if ($args->home_mode): ?>
-		<?php include 'home.php'; ?>
-	<?php elseif ($args->edit_mode): ?>
-		<?php include 'bookedit.php'; ?>
-	<?php else: ?>
-		<?php include 'bookview.php'; ?>
-	<?php endif; ?>
-</section>
+<ul id="booklist">
+<?php foreach ($args->books as $book): ?>
+	<li<?php if ($args->page == "book" && property_exists($args, 'current_book') && $book->getBookId() == $args->current_book->getBookId()) { echo ' class="selected"'; }?>>
+		<div class="goals"><input type="number" pattern="\d*" class="currententry" value="<?php echo $book->getCurrentPage(); ?>" maxlength="5" data-book-id="<?php echo $book->getBookId(); ?>" /></div>
 
-<?php include 'nav.php'; ?>
+		<a id="book<?php echo $book->getBookId(); ?>" class="booklink" href="<?php echo $args->app_url . '/' . $args->username . '/book/' . $book->getSlug(); ?>"><?php echo $book->getTitle(); ?> 
+			<div class="percentage">
+				<div class="percentage_container">
+					<div class="percent" style="width: <?php echo $book->getPercentageComplete(); ?>px;"></div>
+				</div>
+				<span><b><?php echo $book->getPercentageComplete(); ?>%</b> (<?php echo $book->getPagesLeft(); ?> pages left)</span>
+			</div>
+		</a>
+	</li>
+<?php endforeach; ?>
+</ul>
+
+<a id="addBook" href="<?php echo "{$args->app_url}/{$args->username}/book/add"; ?>"><h3>+ Add Book</h3></a>
 
 <?php include 'footer.php'; ?>

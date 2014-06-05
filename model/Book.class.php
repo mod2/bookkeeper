@@ -21,6 +21,7 @@ class Book extends Model {
 	protected $pagesLeft;
 	protected $entries;
 	protected $readingDays;
+	protected $lastEntry;
 
 	protected $pagesPerDay;
 	protected $pagesToday;
@@ -548,6 +549,14 @@ SQL;
 
 	public function setEntries($entries) {
 		$this->entries = $entries;
+	}
+
+	public function getLastEntry() {
+		return $this->lastEntry;
+	}
+
+	public function setLastEntry($lastEntry) {
+		$this->lastEntry = $lastEntry;
 	}
 
 	public function setActionHtml($html) {

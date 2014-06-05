@@ -10,60 +10,54 @@ body							{ margin: 0; padding: 0; font-family: Charter, Georgia, serif; backgr
 /* -------------------------------------------------- */
 
 #banner_container				{ background: #282f36; font-family: Avenir Next, "Lucida Grande", Helvetica, Arial, sans-serif; font-size: 11px; }
-#banner							{ width: 90%; max-width: 1000px; padding: 5px; margin: 0px auto; font-size: 1.3em; }
+#banner							{ width: 90%; max-width: 700px; padding: 5px; margin: 0px auto; font-size: 1.3em; }
 #banner img						{ float: left; margin-right: 5px; margin-top: 5px; }
-#banner h1						{ color: #75a2ce; margin: 0; font-size: 16px; margin-top: 2px; font-weight: 600; margin-left: 3px; }
+#banner h1						{ color: #fff; margin: 0; font-size: 16px; margin-top: 2px; font-weight: 600; }
 #banner a						{ text-decoration: none; font-weight: 600; }
 #banner a:hover					{ color: #fff; }
 #banner a:hover h1				{ color: #fff; }
 
-ul#account						{ float: right; margin: 0 1.5% 0 0; list-style: none; padding: 0; }
+ul#account						{ float: right; margin: 0; list-style: none; padding: 0; }
 ul#account li					{ display: inline; }
 ul#account li::after			{ content: ' • '; color: #355575; }
 ul#account li:last-child::after	{ content: none; }
-ul#account li a					{ color: #75a2ce; }
+ul#account li a					{ color: #fff; }
 ul#account li#navlink			{ display: none; }
 
 
 /* Page */
 /* -------------------------------------------------- */
 
-#page							{ overflow: hidden; clear: both; width: 90%; max-width: 1000px; padding: 5px; margin: 0px auto; }
+#page							{ overflow: hidden; clear: both; width: 90%; max-width: 700px; padding: 5px; margin: 0px auto; }
 
 
-/* Sidebar */
+/* Book list (home) */
 /* -------------------------------------------------- */
 
-#sidebar						{ width: 30%; float: right; }
-#sidebar ul						{ margin: 35px 0 0; padding: 0 1px 1px 0; list-style: none; clear: both; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; }
-#sidebar ul li					{ line-height: 1.3em; padding: 0 8px; min-width: 115px; }
-#sidebar ul li + li				{ border-top: solid 1px #ccc; }
-#sidebar ul li a				{ padding: 8px 0; display: inline-block; color: #000; text-decoration: none; font-size: 1.1em; width: 100%; }
-#sidebar ul li a .percentage	{ font-style: normal; }
+ul#booklist						{ margin: 35px 0 0; padding: 0 1px 1px 0; list-style: none; clear: both; }
+ul#booklist li					{ line-height: 1.3em; padding: 0; min-width: 115px; }
+ul#booklist li + li				{ border-top: solid 1px #ccc; }
+ul#booklist li a				{ padding: 14px 0; display: inline-block; color: #000; text-decoration: none; font-size: 1.4em; width: calc(100% - 5.5em); }
+ul#booklist li a .percentage	{ font-style: normal; }
 
-#sidebar ul li.selected			{ background: #fff; }
-#sidebar ul li.selected .percentage		{ color: #777; }
-#sidebar ul li.selected .percentage_container	{ border-color: #bbb; }
-#sidebar ul li.selected .percent		{ background: #e08181; }
-#sidebar ul li.selected a		{ color: #d65c5c; }
+ul#booklist li.selected			{ background: #fff; }
+ul#booklist li.selected .percentage		{ color: #777; }
+ul#booklist li.selected .percentage_container	{ border-color: #bbb; }
+ul#booklist li.selected .percent		{ background: #e08181; }
+ul#booklist li.selected a		{ color: #d65c5c; }
 
-#sidebar ul li.pagelink a		{ padding: 8px 0; color: #2f8ebb; }
+ul#booklist li.pagelink a		{ padding: 8px 0; color: #2f8ebb; }
 
-#sidebar h3						{ color: #6f1515; margin: 2em 0 .3em 0; padding-left: 8px; font-size: 1em; font-weight: normal; letter-spacing: -0.02em; clear: both; }
-#sidebar h3 a					{ color: #677259; text-decoration: none; font-family: Avenir Next, Lucida Grande, Helvetica, Arial, sans-serif; display: block; padding: 8px 12px 10px; background-color: #e8f3d7; text-align: center; font-size: 16px; -moz-border-radius: 3px; border-radius: 3px; }
+a#addBook h3					{ font-size: 1em; font-weight: normal; letter-spacing: -0.02em; clear: both; margin: 0; }
+a#addBook						{ margin: 2em 0 .3em 0; color: #677259; text-decoration: none; font-family: Avenir Next, Lucida Grande, Helvetica, Arial, sans-serif; display: block; padding: 8px 12px 10px; background-color: #e8f3d7; text-align: center; font-size: 16px; -moz-border-radius: 3px; border-radius: 3px; font-weight: normal; }
 
 
 /* Book detail */
 /* -------------------------------------------------- */
 
-#detail							{ width: 65%; margin: 0px 1.5% 100px 3.5%; float: right; }
 #detail h1						{ font-size: 28px; font-weight: normal; letter-spacing: -0.02em; margin: 0; color: #d65c5c; line-height: 1.1em; }
 #detail h1:first-child			{ margin-top: 40px; }
 #detail h3						{ text-transform: uppercase; color: #999; margin: 2em 0 .3em 0; font-size: .5em; font-weight: normal; letter-spacing: 0.03em; font-family: Avenir Next, Lucida Grande, Helvetica, Arial, sans-serif; }
-
-#view							{ padding-left: 50px; padding-top: 0; min-height: 500px; }
-#edit							{ padding-left: 50px; padding-top: 0; }
-#edit form						{ margin-bottom: 0; }
 
 
 /* Goals area */
@@ -74,9 +68,11 @@ ul#account li#navlink			{ display: none; }
 #today .pagenum					{ font-weight: bold; }
 #today .pagecount				{ color: #999; font-style: italic; }
 
-#goals                          { float: right; color: #aaa; font-size: 14px; }
-#goals input                    { font-size: 1.8em; padding: 1px 8px; width: 3.5em; margin-left: 2px; color: #000; background: #fff; border: none; font-family: Charter, Georgia, serif; }
-#goals input:focus              { outline: none; background: #fffee6; }
+.goals                          { float: right; color: #aaa; font-size: 14px; padding: 14px 0; }
+.goals input                    { font-size: 1.8em; padding: 0; width: 4.5em; margin-left: 2px; color: #000; background: #fff; border: none; font-family: Charter, Georgia, serif; margin-top: 0; }
+.goals input:focus              { outline: none; background: #fffee6; }
+
+ul#booklist .goals input		{ font-size: 1.6em; padding: 0; text-align: right; }
 
 
 /* Stats */
@@ -91,11 +87,11 @@ ul#stats li span				{ font-size: 1.4em; line-height: 1em; }
 /* Percentages */
 /* -------------------------------------------------- */
 
-.percentage						{ font-size: 10px; color: #7c7967; clear: both; font-family: Avenir Next, "Lucida Grande", Helvetica, Arial, sans-serif; margin-top: 6px; }
-.percentage_container			{ width: 100px; height: 10px; display: inline-block; float: left; margin-right: 5px; margin-bottom: 2px; background: #eee; }
-.percentage span				{ display: block; float: left; margin-top: -5px; margin-right: 10px; }
-.percentage b					{ font-weight: 600; }
-.percent						{ background: #000; height: 10px; float: left; z-index: 50; }
+.percentage						{ font-size: 0.6em; color: #a7a7a7; clear: both; font-family: Avenir Next, "Lucida Grande", Helvetica, Arial, sans-serif; margin-top: .85em; }
+.percentage_container			{ width: 100px; height: 1em; display: inline-block; float: left; margin-right: 5px; margin-bottom: 2px; background: #eee; }
+.percentage span				{ display: block; float: left; margin-top: -3px; margin-right: 10px; }
+.percentage b					{ font-weight: 600; color: #e46286; margin: 0 3px; font-size: 1.1em; }
+.percent						{ background: #000; height: 1em; float: left; z-index: 50; }
 
 
 /* Chart */
@@ -181,6 +177,9 @@ ul.smalllist > li				{ font-family: Avenir Next, "Lucida Grande", Helvetica, Ari
 ul.smalllist > li a				{ color: #999; padding: 3px 8px 5px; background: #eee; -moz-border-radius: 1em; -webkit-border-radius: 1em; border-radius: 1em; text-decoration: none; }
 ul.smalllist > li a:hover		{ background: #bbb; color: #fff; }
 
+nav.history						{ margin-top: 1em; color: #ccc; }
+nav.history a					{ color: #75a2ce; text-decoration: none; } 
+
 
 /* Account */
 /* -------------------------------------------------- */
@@ -227,7 +226,6 @@ ul.biglist li .booktitle a:hover { text-decoration: underline; }
 	#detail							{ margin-top: 20px; }
 	#sidebar ul						{ margin-top: 20px; }
 
-	#goals							{ float: none; display: block; padding: 0; margin-bottom: .5em; }
 	ul#entries						{ column-count: 2; -webkit-column-count: 2; -moz-column-count: 2; }
 
 	#detail > footer				{ position: inherit; top: 0px; padding: 0 35px 35px; }
@@ -254,9 +252,9 @@ ul.biglist li .booktitle a:hover { text-decoration: underline; }
 
 	ul#account li#navlink			{ display: inline; }
 
-	#page							{ width: 100%; padding: 0; }
+	#view, #edit					{ padding: 0; }
 
-	#view, #edit					{ padding: 0 20px 0; min-height: 0; }
+	#detail .goals					{ float: none; width: 100%; }
 	
 	#sidebar						{ float: none; width: 100%; overflow: hidden; clear: both; border-top: solid 1px #777; }
 	#sidebar ul						{ width: 100%; max-width: 100%; float: none; padding: 0; margin-top: -7px; padding-top: 3px; }
@@ -280,9 +278,9 @@ ul.biglist li .booktitle a:hover { text-decoration: underline; }
 	
 	#today							{ margin-top: .85em; padding-bottom: 0; margin-bottom: .5em; border-bottom: none; }
 
-	#goals							{ font-size: .7em; color: #999; }
-	#goals input#currententry		{ width: 2.5em; margin: 0 0 1em 0; font-size: 2.4em; padding: 0px; display: block; border-bottom: dotted 1px #aaa; -moz-border-radius: 0px; border-radius: 0px; }
-	#goals input:focus              { background: #fff; }
+/*	.goals							{ font-size: .7em; color: #999; }*/
+/*	.goals input#currententry		{ width: 2.5em; margin: 0 0 1em 0; font-size: 2.4em; padding: 0px; display: block; border-bottom: dotted 1px #aaa; -moz-border-radius: 0px; border-radius: 0px; } */
+	.goals input:focus              { background: #fff; }
 
 	#detail > footer				{ position: inherit; top: 0px; padding: 0 25px; }
 	#detail > footer span			{ display: block; }
@@ -308,6 +306,21 @@ ul.biglist li .booktitle a:hover { text-decoration: underline; }
 
 	#detail h3						{ margin-top: .25em; }
 	#detail canvas + h3				{ margin-top: 1em; }
-
-	ul#booklist						{ border-bottom: solid 1px #ccc; }
 }
+
+/* Media queries */
+@media screen and (max-width: 450px) {
+	#page							{ width: 95%; }
+	#banner							{ width: 95%; }
+
+	ul#booklist						{ margin-top: 0px; }
+	ul#booklist li a				{ font-size: 1.1em; line-height: 1.1em; width: calc(100% - 4.5em); padding: 11px 0; }
+
+	.percentage_container			{ display: block; float: none; }
+	.percentage span				{ display: block; float: none; margin: 3px 0 0; }
+	.percentage b					{ margin-left: 0; }
+
+	.goals							{ padding: 11px 0; font-size: .8em; }
+	.goals input					{ width: 3.5em; line-height: 1.1em; }
+}
+

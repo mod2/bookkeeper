@@ -397,8 +397,14 @@ SQL;
 		foreach ($params as $key=>$value) {
 			$args->$key = $value;
 		}
-		/*$args->userInfo = new User($user);*/
-		self::displayTemplate('index.php', $args);
+
+		$template = "book.php";
+
+		if ($displayHome) {
+			$template = "index.php";
+		}
+
+		self::displayTemplate($template, $args);
 	}
 
 	/**
@@ -452,14 +458,14 @@ SQL;
 	}
 
 	/**
-	 * displayAllBooks
-	 * displays the All Books page
+	 * displayFinishedBooks
+	 * displays the Finished Books page
 	 *
 	 * @author Ben Crowder
 	 * @param 
 	 * @return void
 	 **/
-	public static function displayAllBooks($args) {
+	public static function displayFinishedBooks($args) {
 		$username = $args[0];
 		self::checkUserAuth($username);
 
@@ -467,20 +473,54 @@ SQL;
 		$args->username = $username;
 		$args->app_url = APP_URL;
 
-		// for nav
-		$args->books = Book::getCurrentBooks($username);
-
 		// for all books page
 		$args->finishedBooks = Book::getFinishedBooks($username);
-		$args->currentBooks = $args->books;
-		$args->hiddenBooks = Book::getHiddenBooks($username);
 
-		$args->title = "All Books";
-		$args->page = "all";
-		$args->title = 'All Books | ' . $username;
+		$args->page = "finished";
+		$args->title = 'Finished Books | ' . $username;
 
-		self::displayTemplate('all.php', $args);
+		self::displayTemplate('finished.php', $args);
 	}
+
+	/**
+	 * displayHiddenBooks
+	 * displays the Hidden Books page
+	 *
+	 * @author Ben Crowder
+	 * @param 
+	 * @return void
+	 **/
+	public static function displayHiddenBooks($args) {
+		$username = $args[0];
+		self::checkUserAuth($username);
+
+		$args = new stdClass();
+		$args->username = $username;
+		$args->app_url = APP_URL;
+
+		// Hidden books
+		$hiddenBooks = Book::getHiddenBooks($username);
+		$args->hiddenBooks = array();
+		foreach ($hiddenBooks as $book) {
+			$entries = $book->getEntries();
+			if (count($entries) > 0) {
+				$lastEntry = $entries[count($entries) - 1];
+				$lastEntry = $lastEntry->getEntryDate();
+			} else {
+				$lastEntry = $book->getStartDate();
+			}
+			$book->setLastEntry(date('j M Y', strtotime($lastEntry)));
+			$book->setStartDate(date('j M Y', strtotime($book->getStartDate())));
+			array_push($args->hiddenBooks, $book);
+		}
+
+		$args->page = "hidden";
+		$args->title = 'Hidden Books | ' . $username;
+
+		self::displayTemplate('hidden.php', $args);
+	}
+
+
 
 	public static function saveEntry($args) {
 		/*todo check authentication in some way*/
