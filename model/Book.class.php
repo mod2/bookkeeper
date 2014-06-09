@@ -62,9 +62,9 @@ class Book extends Model {
 			ORDER BY b.bookId;
 SQL;
 		$books = self::getBooks($sql, $username);
+		$today = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
 		foreach ($books as $book) {
-			$lastEntryDate = $book->entries[count($book->entries) - 1]->getEntryDate();
-			$book->totalDays = Book::getDayString(intval(abs(strtotime($book->getStartDate()) - strtotime($lastEntryDate)) / (60*60*24)));
+			$book->totalDays = Book::getDayString(intval(abs(strtotime($book->getStartDate()) - $today) / (60*60*24)));
 		}
 		return $books;
 	}
