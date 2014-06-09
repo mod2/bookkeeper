@@ -72,7 +72,7 @@ a#addBook						{ margin: 2em 0 .3em 0; color: #677259; text-decoration: none; fo
 .goals input                    { font-size: 1.8em; padding: 0; width: 4.5em; margin-left: 2px; color: #000; background: #fff; border: none; font-family: Charter, Georgia, serif; margin-top: 0; }
 .goals input:focus              { outline: none; background: #fffee6; }
 
-ul#booklist .goals input		{ font-size: 1.6em; padding: 0; text-align: right; }
+ul#booklist .goals input		{ font-size: 1.6em; padding: 0; text-align: right; color: #437dc4; }
 
 
 /* Stats */
