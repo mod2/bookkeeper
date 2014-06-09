@@ -61,7 +61,12 @@ class Book extends Model {
 			OR (SELECT COUNT(*) FROM Entry WHERE bookId=b.bookId) = 0)
 			ORDER BY b.bookId;
 SQL;
-		return self::getBooks($sql, $username);
+		$books = self::getBooks($sql, $username);
+		foreach ($books as $book) {
+			$lastEntryDate = $book->entries[count($book->entries) - 1]->getEntryDate();
+			$book->totalDays = Book::getDayString(intval(abs(strtotime($book->getStartDate()) - strtotime($lastEntryDate)) / (60*60*24)));
+		}
+		return $books;
 	}
 
 	public static function getFinishedBooks($username) {
