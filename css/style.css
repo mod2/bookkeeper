@@ -19,7 +19,7 @@ body							{ margin: 0; padding: 0; font-family: Charter, Georgia, serif; backgr
 
 ul#account						{ float: right; margin: 0; list-style: none; padding: 0; }
 ul#account li					{ display: inline; }
-ul#account li::after			{ content: ' • '; color: #355575; }
+ul#account li::after			{ content: ' • '; margin: 0 3px; color: #355575; }
 ul#account li:last-child::after	{ content: none; }
 ul#account li a					{ color: #fff; }
 ul#account li#navlink			{ display: none; }
