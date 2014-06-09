@@ -159,7 +159,7 @@ $(document).ready(function() {
 		// focus on the entry
 		currententry.focus();
 		// and move the cursor to the end
-		var entrylength = currententry.val().length;
+		//var entrylength = currententry.val().length;
 		//currententry[0].setSelectionRange(entrylength, entrylength);
 	}
 
@@ -253,5 +253,7 @@ $(document).ready(function() {
 				}
 			}
 		});
+
+		$(this).blur();
 	});
 });
