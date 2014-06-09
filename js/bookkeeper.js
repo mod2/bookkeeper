@@ -216,7 +216,8 @@ $(document).ready(function() {
 				// Home page
 				percent = Math.round(data.percentage);
 				$("#booklist li a#book" + data.bookId + " .percent").css('width', percent + 'px');
-				$("#booklist li a#book" + data.bookId + " .percentage span").html('<b>' + percent + '%</b> (' + data.pagesLeft + ' pages left)');
+				$("#booklist li a#book" + data.bookId + " .percentage > span b").html(percent + '%');
+				$("#booklist li a#book" + data.bookId + " .percentage > span .pagesleft").html(data.pagesLeft);
 
 				// If we've finished the book
 				if (percent == 100) {

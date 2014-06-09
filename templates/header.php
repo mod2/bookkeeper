@@ -6,6 +6,7 @@
 
 	<title><?php echo $args->title; ?> | Bookkeeper</title>
 
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,400italic,600italic' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="<?php echo $args->app_url; ?>/css/charter.css" type="text/css" media="all" charset="utf-8">
 	<link rel="stylesheet" href="<?php echo $args->app_url; ?>/css/style.css" type="text/css" media="all" charset="utf-8">
 	<link rel="stylesheet" href="<?php echo $args->app_url; ?>/css/calendar.css" type="text/css" media="all" charset="utf-8">

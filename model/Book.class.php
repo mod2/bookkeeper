@@ -83,14 +83,21 @@ SQL;
 		foreach ($books as $book) {
 			$finishedDate = $book->entries[count($book->entries) - 1]->getEntryDate();
 			$book->finishedDate = date('j M Y', strtotime($finishedDate));
+			$book->finishedYear = date('Y', strtotime($finishedDate));
 			$book->totalDays = Book::getDayString(intval(abs(strtotime($book->getStartDate()) - strtotime($finishedDate)) / (60*60*24)));
 		}
 		return $books;
 	}
 
 	public static function getHiddenBooks($username) {
-		$sql = "SELECT bookId FROM Book WHERE username = '?' AND hidden = 1";
-		return self::getBooks($sql, $username);
+		$sql = "SELECT bookId FROM Book WHERE username = '?' AND hidden = 1 ORDER BY startDate DESC";
+
+		$books = self::getBooks($sql, $username);
+
+		foreach ($books as $book) {
+			$book->startYear = date('Y', strtotime($book->getStartDate()));
+		}
+		return $books;
 	}
 
 	public static function getAllBooks($username) {
