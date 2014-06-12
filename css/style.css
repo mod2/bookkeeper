@@ -20,6 +20,7 @@ body							{ margin: 0; padding: 0; font-family: Charter, Georgia, serif; backgr
 ul#account						{ float: right; margin: 0; list-style: none; padding: 0; }
 ul#account li					{ display: inline; }
 ul#account li::after			{ content: ' • '; margin: 0 3px; color: #355575; }
+
 ul#account li:last-child::after	{ content: none; }
 ul#account li a					{ color: #fff; }
 ul#account li#navlink			{ display: none; }
@@ -143,17 +144,14 @@ ul#dangerous li a				{ color: #666; text-decoration: none; border-bottom: dotted
 /* Buttons */
 /* -------------------------------------------------- */
 
-/* Thanks to Grant Zabriskie for the .button code */
-.button							{ background: #82913d; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #aaba61), color-stop(50%, #9cab59), color-stop(50%, #90a143), color-stop(100%, #82913d)); background: -moz-linear-gradient(#aaba61, #9cab59 50%, #90a143 50%, #82913d); background: -webkit-linear-gradient(#aaba61, #9cab59 50%, #90a143 50%, #82913d); filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#aaba61', EndColorStr='#82913d'); border-color: #6e7844 #6e7844 #535e23 #6e7844; box-shadow: inset 0 0 0 1px #aebf63, 0 1px 0 #b3b3b3; -webkit-box-shadow: inset 0 0 0 1px #aebf63, 0 1px 0 #b3b3b3;	-moz-box-shadow: inset 0 0 0 1px #aebf63, 0 1px 0 #b3b3b3; text-shadow: 0 -1px 1px #535e23; color: #fff; font-family: Helvetica, Arial, sans-serif; font-weight: bold; font-size: 12px; padding: 5px 10px !important; text-decoration: none; display: inline-block; border-width: 1px; border-style: solid; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px; margin: 0; font-size: 12px; }
-.button:hover					{ background: #90a143; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #b8c969), color-stop(50%, #aaba61), color-stop(50%, #9db04a), color-stop(100%, #90a143)); background: -moz-linear-gradient(#b8c969, #aaba61 50%, #9db04a 50%, #90a143); background: -webkit-linear-gradient(#b8c969, #aaba61 50%, #9db04a 50%, #90a143); filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#b8c969', EndColorStr='#90a143'); border-color: #7c874d #6f7a3a #616e29 #6f7a3a; box-shadow: inset 0 0 0 1px #b8c969, 0 1px 0 #b3b3b3; -webkit-box-shadow: inset 0 0 0 1px #b8c969, 0 1px 0 #b3b3b3; -moz-box-shadow: inset 0 0 0 1px #b8c969, 0 1px 0 #b3b3b3; text-shadow: 0 -1px 1px #616e29; color: #fff; cursor: pointer; }
-.button:active					{ box-shadow: inset 0 0 0 1px #b8c969, 0 1px 0 #b3b3b3; position: relative; top: 1px; outline: none; }
+.button							{ padding: 8px 12px 10px; background-color: #e8f3d7; text-align: center; font-size: 1em; border-radius: 3px; display: block; font-family: Source Sans Pro, Lucida Grande, Helvetica, Arial, sans-serif; color: #677259; border: none; margin: 0; }
 
 
 /* Footer */
 /* -------------------------------------------------- */
 
-#view footer, #edit footer		{ border-top: dotted 1px #bbb; padding-top: 5px; font-size: 13px; font-family: Source Sans Pro, "Lucida Grande", Helvetica, Arial, sans-serif; text-align: right; }
-#view footer a, #edit footer a	{ text-decoration: none; border-bottom: dotted 1px #999; color: #666; }
+#detail #view footer, #detail #edit footer		{ border-top: solid 1px #ddd; padding-top: 1em; font-size: 1em; font-family: Source Sans Pro, "Lucida Grande", Helvetica, Arial, sans-serif; text-align: right; }
+#detail #view footer a, #detail #edit footer a	{ text-decoration: none; padding: 8px 12px 10px; background-color: #f3dbd7; color: #725959; border-radius: 3px; text-align: center; display: inline-block; }
 
 
 /* Datepicker */
@@ -238,11 +236,6 @@ ul.biglist li .booktitle a:hover { text-decoration: underline; }
 	#detail > footer span			{ display: block; font-size: .8em; float: left; width: 200px; line-height: 1.5em; color: #aaa; margin-right: 20px; }
 	#detail > footer span a			{ color: #999; }
 
-	#detail #subfooterlinks			{ float: left; margin-top: 10px; color: #fff; }
-	#detail #subfooterlinks a		{ display: inline-block; padding: 5px 15px 6px; background: #eee; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; font-size: 11px; color: #888; text-decoration: none; border: none; font-weight: bold; }
-	#detail #subfooterlinks a:hover	{ background: #444; color: #fff; }
-	#detail ul#subfooterlinks		{ padding: 0; float: right; }
-
 	#detail form footer				{ padding: 0; clear: both; overflow: hidden; }
 }
 
@@ -283,8 +276,6 @@ ul.biglist li .booktitle a:hover { text-decoration: underline; }
 	
 	#today							{ margin-top: .85em; padding-bottom: 0; margin-bottom: .5em; border-bottom: none; }
 
-/*	.goals							{ font-size: .7em; color: #999; }*/
-/*	.goals input#currententry		{ width: 2.5em; margin: 0 0 1em 0; font-size: 2.4em; padding: 0px; display: block; border-bottom: dotted 1px #aaa; -moz-border-radius: 0px; border-radius: 0px; } */
 	.goals input:focus              { background: #fff; }
 
 	#detail > footer				{ position: inherit; top: 0px; padding: 0 25px; }
@@ -299,8 +290,8 @@ ul.biglist li .booktitle a:hover { text-decoration: underline; }
 
 	ul#entries						{ margin-bottom: 10px; }
 
-	#view footer, #edit footer		{ padding-top: 10px; border-top: none; }
-	#view footer a, #edit footer a	{ display: block; text-align: center; width: 100%; padding: 8px 12px 10px; color: #677259; background: #e8f3d7; -moz-border-radius: 3px; border-radius: 3px; border: none; font-size: 16px; font-weight: normal; margin: 0 0 5px 0; }
+	.button							{ width: 100%; }
+	#view footer a, #edit footer a	{ width: 100%; margin: 0 0 5px 0; }
 
 	ul#stats						{ margin-top: 1em; }
 	ul#stats li						{ width: 70px; }
