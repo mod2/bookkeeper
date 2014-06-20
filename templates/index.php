@@ -10,7 +10,7 @@
 				<div class="percentage_container">
 					<div class="percent" style="width: <?php echo $book->getPercentageComplete(); ?>px;"></div>
 				</div>
-				<span><b><?php echo $book->getPercentageComplete(); ?>&hairsp;%</b> (<span class="pagesleft"><?php echo $book->getPagesLeft(); ?></span> of <?php echo $book->getTotalPages(); ?> pages left, <?php echo $book->totalDays; ?>)</span>
+				<span><b><?php echo $book->getPercentageComplete(); ?>&hairsp;<span>%</span></b> (<span class="pagesleft"><?php echo $book->getPagesLeft(); ?></span> of <?php echo $book->getTotalPages(); ?> pages left, <?php echo $book->totalDays; ?>)</span>
 			</div>
 		</a>
 	</li>

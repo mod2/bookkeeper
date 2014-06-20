@@ -98,7 +98,9 @@ ul#stats li span				{ font-size: 1.4em; line-height: 1em; }
 .percentage_container			{ width: 100px; height: 1em; display: inline-block; float: left; margin-right: 5px; margin-bottom: 2px; background: #eee; border-radius: 3px; }
 .percentage > span				{ display: block; float: left; margin-top: -3px; margin-right: 10px; font-weight: 400; }
 .percentage b					{ font-weight: 600; color: #e46286; margin: 0 3px; font-size: 1.3em; }
-.percent						{ background: #000; height: 1em; float: left; z-index: 50; border-radius: 3px 0 0 3px; }
+.percentage b > span			{ font-size: .8em; }
+.percent						{ background: #000; height: 1em; float: left; z-index: 50; border-radius: 3px 0 0 3px; -webkit-transition: width 0.2s ease-in-out; transition: width 0.2s ease-in-out; }
+.percentage.changed .percent	{ background: #e46286; -webkit-transition: background-color 0.2s ease-in-out; transition: background-color 0.2s ease-in-out; }
 
 
 /* Chart */

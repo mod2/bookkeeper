@@ -199,6 +199,11 @@ $(document).ready(function() {
 	$(".currententry").keydown(function(e) {
 		var charCode = (e.which) ? e.which : e.keyCode;
 
+		// blur on enter/esc
+		if (charCode == 13 || charCode == 27) {
+			$(this).blur();
+		}
+
 		// allow backspace, tab, home, end, arrows, insert, delete, 0-9, numpad 0-9, enter
 		if ((charCode == 8) || (charCode == 9) || (charCode == 13) || (charCode >= 35 && charCode <= 57) || (charCode >= 96 && charCode <= 105)) {
 			return true;
@@ -207,7 +212,7 @@ $(document).ready(function() {
 		return false;
 	});
 
-	$(".currententry").on("change", function() {
+	$(".currententry").on("input", function(e) {
 		bookid = Number($(this).attr("data-book-id"));
 		page = Number($(this).val());
 
@@ -216,7 +221,7 @@ $(document).ready(function() {
 				// Home page
 				percent = Math.round(data.percentage);
 				$("#booklist li a#book" + data.bookId + " .percent").css('width', percent + 'px');
-				$("#booklist li a#book" + data.bookId + " .percentage > span b").html(percent + '%');
+				$("#booklist li a#book" + data.bookId + " .percentage > span b").html(percent + '&hairsp;<span>%</span>');
 				$("#booklist li a#book" + data.bookId + " .percentage > span .pagesleft").html(data.pagesLeft);
 
 				// If we've finished the book
@@ -227,6 +232,14 @@ $(document).ready(function() {
 					parent_li.css("position", "relative");
 					width = parent_li.width() + 10;
 					parent_li.animate({ left: '+=' + width }, 500, function() { $(this).hide(); } );
+				} else {
+					// Show that we've updated it
+					percentage = $("#booklist li a#book" + data.bookId + " .percentage");
+					if (percentage.hasClass("changed")) {
+						percentage.removeClass("changed");
+					} else {
+						percentage.addClass("changed");
+					}
 				}
 			}
 
@@ -255,6 +268,6 @@ $(document).ready(function() {
 			}
 		});
 
-		$(this).blur();
+		//$(this).blur();
 	});
 });
