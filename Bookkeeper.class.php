@@ -582,7 +582,7 @@ SQL;
 				$redirect = 'book/' . $b->getSlug();
 			} else {
 				$b->setHidden(true);
-				$redirect = 'all';
+				$redirect = '';
 			}
 			$b->save();
 		}
@@ -597,7 +597,7 @@ SQL;
 		if ($b->getUsername() == $username) {
 			$b->delete();
 		}
-		header('Location: ' . APP_URL . "/$username/all");
+		header('Location: ' . APP_URL . "/$username/");
 	}
 
 	/**
